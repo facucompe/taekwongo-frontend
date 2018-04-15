@@ -5,6 +5,10 @@
  */
 
 import React, { Component } from 'react';
+
+import Feeds from './components/Feeds'
+import Login from './components/Login'
+
 import {
   Platform,
   StyleSheet,
@@ -33,6 +37,7 @@ export default class App extends Component<Props> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+        <Login/>
       </View>
     );
   }
