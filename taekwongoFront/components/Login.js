@@ -5,14 +5,42 @@ import {
     Text,
     TouchableHighlight,
     Alert,
-    StyleSheet
+    StyleSheet,
+    TextInput
 } from 'react-native';
 
+//import * as LoginConector from '../conectors/LoginConector.js';
+
 export default class Login extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            textUser: 'facu.come@gmail.com',
+            textPassword: 'password',
+        };
+        this.onLogin = this.onLogin.bind(this)
+    }
+
     render(){
         return (
             <View>
-                <TouchableHighlight onPress={(this.onLogin.bind(this))} style={styles.button}>
+                <View>
+                    <Text>User:</Text>
+                    <TextInput
+                        style={inputStyles.input}
+                        onChangeText={(text) => this.setState({textUser: text})}
+                        value={this.state.textUser}
+                        maxLength={30}
+                    />
+                    <Text>Password:</Text>
+                    <TextInput
+                        style={inputStyles.input}
+                        onChangeText={(text) => this.setState({textPassword: text})}
+                        value={this.state.textPassword}
+                        maxLength={100}
+                    />
+                </View>
+                <TouchableHighlight onPress={(this.onLogin)} style={styles.button}>
                     <Text style={styles.textButton}>Ingresar</Text>
                 </TouchableHighlight>
             </View>
@@ -20,10 +48,39 @@ export default class Login extends Component{
     }
 
     onLogin(){
-        console.log('Se ha pulsado el boton');
+        console.debug('Envia login ' + this.state.textUser);
+        LoginConector.callApi(this.buildInfo(), this.onSuccessLogin, this.onError)
+    }
+
+    onSuccessLogin(data){
+        console.log(data)
+    }
+
+    onError(error){  // EL MANEJO DE ERRORES NO FUNCIONA
+        console.log("cosas: ")
+        console.log(error)
+        if(error.response.status >400 && error.response.status < 500){
+            console.log("Usuario o contraseña incorrectos")
+        }else{
+            console.log("Ups.. problemas en el servidor")
+        }
+    }
+
+    buildInfo(){
+        return {
+            email:  this.state.textUser,
+            password: this.state.textPassword
+        }
     }
 }
 
+const inputStyles = StyleSheet.create({
+    input:{
+        borderRadius: 6,
+        height:49
+
+    }
+})
 const styles = StyleSheet.create({
     button:{
         width:300,
@@ -41,3 +98,28 @@ const styles = StyleSheet.create({
         color:'white'
     }
 })
+
+
+var LoginConector = function () {
+    function callApi(info, successFunction, errorFunction) {
+        fetch('http://192.168.0.21:3000/users/sessions', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(info),
+        })
+        .then(response => response.json())
+        .then(response => {
+            successFunction(response)
+        })
+        .catch(error => {
+            errorFunction(error)
+        });
+    }
+
+    return{
+        callApi: callApi
+    }
+}()
