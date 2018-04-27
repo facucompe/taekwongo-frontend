@@ -6,7 +6,10 @@ import {
     TouchableHighlight,
     Alert,
     StyleSheet,
-    TextInput
+    TextInput,
+    Image,
+    Dimensions,
+    AsyncStorage
 } from 'react-native';
 
 import {
@@ -14,7 +17,6 @@ import {
 } from 'react-navigation';
 
 import SignUp from "./SignUp";
-//import * as LoginConector from '../conectors/LoginConector.js';
 
 export default class Login extends Component{
     constructor(props) {
@@ -57,12 +59,12 @@ export default class Login extends Component{
                             underlineColorAndroid={'transparent'}
                         />
                     </View>
-                    <View>
+                    <View style={styles.buttonAndHelp}>
                         <TouchableHighlight onPress={(this.onLogin)} style={styles.button}>
                             <Text style={styles.textButton}>Log In</Text>
                         </TouchableHighlight>
                     </View>
-                    <View>
+                    <View style={styles.buttonAndHelp}>
                         <Text>¿Olvidaste tus datos de inicio de sesion? <Text style={styles.registerPress} onPress={this.help}>Obten ayuda</Text></Text>
                     </View>
                 </View>
@@ -88,6 +90,7 @@ export default class Login extends Component{
     }
 
     onSuccessLogin(data){
+        AsyncStorage.setItem("id_token", data.token) //Revisar nombres de campos que no los reuerdo y no me puedo fijar
         console.log(data)
     }
 
@@ -109,6 +112,8 @@ export default class Login extends Component{
     }
 }
 
+const win = Dimensions.get('window');
+
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -116,11 +121,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         backgroundColor: '#F5FCFF',
     },
-    form:{
-        alignItems:'center'
-    },
     button:{
-        width:300,
         height:40,
         alignItems: 'center',
         backgroundColor: '#002eff',
@@ -129,7 +130,12 @@ const styles = StyleSheet.create({
         marginTop:10,
         marginBottom:10,
         borderWidth:1,
-        padding:5
+        padding:5,
+
+    },
+    buttonAndHelp:{
+        marginLeft:'10%',
+        marginRight:'10%'
     },
     textButton:{
         color:'white'
@@ -137,7 +143,6 @@ const styles = StyleSheet.create({
     input:{
         height:30,
         marginTop:10,
-        width:300
 
     },
     borderInput:{
@@ -145,7 +150,9 @@ const styles = StyleSheet.create({
         marginTop:10,
         borderRadius: 8,
         borderWidth:1,
-        borderColor: '#a1a4a3'
+        borderColor: '#a1a4a3',
+        marginLeft:'10%',
+        marginRight:'10%'
     },
     title:{
         fontSize:40,
@@ -169,11 +176,9 @@ const styles = StyleSheet.create({
 
 
 
-
-
 var LoginConector = function () {
     function callApi(info, successFunction, errorFunction) {
-        fetch('http://192.168.0.21:3000/users/sessions', {
+        fetch('http://taekwongo.herokuapp.com/users/sessions', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

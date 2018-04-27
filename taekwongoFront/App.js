@@ -15,44 +15,91 @@ import {
   StyleSheet,
   Text,
   View,
-    TextInput
+    TextInput,
+    AsyncStorage,
+    ActivityIndicator
 } from 'react-native';
 
 import {
-    StackNavigator
+    StackNavigator,
+    SwitchNavigator
 } from 'react-navigation';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import {Router, Scene} from 'react-native-router-flux'
 
 type Props = {};
-class App extends Component<Props> {
+
+export default class App extends Component<Props> {
+
+    constructor() {
+        super();
+        this.state = { hasToken: false, isLoaded: false };
+    }
+
+    componentDidMount() {
+        AsyncStorage.getItem('id_token').then((token) => {
+            this.setState({ hasToken: token !== null, isLoaded: true })
+        });
+    }
+
   render() {
-    return (
-        <Login/>
-    );
+      this.componentDidMount()
+      const Layout = createRootNavigator(this.state.hasToken);
+      return <Layout/>;
   }
 }
 
-export default StackNavigator({
-    Login:{
-        screen: Login
-    },
+
+export const createRootNavigator = (signedIn = false) => {
+    return SwitchNavigator(
+        {
+            Login:{
+                screen: Login
+            },
+            SignUp: {
+                screen: SignUp
+            },
+        },
+        {
+            initialRouteName: signedIn ? "Home" : "Login"
+        }
+    );
+};
+
+export const stackLogin = StackNavigator({
     SignUp: {
         screen: SignUp
     },
-
 });
+
+/*
+
+ */
+
+/*
+return(
+              <Router>
+                  <Scene key='root'>
+                      <Scene
+                          component={SignUp}
+                          initial={!this.state.hasToken}
+                      />
+                      <Scene
+                          component={SignUp}
+                          initial={this.state.hasToken}
+                      />
+                 </Scene>
+              </Router>
+      )
+ */
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
 });
+
+
