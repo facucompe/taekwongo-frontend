@@ -16,6 +16,8 @@ import {
     StackNavigator
 } from 'react-navigation';
 
+
+
 import SignUp from "./SignUp";
 
 export default class Login extends Component{

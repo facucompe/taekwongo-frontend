@@ -8,6 +8,8 @@ import React, { Component } from 'react';
 
 import Feeds from './components/Feeds'
 import Login from './components/Login'
+import Screen1 from './components/Screen1'
+import Screen2 from './components/Screen2'
 import SignUp from './components/SignUp'
 
 import {
@@ -22,7 +24,8 @@ import {
 
 import {
     StackNavigator,
-    SwitchNavigator
+    SwitchNavigator,
+    DrawerNavigator
 } from 'react-navigation';
 
 import {Router, Scene} from 'react-native-router-flux'
@@ -43,34 +46,30 @@ export default class App extends Component<Props> {
     }
 
   render() {
-      this.componentDidMount()
-      const Layout = createRootNavigator(this.state.hasToken);
-      return <Layout/>;
+      return <DrawerStack/>;
   }
 }
-
-
-export const createRootNavigator = (signedIn = false) => {
-    return SwitchNavigator(
-        {
-            Login:{
-                screen: Login
-            },
-            SignUp: {
-                screen: SignUp
-            },
-        },
-        {
-            initialRouteName: signedIn ? "Home" : "Login"
+export const StackLogin = StackNavigator({
+    Login: {
+        screen: Login,
+        navigationOptions: {
+            title: "Login"
         }
-    );
-};
-
-export const stackLogin = StackNavigator({
+    },
     SignUp: {
-        screen: SignUp
+        screen: SignUp,
+        navigationOptions: {
+            title: "SignUp"
+        }
     },
 });
+
+const DrawerStack = DrawerNavigator({
+    Home:
+        { screen: StackLogin
+        },
+    Novedades: { screen: Screen2 }
+})
 
 /*
 
