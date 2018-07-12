@@ -7,23 +7,15 @@ import {
     View
 } from 'react-native';
 
-import {
-    StackNavigator
-} from 'react-navigation';
-
-
-export default class SignUp extends Component {
-
-    constructor(props) {
-        super(props);
+export default class Video extends Component {
+    static navigationOptions = {
+        title: 'Videos de Tecnica'
     }
-
     render() {
-        const param = this.props.navigation.getParam('hola', 'puto');
         return (
             <View>
                 <Text>
-                    {param}
+                    Videos de tecnica component
                 </Text>
             </View>
         );

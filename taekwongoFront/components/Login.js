@@ -21,6 +21,9 @@ import {
 import SignUp from "./SignUp";
 
 export default class Login extends Component{
+    static navigationOptions = {
+        title: 'Entrenamiento'
+    }
     constructor(props) {
         super(props);
         this.state = {
@@ -78,13 +81,11 @@ export default class Login extends Component{
     }
 
     onLogin(){
-        console.debug('Envia login ' + this.state.textUser);
         LoginConector.callApi(this.buildInfo(), this.onSuccessLogin, this.onError)
     }
 
     signUp(){
-        console.log('vamos a registrar')
-        this.props.navigation.navigate('SignUp')
+        this.props.navigation.navigate('SignUp', { hola: 'hola' })
     }
 
     help(){
@@ -97,9 +98,8 @@ export default class Login extends Component{
     }
 
     onError(error){  // EL MANEJO DE ERRORES NO FUNCIONA
-        console.log("cosas: ")
         console.log(error)
-        if(error.response.status >400 && error.response.status < 500){
+        if(error.response.status > 400 && error.response.status < 500){
             console.log("Usuario o contraseña incorrectos")
         }else{
             console.log("Ups.. problemas en el servidor")

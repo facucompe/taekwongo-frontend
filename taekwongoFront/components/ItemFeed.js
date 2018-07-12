@@ -4,7 +4,8 @@ import {
     Platform,
     StyleSheet,
     Text,
-    View
+    View,
+    TouchableOpacity
 } from 'react-native';
 
 import {
@@ -12,14 +13,19 @@ import {
 } from 'react-navigation';
 
 
-export default class SignUp extends Component {
+export default class ItemFeed extends Component {
+
+    static navigationOptions = {
+        title: 'Item'
+    }
+
 
     constructor(props) {
         super(props);
     }
 
     render() {
-        const param = this.props.navigation.getParam('hola', 'puto');
+        const param = this.props.navigation.getParam('itemId', 'NO-ID');
         return (
             <View>
                 <Text>

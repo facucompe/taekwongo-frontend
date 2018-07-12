@@ -11,6 +11,11 @@ import Login from './components/Login'
 import Screen1 from './components/Screen1'
 import Screen2 from './components/Screen2'
 import SignUp from './components/SignUp'
+import ItemFeed from './components/ItemFeed'
+import Calendar from './components/Calendar'
+import Video from './components/Video'
+import Rules from './components/Rules'
+import Arbitraje from './components/Arbitraje'
 
 import {
   Platform,
@@ -51,46 +56,56 @@ export default class App extends Component<Props> {
 }
 export const StackLogin = StackNavigator({
     Login: {
-        screen: Login,
-        navigationOptions: {
-            title: "Login"
-        }
+        screen: Login
     },
     SignUp: {
-        screen: SignUp,
-        navigationOptions: {
-            title: "SignUp"
-        }
+        screen: SignUp
+    },
+});
+
+export const StackFeeds = StackNavigator({
+    Feeds:{
+        screen:Feeds
+    },
+    ItemFeed:{
+        screen:ItemFeed
+    }
+})
+
+export const StackCalendar = StackNavigator({
+    Calendar: {
+        screen: Calendar
+    },
+});
+
+
+export const StackVideo = StackNavigator({
+    Calendar: {
+        screen: Video
+    },
+});
+
+export const StackRules = StackNavigator({
+    Calendar: {
+        screen: Rules
+    },
+});
+
+export const StackArbitraje = StackNavigator({
+    Calendar: {
+        screen: Arbitraje
     },
 });
 
 const DrawerStack = DrawerNavigator({
-    Home:
-        { screen: StackLogin
-        },
-    Novedades: { screen: Screen2 }
+    Novedades: { screen: StackFeeds },
+    Calendar: { screen: StackCalendar},
+    Video: { screen: StackVideo},
+    Reglamento: { screen: StackRules},
+    Arbitraje: { screen: StackArbitraje},
+    Entrenamiento: { screen: StackLogin }
+
 })
-
-/*
-
- */
-
-/*
-return(
-              <Router>
-                  <Scene key='root'>
-                      <Scene
-                          component={SignUp}
-                          initial={!this.state.hasToken}
-                      />
-                      <Scene
-                          component={SignUp}
-                          initial={this.state.hasToken}
-                      />
-                 </Scene>
-              </Router>
-      )
- */
 
 const styles = StyleSheet.create({
     container: {

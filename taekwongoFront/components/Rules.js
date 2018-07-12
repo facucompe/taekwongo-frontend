@@ -7,23 +7,15 @@ import {
     View
 } from 'react-native';
 
-import {
-    StackNavigator
-} from 'react-navigation';
-
-
-export default class SignUp extends Component {
-
-    constructor(props) {
-        super(props);
+export default class Rules extends Component {
+    static navigationOptions = {
+        title: 'Reglamento'
     }
-
     render() {
-        const param = this.props.navigation.getParam('hola', 'puto');
         return (
             <View>
                 <Text>
-                    {param}
+                    Rules component
                 </Text>
             </View>
         );
