@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView
 } from 'react-native';
 
 const items = [
@@ -40,15 +41,6 @@ export default class Feeds extends Component {
                 this.onError(error)
             });
     }
-    renderItem = (item, i) => {
-        return (
-            <TouchableOpacity
-                key={i}
-                style={styles.item}
-                onPress={() => this.moveToItem(item)}>
-                <Text style={styles.itemText}>{item.name}</Text>
-            </TouchableOpacity>)
-    }
 
     renderFeed = (item,i) => {
         return (
@@ -56,7 +48,13 @@ export default class Feeds extends Component {
                 key={i}
                 style={styles.item}
                 onPress={() => this.moveToItem(item)}>
-                <Text style={styles.itemText}>{item.id}</Text>
+                <View style={styles.image}>
+                    <Text>Imagen</Text>
+                </View>
+                <View>
+                    <View><Text style={styles.titleText}>{item.title}</Text></View>
+                    <View><Text style={styles.bodyText}>{item.body}</Text></View>
+                </View>
             </TouchableOpacity>)
     }
 
@@ -65,10 +63,11 @@ export default class Feeds extends Component {
     }
     render () {
         return (
+            <ScrollView>
             <View style={styles.container}>
-                <Text style={styles.text}>{`Bienvenido al Feed de Takekwongo!`}</Text>
                 {this.state.feeds.map(this.renderFeed)}
             </View>
+            </ScrollView>
         )
     }
 
@@ -97,11 +96,22 @@ const styles = StyleSheet.create({
     text:{
         color:'black'
     },
+    image:{
+        marginRight:10
+    },
     itemText:{
         color:'black'
     },
     item:{
-        alignItems:'center'
+        flex:1,
+        flexDirection:'row',
+        padding:10,
+        borderRadius: 4,
+        borderWidth: 0.5,
+        borderColor: '#d6d7da'
+    },
+    titleText:{
+        fontWeight:'bold'
     }
 })
 var FeedsConector = function () {
