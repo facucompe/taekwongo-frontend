@@ -24,11 +24,22 @@ export default class Feeds extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            feeds: [],
-            hasfetch: false
+            feeds: []
         };
     }
 
+    componentDidMount(){
+        console.log("entramo al did mount")
+        //this.onFeed(this.setState)
+        fetch('http://192.168.0.12:3000/feeds')
+            .then(response => response.json())
+            .then(response => {
+                this.setState({feeds: response})
+            })
+            .catch(error => {
+                this.onError(error)
+            });
+    }
     renderItem = (item, i) => {
         return (
             <TouchableOpacity
@@ -40,42 +51,34 @@ export default class Feeds extends Component {
     }
 
     renderFeed = (item,i) => {
-        console.log('algo')
         return (
             <TouchableOpacity
                 key={i}
                 style={styles.item}
                 onPress={() => this.moveToItem(item)}>
-                <Text style={styles.itemText}>{item.title}</Text>
+                <Text style={styles.itemText}>{item.id}</Text>
             </TouchableOpacity>)
     }
 
     moveToItem(item){
-        this.props.navigation.navigate('ItemFeed', { itemId: item.name })
+        this.props.navigation.navigate('ItemFeed', { itemId: item.title })
     }
     render () {
         return (
-        if (this.state.hasfetch) {
-            //this.state.feeds.map(this.renderFeed)
-            <View style={styles.container}>
-                <Text style={styles.text}>{`wazaib`}</Text>
-            </View>
-        }}
             <View style={styles.container}>
                 <Text style={styles.text}>{`Bienvenido al Feed de Takekwongo!`}</Text>
+                {this.state.feeds.map(this.renderFeed)}
             </View>
         )
     }
 
-    onFeed(){
-        FeedsConector.callApi(this.onSuccess, this.onError)
+    onFeed(setState){
+        FeedsConector.callApi(setState,this.onSuccess, this.onError)
     }
 
-    onSuccess(data){
-        this.setState({
-            feeds: data,
-            hasfetch: true
-    });
+    onSuccess(setState,data){
+        console.log("merlusa")
+        setState({feeds:data})
     }
 
     onError(error){  // EL MANEJO DE ERRORES NO FUNCIONA
@@ -102,12 +105,11 @@ const styles = StyleSheet.create({
     }
 })
 var FeedsConector = function () {
-    function callApi(successFunction, errorFunction) {
-        //fetch('http://taekwongo.herokuapp.com/feeds', {
+    function callApi(setState,successFunction, errorFunction) {
         fetch('http://192.168.0.12:3000/feeds')
         .then(response => response.json())
         .then(response => {
-            successFunction(response)
+            successFunction(setState,response)
         })
         .catch(error => {
             errorFunction(error)
