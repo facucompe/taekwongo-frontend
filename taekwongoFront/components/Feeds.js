@@ -62,11 +62,6 @@ export default class Feeds extends Component {
         )
     }
 
-
-    onSuccess(setState,data) {
-        setState({feeds:data})
-    }
-
     onError(error){  // EL MANEJO DE ERRORES NO FUNCIONA
         console.log("Ups.. problemas en el servidor")
         console.log(error)
@@ -101,19 +96,3 @@ const styles = StyleSheet.create({
         fontWeight:'bold'
     }
 })
-var FeedsConector = function () {
-    function callApi(setState,successFunction, errorFunction) {
-        fetch('http://192.168.0.12:3000/feeds')
-        .then(response => response.json())
-        .then(response => {
-            successFunction(setState,response)
-        })
-        .catch(error => {
-            errorFunction(error)
-        });
-    }
-
-    return{
-        callApi: callApi
-    }
-}()
