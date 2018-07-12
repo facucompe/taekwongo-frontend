@@ -9,13 +9,6 @@ import {
     ScrollView
 } from 'react-native';
 
-const items = [
-    { name: 'one'},
-    { name: 'two'},
-    { name: 'three'},
-    { name: 'four'},
-]
-
 export default class Feeds extends Component {
 
     static navigationOptions = {
@@ -30,8 +23,6 @@ export default class Feeds extends Component {
     }
 
     componentDidMount(){
-        console.log("entramo al did mount")
-        //this.onFeed(this.setState)
         fetch('http://192.168.0.12:3000/feeds')
             .then(response => response.json())
             .then(response => {
@@ -71,12 +62,8 @@ export default class Feeds extends Component {
         )
     }
 
-    onFeed(setState){
-        FeedsConector.callApi(setState,this.onSuccess, this.onError)
-    }
 
-    onSuccess(setState,data){
-        console.log("merlusa")
+    onSuccess(setState,data) {
         setState({feeds:data})
     }
 
