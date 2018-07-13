@@ -1,0 +1,3 @@
+taekwongoFront/package.json
+taekwongoFront/android/app/src/main/assets/
+taekwongoFront/android/app/src/main/res/*
