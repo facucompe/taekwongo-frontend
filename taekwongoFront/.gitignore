@@ -1,3 +1,8 @@
+# agrego archivos de cada uno
+package.json
+android/app/src/main/res/*
+android/app/src/main/assets/
+
 # OSX
 #
 .DS_Store
