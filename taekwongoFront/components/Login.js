@@ -12,12 +12,6 @@ import {
     AsyncStorage
 } from 'react-native';
 
-import {
-    StackNavigator
-} from 'react-navigation';
-
-
-
 import SignUp from "./SignUp";
 
 export default class Login extends Component{
@@ -81,7 +75,7 @@ export default class Login extends Component{
     }
 
     onLogin(){
-        LoginConector.callApi(this.buildInfo(), this.onSuccessLogin, this.onError)
+        LoginConector.callApi(this.buildInfo())
     }
 
     signUp(){
@@ -92,20 +86,6 @@ export default class Login extends Component{
 
     }
 
-    onSuccessLogin(data){
-        AsyncStorage.setItem("id_token", data.token) //Revisar nombres de campos que no los reuerdo y no me puedo fijar
-        console.log(data)
-    }
-
-    onError(error){  // EL MANEJO DE ERRORES NO FUNCIONA
-        console.log(error)
-        if(error.response.status > 400 && error.response.status < 500){
-            console.log("Usuario o contraseña incorrectos")
-        }else{
-            console.log("Ups.. problemas en el servidor")
-        }
-    }
-
     buildInfo(){
         return {
             email:  this.state.textUser,
@@ -113,6 +93,37 @@ export default class Login extends Component{
         }
     }
 }
+
+let LoginConector = function () {
+	function callApi(info) {
+		fetch('http://taekwongo.herokuapp.com/users/sessions', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(info),
+		})
+			.then(response => response.json())
+			.then(response => {
+				console.log(response);
+				if (response['error']) {
+					alert(response['error'])
+				} else {
+					AsyncStorage.setItem("id_token", response.token); // Revisar nombres de campos
+				}
+			})
+			.catch(
+				function (error) {
+					console.log('Error en el el fetch: ' + error.message);
+					alert('Error de conexión, intente nuevamente');
+				});
+	}
+
+	return{
+		callApi: callApi
+	}
+}()
 
 const win = Dimensions.get('window');
 
@@ -175,29 +186,3 @@ const styles = StyleSheet.create({
         fontWeight:'bold'
     }
 })
-
-
-
-var LoginConector = function () {
-    function callApi(info, successFunction, errorFunction) {
-        fetch('http://taekwongo.herokuapp.com/users/sessions', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(info),
-        })
-        .then(response => response.json())
-        .then(response => {
-            successFunction(response)
-        })
-        .catch(error => {
-            errorFunction(error)
-        });
-    }
-
-    return{
-        callApi: callApi
-    }
-}()

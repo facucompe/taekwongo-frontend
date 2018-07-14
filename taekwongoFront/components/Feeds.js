@@ -59,7 +59,8 @@ export default class Feeds extends Component {
     render () {
         let mensage;
         if (this.state.error) {
-            mensage = <Text> Hubo un error de conexión, intente nuevamente. </Text>
+        	alert('Error de conexión, intente nuevamente');
+        	mensage = <Text> </Text>
         } else {
             mensage = <View style={styles.container}> this.state.feeds.map(this.renderFeed)} </View>
         }
