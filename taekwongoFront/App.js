@@ -8,8 +8,6 @@ import React, { Component } from 'react';
 
 import Feeds from './components/Feeds'
 import Login from './components/Login'
-import Screen1 from './components/Screen1'
-import Screen2 from './components/Screen2'
 import SignUp from './components/SignUp'
 import ItemFeed from './components/ItemFeed'
 import Calendar from './components/Calendar'
