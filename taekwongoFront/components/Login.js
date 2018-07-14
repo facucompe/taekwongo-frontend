@@ -46,6 +46,8 @@ export default class Login extends Component{
                             value={this.state.textUser}
                             maxLength={30}
                             underlineColorAndroid={'transparent'}
+                            padding={7}
+                            height={27}
                         />
                     </View>
                     <View style={styles.borderInput}>
@@ -56,6 +58,9 @@ export default class Login extends Component{
                             placeholder={'Password'}
                             maxLength={100}
                             underlineColorAndroid={'transparent'}
+                            padding={7}
+                            height={27}
+                            secureTextEntry={true}
                         />
                     </View>
                     <View style={styles.buttonAndHelp}>
@@ -108,9 +113,14 @@ let LoginConector = function () {
 			.then(response => {
 				if (response['error']) {
 					alert(response['error'])
-				} else {
-					AsyncStorage.setItem("id_token", response.token); // Revisar los nombres de los campos
 				}
+				else if (response['token']) {
+					AsyncStorage.setItem("id_token", response['token']); // Revisar los nombres de los campos
+				}
+				else {
+					console.log('No se comprendió el mensaje del servidor');
+					console.log(response);
+                }
 			})
 			.catch(error => {
 				alert('Error de conexión, intente nuevamente');
