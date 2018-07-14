@@ -120,7 +120,7 @@ let LoginConector = function () {
 				else {
 					console.log('No se comprendió el mensaje del servidor');
 					console.log(response);
-                }
+				}
 			})
 			.catch(error => {
 				alert('Error de conexión, intente nuevamente');

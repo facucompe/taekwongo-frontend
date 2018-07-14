@@ -26,12 +26,12 @@ export default class Feeds extends Component {
         fetch('http://taekwongo.herokuapp.com/feeds')
 	        .then(response => response.json())
 	        .then(response => {
-                this.setState({feeds: response});
-            })
-            .catch(error => {
-            	alert('Error de conexión, intente nuevamente');
-            	//console.log('Error en el el fetch: ' + error.message); // Santi: no funciona, no se porque. En Login anda.
-            });
+				this.setState({feeds: response});
+	        })
+	        .catch(error => {
+	        	alert('Error de conexión, intente nuevamente');
+	        	//console.log('Error en el el fetch: ' + error.message); // Santi: no funciona, no se porque. En Login anda
+	        });
     }
 
     renderFeed = (item,i) => {
