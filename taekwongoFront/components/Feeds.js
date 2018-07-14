@@ -18,19 +18,22 @@ export default class Feeds extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            feeds: []
+            feeds: [],
+            error: true
         };
     }
 
     componentDidMount(){
-        fetch('http://192.168.0.12:3000/feeds')
+        fetch('http://taekwongo.herokuapp.com/feeds')
             .then(response => response.json())
             .then(response => {
-                this.setState({feeds: response})
+                this.setState({feeds: response, error: false});
             })
-            .catch(error => {
-                this.onError(error)
-            });
+            .catch(
+                function(error) {
+                    console.log('Error en el el fetch: ' + error.message);
+                }
+            );
     }
 
     renderFeed = (item,i) => {
@@ -52,21 +55,20 @@ export default class Feeds extends Component {
     moveToItem(item){
         this.props.navigation.navigate('ItemFeed', { itemId: item.title })
     }
+
     render () {
+        let mensage;
+        if (this.state.error) {
+            mensage = <Text> Hubo un error de conexión, intente nuevamente. </Text>
+        } else {
+            mensage = <View style={styles.container}> this.state.feeds.map(this.renderFeed)} </View>
+        }
         return (
-            <ScrollView>
-            <View style={styles.container}>
-                {this.state.feeds.map(this.renderFeed)}
+            <View>
+                {mensage}
             </View>
-            </ScrollView>
         )
     }
-
-    onError(error){  // EL MANEJO DE ERRORES NO FUNCIONA
-        console.log("Ups.. problemas en el servidor")
-        console.log(error)
-    }
-
 }
 
 const styles = StyleSheet.create({
