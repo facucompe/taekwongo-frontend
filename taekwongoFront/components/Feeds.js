@@ -18,22 +18,20 @@ export default class Feeds extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            feeds: [],
-            error: true
+            feeds: []
         };
     }
 
     componentDidMount(){
         fetch('http://taekwongo.herokuapp.com/feeds')
-            .then(response => response.json())
+	        .then(response => response.json())
             .then(response => {
-                this.setState({feeds: response, error: false});
+                this.setState({feeds: response});
             })
-            .catch(
-                function(error) {
-                    console.log('Error en el el fetch: ' + error.message);
-                }
-            );
+            .catch(error => {
+            	alert('Error de conexión, intente nuevamente');
+            	//console.log('Error en el el fetch: ' + error.message); // Santi: no funciona, no se porque. En Login anda.
+            });
     }
 
     renderFeed = (item,i) => {
@@ -57,17 +55,10 @@ export default class Feeds extends Component {
     }
 
     render () {
-        let mensage;
-        if (this.state.error) {
-        	alert('Error de conexión, intente nuevamente');
-        	mensage = <Text> </Text>
-        } else {
-            mensage = <View style={styles.container}> this.state.feeds.map(this.renderFeed)} </View>
-        }
         return (
-            <View>
-                {mensage}
-            </View>
+	        <View style={styles.container}>
+		        {this.state.feeds.map(this.renderFeed)}
+	        </View>
         )
     }
 }

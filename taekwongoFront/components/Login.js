@@ -106,18 +106,16 @@ let LoginConector = function () {
 		})
 			.then(response => response.json())
 			.then(response => {
-				console.log(response);
 				if (response['error']) {
 					alert(response['error'])
 				} else {
-					AsyncStorage.setItem("id_token", response.token); // Revisar nombres de campos
+					AsyncStorage.setItem("id_token", response.token); // Revisar los nombres de los campos
 				}
 			})
-			.catch(
-				function (error) {
-					console.log('Error en el el fetch: ' + error.message);
-					alert('Error de conexión, intente nuevamente');
-				});
+			.catch(error => {
+				alert('Error de conexión, intente nuevamente');
+				console.log('Error en el el fetch: ' + error.message);
+			});
 	}
 
 	return{
