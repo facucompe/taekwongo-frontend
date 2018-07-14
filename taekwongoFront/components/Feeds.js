@@ -25,7 +25,7 @@ export default class Feeds extends Component {
     componentDidMount(){
         fetch('http://taekwongo.herokuapp.com/feeds')
 	        .then(response => response.json())
-            .then(response => {
+	        .then(response => {
                 this.setState({feeds: response});
             })
             .catch(error => {
