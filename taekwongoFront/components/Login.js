@@ -105,7 +105,7 @@ let LoginConector = function () {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
-				'Content-Type': 'application/json',
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(info),
 		})
@@ -114,8 +114,9 @@ let LoginConector = function () {
 				if (response['error']) {
 					alert(response['error'])
 				}
-				else if (response['token']) {
-					AsyncStorage.setItem("id_token", response['token']); // Revisar los nombres de los campos
+				else if (response['access_token'] && response['renew_id']) {
+					AsyncStorage.setItem("access_token", response['access_token']);
+					AsyncStorage.setItem("renew_id", response['renew_id']);
 				}
 				else {
 					console.log('No se comprendió el mensaje del servidor');
