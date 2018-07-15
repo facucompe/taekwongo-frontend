@@ -36,7 +36,8 @@ export default class SignUp extends Component {
                     confirmedPassword: ''
                 };
 
-        this.onRegister = this.onRegister.bind(this)
+        this.onRegister = this.onRegister.bind(this);
+        this.logIn = this.logIn.bind(this);
     }
 
    render(){
@@ -155,6 +156,9 @@ export default class SignUp extends Component {
                            </TouchableHighlight>
                        </View>
                    </View>
+                   <View style={styles.registerView}>
+                       <Text style={styles.registerText}>¿Ya estás registrado? <Text style={styles.registerPress} onPress={this.logIn}>Inicia sesión</Text></Text>
+                   </View>
                </View>
            );
        }
@@ -168,6 +172,10 @@ export default class SignUp extends Component {
            //To Do: Sacar el alert y hacer el POST al backend para registrar el usuario
        }
    }
+
+    logIn(){
+        this.props.navigation.navigate('Login', {})
+    }
 }
 
 const styles = StyleSheet.create({

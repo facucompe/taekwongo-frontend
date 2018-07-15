@@ -84,7 +84,7 @@ export default class Login extends Component{
     }
 
     signUp(){
-        this.props.navigation.navigate('SignUp', { hola: 'hola' })
+        this.props.navigation.navigate('SignUp', {})
     }
 
     help(){
