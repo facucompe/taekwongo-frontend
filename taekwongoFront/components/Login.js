@@ -47,7 +47,7 @@ export default class Login extends Component{
                             maxLength={30}
                             underlineColorAndroid={'transparent'}
                             padding={7}
-                            height={27}
+                            height={30}
                         />
                     </View>
                     <View style={styles.borderInput}>
@@ -59,7 +59,7 @@ export default class Login extends Component{
                             maxLength={100}
                             underlineColorAndroid={'transparent'}
                             padding={7}
-                            height={27}
+                            height={30}
                             secureTextEntry={true}
                         />
                     </View>
