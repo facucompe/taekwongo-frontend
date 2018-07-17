@@ -33,14 +33,26 @@ export default class SignUp extends Component {
             nationality: '',
             user: '',
             password: '',
-            confirmedPassword: ''
+            confirmedPassword: '',
+            validatingFirstName: false,
+            validatingLastName: false,
+            validatingUser: false,
+            validatingConfirmedPassword: false,
+            validParameters: false
         };
 
         this.onRegister = this.onRegister.bind(this);
         this.logIn = this.logIn.bind(this);
+        this.renderFirstNameError = this.renderFirstNameError.bind(this);
+        this.handleFirstNameBlur = this.handleFirstNameBlur.bind(this);
+        this.handleFirstNameFocus = this.handleFirstNameFocus.bind(this);
+
+        // this.renderLastNameError = this.renderLastNameError.bind(this);
+        // this.renderUserError = this.renderUserError.bind(this);
+        // this.renderConfirmedPasswordError = this.renderConfirmedPasswordError.bind(this);
     }
 
-    render(){
+    render() {
         return (
             <View style={styles.container}>
                 <View style={styles.form}>
@@ -48,6 +60,8 @@ export default class SignUp extends Component {
                         <TextInput
                             style={styles.input}
                             onChangeText={(text) => this.setState({firstName: text})}
+                            onFocus={this.handleFirstNameFocus}
+                            onBlur={this.handleFirstNameBlur}
                             placeholder={'Nombre'}
                             value={this.state.firstName}
                             maxLength={30}
@@ -55,6 +69,7 @@ export default class SignUp extends Component {
                             padding={7}
                             height={30}
                         />
+                        {this.renderFirstNameError()}
                     </View>
                     <View style={styles.borderInput}>
                         <TextInput
@@ -90,25 +105,27 @@ export default class SignUp extends Component {
                                     marginLeft: 40
                                 }
                             }}
-                            onDateChange={(dateString) => {this.setState({birthDate: new Date(dateString)})}}
+                            onDateChange={(dateString) => {
+                                this.setState({birthDate: new Date(dateString)})
+                            }}
                         />
                     </View>
                     <View style={styles.borderInput}>
                         <Picker style={styles.dropdownList}
                                 selectedValue={this.state.gender}
                                 onValueChange={(itemValue, itemIndex) => this.setState({gender: itemValue})}>
-                            <Picker.Item label="Masculino" value="m" />
-                            <Picker.Item label="Femenino" value="f" />
-                            <Picker.Item label="Otro" value="o" />
+                            <Picker.Item label="Masculino" value="m"/>
+                            <Picker.Item label="Femenino" value="f"/>
+                            <Picker.Item label="Otro" value="o"/>
                         </Picker>
                     </View>
                     <View style={styles.borderInput}>
                         <Picker style={styles.dropdownList}
                                 selectedValue={this.state.nationality}
                                 onValueChange={(itemValue, itemIndex) => this.setState({nationality: itemValue})}>
-                            <Picker.Item label="Argentina" value="argentina" />
-                            <Picker.Item label="Brasil" value="brasil" />
-                            <Picker.Item label="Otro" value="otro" />
+                            <Picker.Item label="Argentina" value="argentina"/>
+                            <Picker.Item label="Brasil" value="brasil"/>
+                            <Picker.Item label="Otro" value="otro"/>
                         </Picker>
                     </View>
                     <View style={styles.borderInput}>
@@ -156,47 +173,78 @@ export default class SignUp extends Component {
                     </View>
                 </View>
                 <View style={styles.registerView}>
-                    <Text style={styles.registerText}>¿Ya estás registrado? <Text style={styles.registerPress} onPress={this.logIn}>Inicia sesión</Text></Text>
+                    <Text style={styles.registerText}>¿Ya estás registrado? <Text style={styles.registerPress}
+                                                                                  onPress={this.logIn}>Inicia
+                        sesión</Text></Text>
                 </View>
             </View>
         );
     }
 
-    onRegister(){
-        if(!isValidName(this.state.firstName)){
-            alert("Completar nombre solamente con letras y apóstrofes.")
+    handleFirstNameBlur() {
+        this.setState({validatingFirstName: true});
+    }
+
+    handleFirstNameFocus() {
+        this.setState({validatingFirstName: false});
+    }
+
+    renderFirstNameError() {
+        if (this.state.validatingFirstName && !isValidName(this.state.firstName)) {
+            //this.setState({validParameters:false});
+            return <View>
+                <Text style={styles.errorText}>Nombre inválido.</Text>
+            </View>;
+        }
+
+        return null;
+    }
+
+    // renderLastNameError(){
+    //     if (this.state.validatingLastNameError && !isValidName(this.state.lastName)) {
+    //         return <View>
+    //             <Text style={styles.errorText}>Apellido inválido.</Text>
+    //         </View>;
+    //     }
+    //     return null;
+    // }
+    //
+    // renderUserError(){
+    //     if (this.state.validatingUserError && !isValidEmail(this.state.user)) {
+    //         return <View>
+    //             <Text style={styles.errorText}>Correo electrónico inválido.</Text>
+    //         </View>;
+    //     }
+    //     return null;
+    // }
+    //
+    // renderConfirmedPasswordError(){
+    //     if (this.state.validatingConfirmedPasswordError && !matchBetween(this.state.password,this.state.confirmedPassword)) {
+    //         return <View>
+    //             <Text style={styles.errorText}>Las contraseñas ingresadas no coinciden.</Text>
+    //         </View>;
+    //     }
+    //     return null;
+    // }
+
+    onRegister() {
+
+        if (!isValidBirthDate(this.state.birthDate)) {
+            alert("La fecha de nacimiento debe ser anterior al día de hoy.")
         }
         else {
-
-            if (!isValidName(this.state.lastName)) {
-                alert("Completar apellido solamente con letras y apóstrofes.")
+            if (this.validParameters) {
+                alert("Datos OK :)");
             }
-
             else {
-
-                if(!isValidBirthDate(this.state.birthDate)){
-                    alert("La fecha de nacimiento debe ser anterior al día de hoy.")
-                }
-                else{
-
-                    if(!isValidEmail(this.state.user)){
-                        alert("Formato incorrecto en Correo Electrónico");
-                    }
-                    else{
-                        if (this.state.password !== this.state.confirmedPassword) {
-                            alert("Las contraseñas ingresadas no coinciden.")
-                        }
-                        else {
-                            alert("Las contraseñas ingresadas coinciden. :)")
-                            //To Do: Sacar el alert y hacer el POST al backend para registrar el usuario
-                        }
-                    }
-                }
+                alert("Corregir campos inválidos");
+                //To Do: Sacar el alert y hacer el POST al backend para registrar el usuario
             }
         }
     }
 
-    logIn(){
+
+    logIn() {
         this.props.navigation.navigate('Login', {});
     }
 }
@@ -216,6 +264,7 @@ function isValidEmail(aString) {
 function notEmptyAndFitsRegex(aString,aRegex){
     return aString !== "" && aRegex.test(aString);
 }
+
 
 const styles = StyleSheet.create({
     container:{
@@ -277,5 +326,8 @@ const styles = StyleSheet.create({
     },
     dropdownList:{
         height: 30
+    },
+    errorText:{
+        color: 'red'
     }
 });
