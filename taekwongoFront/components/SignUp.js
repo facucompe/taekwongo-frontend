@@ -37,19 +37,31 @@ export default class SignUp extends Component {
             validatingFirstName: false,
             validatingLastName: false,
             validatingUser: false,
-            validatingConfirmedPassword: false,
-            validParameters: false
+            validatingConfirmedPassword: false
         };
 
         this.onRegister = this.onRegister.bind(this);
         this.logIn = this.logIn.bind(this);
+
         this.renderFirstNameError = this.renderFirstNameError.bind(this);
         this.handleFirstNameBlur = this.handleFirstNameBlur.bind(this);
         this.handleFirstNameFocus = this.handleFirstNameFocus.bind(this);
 
-        // this.renderLastNameError = this.renderLastNameError.bind(this);
-        // this.renderUserError = this.renderUserError.bind(this);
-        // this.renderConfirmedPasswordError = this.renderConfirmedPasswordError.bind(this);
+        this.renderLastNameError = this.renderLastNameError.bind(this);
+        this.handleLastNameBlur = this.handleLastNameBlur.bind(this);
+        this.handleLastNameFocus = this.handleLastNameFocus.bind(this);
+
+        this.renderUserError = this.renderUserError.bind(this);
+        this.handleUserBlur = this.handleUserBlur.bind(this);
+        this.handleUserFocus = this.handleUserFocus.bind(this);
+
+        this.renderPasswordError = this.renderPasswordError.bind(this);
+        this.handlePasswordBlur = this.handlePasswordBlur.bind(this);
+        this.handlePasswordFocus = this.handlePasswordFocus.bind(this);
+
+        this.renderConfirmedPasswordError = this.renderConfirmedPasswordError.bind(this);
+        this.handleConfirmedPasswordBlur = this.handleConfirmedPasswordBlur.bind(this);
+        this.handleConfirmedPasswordFocus = this.handleConfirmedPasswordFocus.bind(this);
     }
 
     render() {
@@ -75,6 +87,8 @@ export default class SignUp extends Component {
                         <TextInput
                             style={styles.input}
                             onChangeText={(text) => this.setState({lastName: text})}
+                            onFocus={this.handleLastNameFocus}
+                            onBlur={this.handleLastNameBlur}
                             value={this.state.lastName}
                             placeholder={'Apellido'}
                             maxLength={30}
@@ -82,6 +96,7 @@ export default class SignUp extends Component {
                             padding={7}
                             height={30}
                         />
+                        {this.renderLastNameError()}
                     </View>
                     <View style={styles.borderInput}>
                         <DatePicker
@@ -132,6 +147,8 @@ export default class SignUp extends Component {
                         <TextInput
                             style={styles.input}
                             onChangeText={(text) => this.setState({user: text})}
+                            onFocus={this.handleUserFocus}
+                            onBlur={this.handleUserBlur}
                             placeholder={'Correo electrónico'}
                             value={this.state.user}
                             maxLength={30}
@@ -139,11 +156,14 @@ export default class SignUp extends Component {
                             padding={7}
                             height={30}
                         />
+                        {this.renderUserError()}
                     </View>
                     <View style={styles.borderInput}>
                         <TextInput
                             style={styles.input}
                             onChangeText={(text) => this.setState({password: text})}
+                            onFocus={this.handlePasswordFocus}
+                            onBlur={this.handlePasswordBlur}
                             value={this.state.password}
                             placeholder={'Contraseña'}
                             maxLength={100}
@@ -152,11 +172,14 @@ export default class SignUp extends Component {
                             height={30}
                             secureTextEntry={true}
                         />
+                        {this.renderPasswordError()}
                     </View>
                     <View style={styles.borderInput}>
                         <TextInput
                             style={styles.input}
                             onChangeText={(text) => this.setState({confirmedPassword: text})}
+                            onFocus={this.handleConfirmedPasswordFocus}
+                            onBlur={this.handleConfirmedPasswordBlur}
                             value={this.state.confirmedPassword}
                             placeholder={'Confirmar contraseña'}
                             maxLength={100}
@@ -165,6 +188,7 @@ export default class SignUp extends Component {
                             height={30}
                             secureTextEntry={true}
                         />
+                        {this.renderConfirmedPasswordError()}
                     </View>
                     <View style={styles.buttonAndHelp}>
                         <TouchableHighlight onPress={(this.onRegister)} style={styles.button}>
@@ -190,7 +214,7 @@ export default class SignUp extends Component {
     }
 
     renderFirstNameError() {
-        if (this.state.validatingFirstName && !isValidName(this.state.firstName)) {
+        if (this.state.validatingFirstName && !this.firstNameValidation()) {
             //this.setState({validParameters:false});
             return <View>
                 <Text style={styles.errorText}>Nombre inválido.</Text>
@@ -200,49 +224,118 @@ export default class SignUp extends Component {
         return null;
     }
 
-    // renderLastNameError(){
-    //     if (this.state.validatingLastNameError && !isValidName(this.state.lastName)) {
-    //         return <View>
-    //             <Text style={styles.errorText}>Apellido inválido.</Text>
-    //         </View>;
-    //     }
-    //     return null;
-    // }
-    //
-    // renderUserError(){
-    //     if (this.state.validatingUserError && !isValidEmail(this.state.user)) {
-    //         return <View>
-    //             <Text style={styles.errorText}>Correo electrónico inválido.</Text>
-    //         </View>;
-    //     }
-    //     return null;
-    // }
-    //
-    // renderConfirmedPasswordError(){
-    //     if (this.state.validatingConfirmedPasswordError && !matchBetween(this.state.password,this.state.confirmedPassword)) {
-    //         return <View>
-    //             <Text style={styles.errorText}>Las contraseñas ingresadas no coinciden.</Text>
-    //         </View>;
-    //     }
-    //     return null;
-    // }
+    firstNameValidation() {
+        return isValidName(this.state.firstName);
+    }
+
+    handleLastNameBlur() {
+        this.setState({validatingLastName: true});
+    }
+
+    handleLastNameFocus() {
+        this.setState({validatingLastName: false});
+    }
+
+    renderLastNameError(){
+        if (this.state.validatingLastName && !this.lastNameValidation()) {
+            return <View>
+                <Text style={styles.errorText}>Apellido inválido.</Text>
+            </View>;
+        }
+        return null;
+    }
+
+    lastNameValidation() {
+        return isValidName(this.state.lastName);
+    }
+
+    handleUserBlur() {
+        this.setState({validatingUser: true});
+    }
+
+    handleUserFocus() {
+        this.setState({validatingUser: false});
+    }
+
+    renderUserError(){
+        if (this.state.validatingUser && !this.userValidation()) {
+            return <View>
+                <Text style={styles.errorText}>Correo electrónico inválido.</Text>
+            </View>;
+        }
+        return null;
+    }
+
+    userValidation() {
+        return isValidEmail(this.state.user);
+    }
+
+    handlePasswordBlur() {
+        this.setState({validatingPassword: true});
+    }
+
+    handlePasswordFocus() {
+        this.setState({validatingPassword: false});
+    }
+
+    renderPasswordError(){
+        if (this.state.validatingPassword && !this.passwordValidation()) {
+            return <View>
+                <Text style={styles.errorText}>Las contraseña debe tener más de 8 caracteres.</Text>
+            </View>;
+        }
+        return null;
+    }
+
+    passwordValidation() {
+        return isValidPassword(this.state.password);
+    }
+
+    handleConfirmedPasswordBlur() {
+        this.setState({validatingConfirmedPassword: true});
+    }
+
+    handleConfirmedPasswordFocus() {
+        this.setState({validatingConfirmedPassword: false});
+    }
+
+    renderConfirmedPasswordError(){
+        if (this.state.validatingConfirmedPassword && !this.confirmedPasswordValidation()) {
+
+            return <View>
+                <Text style={styles.errorText}>Las contraseñas ingresadas no coinciden.</Text>
+            </View>;
+        }
+        return null;
+    }
+
+    confirmedPasswordValidation() {
+        return matchBetween(this.state.password, this.state.confirmedPassword);
+    }
 
     onRegister() {
 
-        if (!isValidBirthDate(this.state.birthDate)) {
+        if (!this.birthDateValidation()) {
             alert("La fecha de nacimiento debe ser anterior al día de hoy.")
         }
         else {
-            if (this.validParameters) {
+            if (this.postOkFieldValidations()) {
                 alert("Datos OK :)");
+                //To Do: Sacar el alert y hacer el POST al backend para registrar el usuario
             }
             else {
                 alert("Corregir campos inválidos");
-                //To Do: Sacar el alert y hacer el POST al backend para registrar el usuario
             }
         }
     }
 
+    birthDateValidation() {
+        return isValidBirthDate(this.state.birthDate);
+    }
+
+    postOkFieldValidations(){
+        return this.firstNameValidation() && this.lastNameValidation() && this.birthDateValidation() &&  this.userValidation()  && this.passwordValidation() && this.confirmedPasswordValidation();
+    }
 
     logIn() {
         this.props.navigation.navigate('Login', {});
@@ -261,8 +354,16 @@ function isValidEmail(aString) {
     return notEmptyAndFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 }
 
+function isValidPassword(aString) {
+    return aString.length > 8
+}
+
 function notEmptyAndFitsRegex(aString,aRegex){
     return aString !== "" && aRegex.test(aString);
+}
+
+function matchBetween(aString,anotherString){
+    return aString === anotherString;
 }
 
 
