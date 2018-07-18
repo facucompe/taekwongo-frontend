@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
 
 import {
-    Platform,
     StyleSheet,
-    Text,
-    TextInput,
-    View,
-    TouchableHighlight,
-    Alert,
-    Picker
+    View
 } from 'react-native';
 
 import {
     StackNavigator
 } from 'react-navigation';
 
-import DatePicker from 'react-native-datepicker';
+import {
+    Button,
+    Container,
+    Content,
+    DatePicker,
+    Footer,
+    Form,
+    Header,
+    Input,
+    Item,
+    Label,
+    Picker,
+    Text
+} from 'native-base';
 
 export default class SignUp extends Component {
 
@@ -29,8 +36,8 @@ export default class SignUp extends Component {
             firstName: '',
             lastName: '',
             birthDate: new Date(),
-            gender: '',
-            nationality: '',
+            gender: undefined,
+            nationality: undefined,
             user: '',
             password: '',
             confirmedPassword: '',
@@ -62,146 +69,150 @@ export default class SignUp extends Component {
         this.renderConfirmedPasswordError = this.renderConfirmedPasswordError.bind(this);
         this.handleConfirmedPasswordBlur = this.handleConfirmedPasswordBlur.bind(this);
         this.handleConfirmedPasswordFocus = this.handleConfirmedPasswordFocus.bind(this);
+        this.setBirthDate = this.setBirthDate.bind(this);
+    }
+
+    setBirthDate(newDate) {
+        this.setState({ birthDate: newDate });
+    }
+
+    onValueChangeGender(value){
+        this.setState({ gender: value})
+    }
+
+    onValueChangeNationality(value){
+        this.setState({ nationality: value})
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.form}>
-                    <View style={styles.borderInput}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(text) => this.setState({firstName: text})}
-                            onFocus={this.handleFirstNameFocus}
-                            onBlur={this.handleFirstNameBlur}
-                            placeholder={'Nombre'}
-                            value={this.state.firstName}
-                            maxLength={30}
-                            underlineColorAndroid={'transparent'}
-                            padding={7}
-                            height={30}
-                        />
-                        {this.renderFirstNameError()}
-                    </View>
-                    <View style={styles.borderInput}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(text) => this.setState({lastName: text})}
-                            onFocus={this.handleLastNameFocus}
-                            onBlur={this.handleLastNameBlur}
-                            value={this.state.lastName}
-                            placeholder={'Apellido'}
-                            maxLength={30}
-                            underlineColorAndroid={'transparent'}
-                            padding={7}
-                            height={30}
-                        />
-                        {this.renderLastNameError()}
-                    </View>
-                    <View style={styles.borderInput}>
-                        <DatePicker
-                            style={{width: 330}}
-                            date={this.state.birthDate}
-                            mode="date"
-                            placeholder="select date"
-                            format="YYYY-MM-DD"
-                            minDate="1900-00-01"
-                            maxDate="2020-11-31"
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            customStyles={{
-                                dateIcon: {
-                                    position: 'absolute',
-                                    left: 0,
-                                    top: 4,
-                                    marginLeft: 5
-                                },
-                                dateInput: {
-                                    marginLeft: 40
-                                }
-                            }}
-                            onDateChange={(dateString) => {
-                                this.setState({birthDate: new Date(dateString)})
-                            }}
-                        />
-                    </View>
-                    <View style={styles.borderInput}>
-                        <Picker style={styles.dropdownList}
+            <Container>
+                <Content padder>
+                    <Form>
+                        <Form style={styles.container}>
+                            <Item floatingLabel>
+                                <Label>Nombre</Label>
+                                <Input
+                                    onChangeText={(text) => this.setState({firstName: text})}
+                                    //onFocus={this.handleFirstNameFocus}
+                                    // onBlur={this.handleFirstNameBlur}
+                                    value={this.state.firstName}
+                                    maxLength={30}
+                                />
+                                {/*{this.renderFirstNameError()}*/}
+                            </Item>
+
+                            <Item floatingLabel>
+                                <Label>Apellido</Label>
+                                <Input
+                                    onChangeText={(text) => this.setState({lastName: text})}
+                                    // onFocus={this.handleLastNameFocus}
+                                    // onBlur={this.handleLastNameBlur}
+                                    value={this.state.lastName}
+                                    maxLength={30}
+                                />
+                                {/*{this.renderLastNameError()}*/}
+                            </Item>
+
+                            <Form>
+                                <Text>{'\n\t'}Fecha de Nacimiento</Text>
+                                <DatePicker
+
+                                    defaultDate={new Date(1995, 10, 30)}
+                                    minimumDate={new Date(1900, 1, 1)}
+                                    maximumDate={new Date()}
+                                    locale={"en"}
+                                    timeZoneOffsetInMinutes={undefined}
+                                    modalTransparent={false}
+                                    animationType={"fade"}
+                                    androidMode={"default"}
+                                    placeHolderText="Seleccionar Fecha"
+                                    textStyle={{ color: "black" }}
+                                    placeHolderTextStyle={{ color: "black" }}
+                                    onDateChange={this.setBirthDate}
+                                />
+                            </Form>
+                            <Picker
+                                mode="dropdown"
+                                placeholder="Género"
+                                placeholderStyle={{ color: "black" }}
+                                placeholderIconColor="black"
                                 selectedValue={this.state.gender}
-                                onValueChange={(itemValue, itemIndex) => this.setState({gender: itemValue})}>
-                            <Picker.Item label="Masculino" value="m"/>
-                            <Picker.Item label="Femenino" value="f"/>
-                            <Picker.Item label="Otro" value="o"/>
-                        </Picker>
-                    </View>
-                    <View style={styles.borderInput}>
-                        <Picker style={styles.dropdownList}
+                                onValueChange={this.onValueChangeGender.bind(this)}
+                            >
+                                <Picker.Item label="Masculino" value="m" />
+                                <Picker.Item label="Femenino" value="f" />
+                                <Picker.Item label="Otro" value="o" />
+                            </Picker>
+                            <Picker
+                                mode="dropdown"
+                                placeholder="Nacionalidad"
+                                placeholderStyle={{ color: "black" }}
+                                placeholderIconColor="black"
                                 selectedValue={this.state.nationality}
-                                onValueChange={(itemValue, itemIndex) => this.setState({nationality: itemValue})}>
-                            <Picker.Item label="Argentina" value="argentina"/>
-                            <Picker.Item label="Brasil" value="brasil"/>
-                            <Picker.Item label="Otro" value="otro"/>
-                        </Picker>
-                    </View>
-                    <View style={styles.borderInput}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(text) => this.setState({user: text})}
-                            onFocus={this.handleUserFocus}
-                            onBlur={this.handleUserBlur}
-                            placeholder={'Correo electrónico'}
-                            value={this.state.user}
-                            maxLength={30}
-                            underlineColorAndroid={'transparent'}
-                            padding={7}
-                            height={30}
-                        />
-                        {this.renderUserError()}
-                    </View>
-                    <View style={styles.borderInput}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(text) => this.setState({password: text})}
-                            onFocus={this.handlePasswordFocus}
-                            onBlur={this.handlePasswordBlur}
-                            value={this.state.password}
-                            placeholder={'Contraseña'}
-                            maxLength={100}
-                            underlineColorAndroid={'transparent'}
-                            padding={7}
-                            height={30}
-                            secureTextEntry={true}
-                        />
-                        {this.renderPasswordError()}
-                    </View>
-                    <View style={styles.borderInput}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(text) => this.setState({confirmedPassword: text})}
-                            onFocus={this.handleConfirmedPasswordFocus}
-                            onBlur={this.handleConfirmedPasswordBlur}
-                            value={this.state.confirmedPassword}
-                            placeholder={'Confirmar contraseña'}
-                            maxLength={100}
-                            underlineColorAndroid={'transparent'}
-                            padding={7}
-                            height={30}
-                            secureTextEntry={true}
-                        />
-                        {this.renderConfirmedPasswordError()}
-                    </View>
-                    <View style={styles.buttonAndHelp}>
-                        <TouchableHighlight onPress={(this.onRegister)} style={styles.button}>
-                            <Text style={styles.textButton}>Registrarme</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-                <View style={styles.registerView}>
-                    <Text style={styles.registerText}>¿Ya estás registrado? <Text style={styles.registerPress}
-                                                                                  onPress={this.logIn}>Inicia
-                        sesión</Text></Text>
-                </View>
-            </View>
+                                onValueChange={this.onValueChangeNationality.bind(this)}
+                            >
+                                <Picker.Item label="Argentina" value="argentina" />
+                                <Picker.Item label="Brasil" value="brasil" />
+                                <Picker.Item label="Otro" value="otro" />
+                            </Picker>
+                            <Item floatingLabel>
+                                <Label>Correo electrónico</Label>
+                                <Input
+                                    onChangeText={(text) => this.setState({user: text})}
+                                    // onFocus={this.handleUserFocus}
+                                    // onBlur={this.handleUserBlur}
+                                    value={this.state.user}
+                                    maxLength={30}
+                                />
+                                {/*{this.renderUserError()}*/}
+                            </Item>
+                            <Item floatingLabel>
+                                <Label>Contraseña</Label>
+                                <Input
+                                    onChangeText={(text) => this.setState({password: text})}
+                                    // onFocus={this.handlePasswordFocus}
+                                    // onBlur={this.handlePasswordBlur}
+                                    value={this.state.password}
+                                    maxLength={100}
+                                    secureTextEntry={true}
+                                />
+                                {/*{this.renderPasswordError()}*/}
+                            </Item>
+                            <Item floatingLabel>
+                                <Label>Confirmar contraseña</Label>
+                                <Input
+                                    onChangeText={(text) => this.setState({confirmedPassword: text})}
+                                    // onFocus={this.handleConfirmedPasswordFocus}
+                                    // onBlur={this.handleConfirmedPasswordBlur}
+                                    value={this.state.confirmedPassword}
+                                    maxLength={100}
+                                    secureTextEntry={true}
+                                />
+                                {/*{this.renderConfirmedPasswordError()}*/}
+                            </Item>
+                            <Button
+                                primary
+                                block
+                                style={styles.mbt15}
+                                onPress={(this.onRegister)}
+                            >
+                                <Text style={styles.buttonText}>Registrarme</Text>
+                            </Button>
+                        </Form>
+                        <Form style={styles.registerView}>
+                            <Text style={styles.registerText}>
+                                ¿Ya estás registrado?
+
+                                <Text style={styles.registerPress} onPress={this.logIn}>
+                                    {'\t'}Inicia sesión
+                                </Text>
+
+                            </Text>
+                        </Form>
+                    </Form>
+                </Content>
+            </Container>
         );
     }
 
@@ -374,29 +385,16 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         backgroundColor: '#F5FCFF',
     },
-    button:{
-        height:40,
-        alignItems: 'center',
-        backgroundColor: '#002eff',
-        justifyContent:'center',
-        borderRadius:8,
-        marginTop:10,
-        marginBottom:10,
-        borderWidth:1,
-        padding:5,
-
-    },
     buttonAndHelp:{
         marginLeft:'10%',
         marginRight:'10%'
     },
-    textButton:{
+    buttonText:{
         color:'white'
     },
     input:{
         height:30,
-        marginTop:10,
-
+        marginTop:10
     },
     borderInput:{
         justifyContent:'center',
@@ -425,10 +423,11 @@ const styles = StyleSheet.create({
     registerPress:{
         fontWeight:'bold'
     },
-    dropdownList:{
-        height: 30
-    },
     errorText:{
         color: 'red'
+    },
+    mbt15: {
+        marginBottom: 15,
+        marginTop: 15
     }
 });
