@@ -17,6 +17,7 @@ import {
     Footer,
     Form,
     Header,
+    Icon,
     Input,
     Item,
     Label,
@@ -33,14 +34,14 @@ export default class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: '',
-            lastName: '',
+            firstName: undefined,
+            lastName: undefined,
             birthDate: new Date(),
             gender: undefined,
             nationality: undefined,
-            user: '',
-            password: '',
-            confirmedPassword: '',
+            user: undefined,
+            password: undefined,
+            confirmedPassword: undefined,
             validatingFirstName: false,
             validatingLastName: false,
             validatingUser: false,
@@ -51,24 +52,11 @@ export default class SignUp extends Component {
         this.logIn = this.logIn.bind(this);
 
         this.renderFirstNameError = this.renderFirstNameError.bind(this);
-        this.handleFirstNameBlur = this.handleFirstNameBlur.bind(this);
-        this.handleFirstNameFocus = this.handleFirstNameFocus.bind(this);
-
         this.renderLastNameError = this.renderLastNameError.bind(this);
-        this.handleLastNameBlur = this.handleLastNameBlur.bind(this);
-        this.handleLastNameFocus = this.handleLastNameFocus.bind(this);
-
         this.renderUserError = this.renderUserError.bind(this);
-        this.handleUserBlur = this.handleUserBlur.bind(this);
-        this.handleUserFocus = this.handleUserFocus.bind(this);
-
         this.renderPasswordError = this.renderPasswordError.bind(this);
-        this.handlePasswordBlur = this.handlePasswordBlur.bind(this);
-        this.handlePasswordFocus = this.handlePasswordFocus.bind(this);
-
         this.renderConfirmedPasswordError = this.renderConfirmedPasswordError.bind(this);
-        this.handleConfirmedPasswordBlur = this.handleConfirmedPasswordBlur.bind(this);
-        this.handleConfirmedPasswordFocus = this.handleConfirmedPasswordFocus.bind(this);
+
         this.setBirthDate = this.setBirthDate.bind(this);
     }
 
@@ -90,48 +78,43 @@ export default class SignUp extends Component {
                 <Content padder>
                     <Form>
                         <Form style={styles.container}>
-                            <Item floatingLabel>
+
+                            <Item floatingLabel error={!this.firstNameValidation()}>
                                 <Label>Nombre</Label>
                                 <Input
                                     onChangeText={(text) => this.setState({firstName: text})}
-                                    //onFocus={this.handleFirstNameFocus}
-                                    // onBlur={this.handleFirstNameBlur}
                                     value={this.state.firstName}
                                     maxLength={30}
                                 />
-                                {/*{this.renderFirstNameError()}*/}
+                                {this.renderFirstNameError()}
                             </Item>
 
-                            <Item floatingLabel>
+                            <Item floatingLabel error={!this.lastNameValidation()}>
                                 <Label>Apellido</Label>
                                 <Input
                                     onChangeText={(text) => this.setState({lastName: text})}
-                                    // onFocus={this.handleLastNameFocus}
-                                    // onBlur={this.handleLastNameBlur}
                                     value={this.state.lastName}
                                     maxLength={30}
                                 />
-                                {/*{this.renderLastNameError()}*/}
+                                {this.renderLastNameError()}
                             </Item>
 
-                            <Form>
-                                <Text>{'\n\t'}Fecha de Nacimiento</Text>
-                                <DatePicker
+                            <Text>{'\n\t'}Fecha de Nacimiento</Text>
+                            <DatePicker
 
-                                    defaultDate={new Date(1995, 10, 30)}
-                                    minimumDate={new Date(1900, 1, 1)}
-                                    maximumDate={new Date()}
-                                    locale={"en"}
-                                    timeZoneOffsetInMinutes={undefined}
-                                    modalTransparent={false}
-                                    animationType={"fade"}
-                                    androidMode={"default"}
-                                    placeHolderText="Seleccionar Fecha"
-                                    textStyle={{ color: "black" }}
-                                    placeHolderTextStyle={{ color: "black" }}
-                                    onDateChange={this.setBirthDate}
-                                />
-                            </Form>
+                                defaultDate={new Date(1995, 10, 30)}
+                                minimumDate={new Date(1900, 1, 1)}
+                                maximumDate={new Date()}
+                                locale={"en"}
+                                timeZoneOffsetInMinutes={undefined}
+                                modalTransparent={false}
+                                animationType={"fade"}
+                                androidMode={"default"}
+                                placeHolderText="Seleccionar Fecha"
+                                textStyle={{ color: "black" }}
+                                placeHolderTextStyle={{ color: "black" }}
+                                onDateChange={this.setBirthDate}
+                            />
                             <Picker
                                 mode="dropdown"
                                 placeholder="Género"
@@ -156,40 +139,34 @@ export default class SignUp extends Component {
                                 <Picker.Item label="Brasil" value="brasil" />
                                 <Picker.Item label="Otro" value="otro" />
                             </Picker>
-                            <Item floatingLabel>
+                            <Item floatingLabel error={!this.userValidation()}>
                                 <Label>Correo electrónico</Label>
                                 <Input
                                     onChangeText={(text) => this.setState({user: text})}
-                                    // onFocus={this.handleUserFocus}
-                                    // onBlur={this.handleUserBlur}
                                     value={this.state.user}
                                     maxLength={30}
                                 />
-                                {/*{this.renderUserError()}*/}
+                                {this.renderUserError()}
                             </Item>
-                            <Item floatingLabel>
+                            <Item floatingLabel error={!this.passwordValidation()}>
                                 <Label>Contraseña</Label>
                                 <Input
                                     onChangeText={(text) => this.setState({password: text})}
-                                    // onFocus={this.handlePasswordFocus}
-                                    // onBlur={this.handlePasswordBlur}
                                     value={this.state.password}
                                     maxLength={100}
                                     secureTextEntry={true}
                                 />
-                                {/*{this.renderPasswordError()}*/}
+                                {this.renderPasswordError()}
                             </Item>
-                            <Item floatingLabel>
+                            <Item floatingLabel error={!this.confirmedPasswordValidation()}>
                                 <Label>Confirmar contraseña</Label>
                                 <Input
                                     onChangeText={(text) => this.setState({confirmedPassword: text})}
-                                    // onFocus={this.handleConfirmedPasswordFocus}
-                                    // onBlur={this.handleConfirmedPasswordBlur}
                                     value={this.state.confirmedPassword}
                                     maxLength={100}
                                     secureTextEntry={true}
                                 />
-                                {/*{this.renderConfirmedPasswordError()}*/}
+                                {this.renderConfirmedPasswordError()}
                             </Item>
                             <Button
                                 primary
@@ -216,20 +193,9 @@ export default class SignUp extends Component {
         );
     }
 
-    handleFirstNameBlur() {
-        this.setState({validatingFirstName: true});
-    }
-
-    handleFirstNameFocus() {
-        this.setState({validatingFirstName: false});
-    }
-
     renderFirstNameError() {
-        if (this.state.validatingFirstName && !this.firstNameValidation()) {
-            //this.setState({validParameters:false});
-            return <View>
-                <Text style={styles.errorText}>Nombre inválido.</Text>
-            </View>;
+        if (!this.firstNameValidation()) {
+            return <Icon name='close-circle' />;
         }
 
         return null;
@@ -239,19 +205,9 @@ export default class SignUp extends Component {
         return isValidName(this.state.firstName);
     }
 
-    handleLastNameBlur() {
-        this.setState({validatingLastName: true});
-    }
-
-    handleLastNameFocus() {
-        this.setState({validatingLastName: false});
-    }
-
     renderLastNameError(){
-        if (this.state.validatingLastName && !this.lastNameValidation()) {
-            return <View>
-                <Text style={styles.errorText}>Apellido inválido.</Text>
-            </View>;
+        if (!this.lastNameValidation()) {
+            return <Icon name='close-circle' />;
         }
         return null;
     }
@@ -260,19 +216,9 @@ export default class SignUp extends Component {
         return isValidName(this.state.lastName);
     }
 
-    handleUserBlur() {
-        this.setState({validatingUser: true});
-    }
-
-    handleUserFocus() {
-        this.setState({validatingUser: false});
-    }
-
     renderUserError(){
-        if (this.state.validatingUser && !this.userValidation()) {
-            return <View>
-                <Text style={styles.errorText}>Correo electrónico inválido.</Text>
-            </View>;
+        if (!this.userValidation()) {
+            return <Icon name='close-circle' />;
         }
         return null;
     }
@@ -281,20 +227,15 @@ export default class SignUp extends Component {
         return isValidEmail(this.state.user);
     }
 
-    handlePasswordBlur() {
-        this.setState({validatingPassword: true});
-    }
-
-    handlePasswordFocus() {
-        this.setState({validatingPassword: false});
-    }
-
     renderPasswordError(){
-        if (this.state.validatingPassword && !this.passwordValidation()) {
-            return <View>
-                <Text style={styles.errorText}>Las contraseña debe tener más de 8 caracteres.</Text>
-            </View>;
+        if (!this.passwordValidation()) {
+            return <Form>
+                <Icon name='close-circle' />
+                <Text style={styles.errorText}>{'/n'}Las contraseña debe tener más de 8 caracteres.</Text>
+            </Form>
+
         }
+
         return null;
     }
 
@@ -302,26 +243,27 @@ export default class SignUp extends Component {
         return isValidPassword(this.state.password);
     }
 
-    handleConfirmedPasswordBlur() {
-        this.setState({validatingConfirmedPassword: true});
-    }
-
-    handleConfirmedPasswordFocus() {
-        this.setState({validatingConfirmedPassword: false});
-    }
-
     renderConfirmedPasswordError(){
-        if (this.state.validatingConfirmedPassword && !this.confirmedPasswordValidation()) {
+        if (!this.confirmedPasswordValidation()) {
 
-            return <View>
-                <Text style={styles.errorText}>Las contraseñas ingresadas no coinciden.</Text>
-            </View>;
+            return <Form>
+                <Icon name='close-circle' />
+                <Text style={styles.errorText}>{'/n'}Las contraseñas ingresadas no coinciden.</Text>
+            </Form>;
         }
-        return null;
+
+        else{
+            if(this.state.confirmedPassword.length>0){
+                return <Icon name='checkmark-circle' />;
+            }
+            else
+                return null;
+
+        }
     }
 
     confirmedPasswordValidation() {
-        return matchBetween(this.state.password, this.state.confirmedPassword);
+        return this.state.confirmedPassword !== undefined && matchBetween(this.state.password, this.state.confirmedPassword);
     }
 
     onRegister() {
@@ -366,7 +308,7 @@ function isValidEmail(aString) {
 }
 
 function isValidPassword(aString) {
-    return aString.length > 8
+    return aString !== undefined && aString.length > 8
 }
 
 function notEmptyAndFitsRegex(aString,aRegex){
