@@ -12,12 +12,6 @@ import {
     AsyncStorage
 } from 'react-native';
 
-import {
-    StackNavigator
-} from 'react-navigation';
-
-
-
 import SignUp from "./SignUp";
 
 export default class Login extends Component{
@@ -52,6 +46,8 @@ export default class Login extends Component{
                             value={this.state.textUser}
                             maxLength={30}
                             underlineColorAndroid={'transparent'}
+                            padding={7}
+                            height={30}
                         />
                     </View>
                     <View style={styles.borderInput}>
@@ -62,6 +58,9 @@ export default class Login extends Component{
                             placeholder={'Password'}
                             maxLength={100}
                             underlineColorAndroid={'transparent'}
+                            padding={7}
+                            height={30}
+                            secureTextEntry={true}
                         />
                     </View>
                     <View style={styles.buttonAndHelp}>
@@ -81,29 +80,15 @@ export default class Login extends Component{
     }
 
     onLogin(){
-        LoginConector.callApi(this.buildInfo(), this.onSuccessLogin, this.onError)
+        LoginConector.callApi(this.buildInfo())
     }
 
     signUp(){
-        this.props.navigation.navigate('SignUp', { hola: 'hola' })
+        this.props.navigation.navigate('SignUp', {})
     }
 
     help(){
 
-    }
-
-    onSuccessLogin(data){
-        AsyncStorage.setItem("id_token", data.token) //Revisar nombres de campos que no los reuerdo y no me puedo fijar
-        console.log(data)
-    }
-
-    onError(error){  // EL MANEJO DE ERRORES NO FUNCIONA
-        console.log(error)
-        if(error.response.status > 400 && error.response.status < 500){
-            console.log("Usuario o contraseña incorrectos")
-        }else{
-            console.log("Ups.. problemas en el servidor")
-        }
     }
 
     buildInfo(){
@@ -113,6 +98,41 @@ export default class Login extends Component{
         }
     }
 }
+
+let LoginConector = function () {
+	function callApi(info) {
+		fetch('http://taekwongo.herokuapp.com/users/sessions', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(info),
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response['error']) {
+					alert(response['error'])
+				}
+				else if (response['access_token'] && response['renew_id']) {
+					AsyncStorage.setItem("access_token", response['access_token']);
+					AsyncStorage.setItem("renew_id", response['renew_id']);
+				}
+				else {
+					console.log('No se comprendió el mensaje del servidor');
+					console.log(response);
+				}
+			})
+			.catch(error => {
+				alert('Error de conexión, intente nuevamente');
+				console.log('Error en el el fetch: ' + error.message);
+			});
+	}
+
+	return{
+		callApi: callApi
+	}
+}()
 
 const win = Dimensions.get('window');
 
@@ -175,29 +195,3 @@ const styles = StyleSheet.create({
         fontWeight:'bold'
     }
 })
-
-
-
-var LoginConector = function () {
-    function callApi(info, successFunction, errorFunction) {
-        fetch('http://taekwongo.herokuapp.com/users/sessions', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(info),
-        })
-        .then(response => response.json())
-        .then(response => {
-            successFunction(response)
-        })
-        .catch(error => {
-            errorFunction(error)
-        });
-    }
-
-    return{
-        callApi: callApi
-    }
-}()

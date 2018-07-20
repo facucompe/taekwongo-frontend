@@ -5,15 +5,9 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    ScrollView
 } from 'react-native';
-
-const items = [
-    { name: 'one'},
-    { name: 'two'},
-    { name: 'three'},
-    { name: 'four'},
-]
 
 export default class Feeds extends Component {
 
@@ -24,65 +18,54 @@ export default class Feeds extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            feeds: [],
-            hasfetch: false
+            feeds: []
         };
     }
 
-    renderItem = (item, i) => {
-        return (
-            <TouchableOpacity
-                key={i}
-                style={styles.item}
-                onPress={() => this.moveToItem(item)}>
-                <Text style={styles.itemText}>{item.name}</Text>
-            </TouchableOpacity>)
-    }
+    componentDidMount() {
+		fetch('http://taekwongo.herokuapp.com/feeds', {
+			method: 'GET',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+		}})
+			.then(response => response.json())
+			.then(response => {
+				this.setState({feeds: response});
+			})
+			.catch(error => {
+				alert('Error de conexión, intente nuevamente');
+				console.log('Error en el el fetch: ' + error.message);
+			});
+	}
 
     renderFeed = (item,i) => {
-        console.log('algo')
         return (
             <TouchableOpacity
                 key={i}
                 style={styles.item}
                 onPress={() => this.moveToItem(item)}>
-                <Text style={styles.itemText}>{item.title}</Text>
+                <View style={styles.image}>
+                    <Text>Imagen</Text>
+                </View>
+                <View>
+                    <View><Text style={styles.titleText}>{item.title}</Text></View>
+                    <View><Text style={styles.bodyText}>{item.body}</Text></View>
+                </View>
             </TouchableOpacity>)
     }
 
     moveToItem(item){
-        this.props.navigation.navigate('ItemFeed', { itemId: item.name })
+        this.props.navigation.navigate('ItemFeed', { itemId: item.title })
     }
+
     render () {
         return (
-        if (this.state.hasfetch) {
-            //this.state.feeds.map(this.renderFeed)
-            <View style={styles.container}>
-                <Text style={styles.text}>{`wazaib`}</Text>
-            </View>
-        }}
-            <View style={styles.container}>
-                <Text style={styles.text}>{`Bienvenido al Feed de Takekwongo!`}</Text>
-            </View>
+	        <View style={styles.container}>
+		        {this.state.feeds.map(this.renderFeed)}
+	        </View>
         )
     }
-
-    onFeed(){
-        FeedsConector.callApi(this.onSuccess, this.onError)
-    }
-
-    onSuccess(data){
-        this.setState({
-            feeds: data,
-            hasfetch: true
-    });
-    }
-
-    onError(error){  // EL MANEJO DE ERRORES NO FUNCIONA
-        console.log("Ups.. problemas en el servidor")
-        console.log(error)
-    }
-
 }
 
 const styles = StyleSheet.create({
@@ -94,27 +77,21 @@ const styles = StyleSheet.create({
     text:{
         color:'black'
     },
+    image:{
+        marginRight:10
+    },
     itemText:{
         color:'black'
     },
     item:{
-        alignItems:'center'
+        flex:1,
+        flexDirection:'row',
+        padding:10,
+        borderRadius: 4,
+        borderWidth: 0.5,
+        borderColor: '#d6d7da'
+    },
+    titleText:{
+        fontWeight:'bold'
     }
 })
-var FeedsConector = function () {
-    function callApi(successFunction, errorFunction) {
-        //fetch('http://taekwongo.herokuapp.com/feeds', {
-        fetch('http://192.168.0.12:3000/feeds')
-        .then(response => response.json())
-        .then(response => {
-            successFunction(response)
-        })
-        .catch(error => {
-            errorFunction(error)
-        });
-    }
-
-    return{
-        callApi: callApi
-    }
-}()
