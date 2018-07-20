@@ -1,17 +1,9 @@
 import React, { Component } from 'react';
 
 import {
-    Platform,
-    StyleSheet,
     Text,
     View,
-    TouchableOpacity
 } from 'react-native';
-
-import {
-    StackNavigator
-} from 'react-navigation';
-
 
 export default class ItemFeed extends Component {
 

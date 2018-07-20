@@ -1,5 +1,7 @@
 # OSX
 #
+android/app/src/main/assets/
+android/app/src/main/res/*
 .DS_Store
 
 # Xcode

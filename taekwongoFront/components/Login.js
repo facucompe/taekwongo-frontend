@@ -4,10 +4,8 @@ import {
     View,
     Text,
     TouchableHighlight,
-    Alert,
     StyleSheet,
     TextInput,
-    Image,
     Dimensions,
     AsyncStorage
 } from 'react-native';
@@ -46,7 +44,6 @@ export default class Login extends Component{
                             value={this.state.textUser}
                             maxLength={30}
                             underlineColorAndroid={'transparent'}
-                            padding={7}
                             height={30}
                         />
                     </View>
@@ -58,7 +55,6 @@ export default class Login extends Component{
                             placeholder={'Password'}
                             maxLength={100}
                             underlineColorAndroid={'transparent'}
-                            padding={7}
                             height={30}
                             secureTextEntry={true}
                         />
