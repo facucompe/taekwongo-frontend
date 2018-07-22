@@ -11,11 +11,13 @@ import {
 
 import {
     Button,
+    Col,
     Container,
     Content,
     DatePicker,
     Footer,
     Form,
+    Grid,
     Header,
     Icon,
     Input,
@@ -37,8 +39,8 @@ export default class SignUp extends Component {
             firstName: undefined,
             lastName: undefined,
             birthDate: undefined,
-            gender: undefined,
-            nationality: undefined,
+            gender: 'm',
+            nationality: 'argentina',
             user: undefined,
             password: undefined,
             confirmedPassword: undefined,
@@ -116,43 +118,67 @@ export default class SignUp extends Component {
                 <Content padder>
                     <Form>
                         <Form style={styles.container}>
+                            <Grid>
+                                <Col>
+                                    <Item floatingLabel error={!this.firstNameValidation()}>
+                                        <Label>Nombre</Label>
+                                        <Input
+                                            onChangeText={this.setFirstName}
+                                            value={this.state.firstName}
+                                            maxLength={30}
+                                        />
+                                        {this.renderFirstNameError()}
+                                    </Item>
+                                </Col>
+                                <Col>
+                                    <Item floatingLabel error={!this.lastNameValidation()}>
+                                        <Label>Apellido</Label>
+                                        <Input
+                                            onChangeText={this.setLastName}
+                                            value={this.state.lastName}
+                                            maxLength={30}
+                                        />
+                                        {this.renderLastNameError()}
+                                    </Item>
+                                </Col>
+                            </Grid>
+                            <Grid>
+                                <Col>
+                                    <Text>{'\n\t'}Fecha de Nacimiento</Text>
+                                    <DatePicker
 
-                            <Item floatingLabel error={!this.firstNameValidation()}>
-                                <Label>Nombre</Label>
-                                <Input
-                                    onChangeText={this.setFirstName}
-                                    value={this.state.firstName}
-                                    maxLength={30}
-                                />
-                                {this.renderFirstNameError()}
-                            </Item>
+                                        defaultDate={new Date(1995, 10, 30)}
+                                        minimumDate={new Date(1900, 1, 1)}
+                                        maximumDate={new Date()}
+                                        locale={"en"}
+                                        timeZoneOffsetInMinutes={undefined}
+                                        modalTransparent={false}
+                                        animationType={"fade"}
+                                        androidMode={"default"}
+                                        placeHolderText="Seleccionar Fecha"
+                                        textStyle={{ color: "black" }}
+                                        placeHolderTextStyle={{ color: "black" }}
+                                        onDateChange={this.setBirthDate}
+                                    />
+                                </Col>
+                                <Col>
+                                    <Text>{'\n\t'}Nacionalidad</Text>
+                                    <Picker
+                                        mode="dropdown"
+                                        placeholder="Nacionalidad"
+                                        placeholderStyle={{ color: "black" }}
+                                        placeholderIconColor="black"
+                                        selectedValue={this.state.nationality}
+                                        onValueChange={this.onValueChangeNationality.bind(this)}
+                                    >
+                                        <Picker.Item label="Argentina" value="argentina" />
+                                        <Picker.Item label="Brasil" value="brasil" />
+                                        <Picker.Item label="Otro" value="otro" />
+                                    </Picker>
+                                </Col>
+                            </Grid>
 
-                            <Item floatingLabel error={!this.lastNameValidation()}>
-                                <Label>Apellido</Label>
-                                <Input
-                                    onChangeText={this.setLastName}
-                                    value={this.state.lastName}
-                                    maxLength={30}
-                                />
-                                {this.renderLastNameError()}
-                            </Item>
-
-                            <Text>{'\n\t'}Fecha de Nacimiento</Text>
-                            <DatePicker
-
-                                defaultDate={new Date(1995, 10, 30)}
-                                minimumDate={new Date(1900, 1, 1)}
-                                maximumDate={new Date()}
-                                locale={"en"}
-                                timeZoneOffsetInMinutes={undefined}
-                                modalTransparent={false}
-                                animationType={"fade"}
-                                androidMode={"default"}
-                                placeHolderText="Seleccionar Fecha"
-                                textStyle={{ color: "black" }}
-                                placeHolderTextStyle={{ color: "black" }}
-                                onDateChange={this.setBirthDate}
-                            />
+                            <Text>{'\t'}Género</Text>
                             <Picker
                                 mode="dropdown"
                                 placeholder="Género"
@@ -161,24 +187,11 @@ export default class SignUp extends Component {
                                 selectedValue={this.state.gender}
                                 onValueChange={this.onValueChangeGender.bind(this)}
                             >
-                                <Picker.Item label="Seleccionar Género" value={undefined} />
                                 <Picker.Item label="Masculino" value="m" />
                                 <Picker.Item label="Femenino" value="f" />
                                 <Picker.Item label="Otro" value="o" />
                             </Picker>
-                            <Picker
-                                mode="dropdown"
-                                placeholder="Nacionalidad"
-                                placeholderStyle={{ color: "black" }}
-                                placeholderIconColor="black"
-                                selectedValue={this.state.nationality}
-                                onValueChange={this.onValueChangeNationality.bind(this)}
-                            >
-                                <Picker.Item label="Seleccionar Nacionalidad" value={undefined} />
-                                <Picker.Item label="Argentina" value="argentina" />
-                                <Picker.Item label="Brasil" value="brasil" />
-                                <Picker.Item label="Otro" value="otro" />
-                            </Picker>
+
                             <Item floatingLabel error={!this.userValidation()}>
                                 <Label>Correo electrónico</Label>
                                 <Input
@@ -213,7 +226,7 @@ export default class SignUp extends Component {
                             <Button
                                 primary
                                 block
-                                style={styles.mbt15}
+                                style={styles.mbt30}
                                 onPress={(this.onRegister)}
                             >
                                 <Text style={styles.buttonText}>Registrarme</Text>
@@ -425,8 +438,8 @@ const styles = StyleSheet.create({
     errorText:{
         color: 'red'
     },
-    mbt15: {
-        marginBottom: 15,
-        marginTop: 15
+    mbt30: {
+        marginBottom: 30,
+        marginTop: 30
     }
 });
