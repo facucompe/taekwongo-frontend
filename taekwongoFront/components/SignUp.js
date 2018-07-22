@@ -32,7 +32,7 @@ export default class SignUp extends Component {
             firstName: undefined,
             lastName: undefined,
             birthDate: undefined,
-            gender: 'm',
+            gender: 'male',
             nationality: 'argentina',
             user: undefined,
             password: undefined,
@@ -166,7 +166,7 @@ export default class SignUp extends Component {
                                     >
                                         <Picker.Item label="Argentina" value="argentina" />
                                         <Picker.Item label="Brasil" value="brasil" />
-                                        <Picker.Item label="Otro" value="otro" />
+                                        <Picker.Item label="Otro" value="other" />
                                     </Picker>
                                 </Col>
                             </Grid>
@@ -180,9 +180,9 @@ export default class SignUp extends Component {
                                 selectedValue={this.state.gender}
                                 onValueChange={this.onValueChangeGender.bind(this)}
                             >
-                                <Picker.Item label="Masculino" value="m" />
-                                <Picker.Item label="Femenino" value="f" />
-                                <Picker.Item label="Otro" value="o" />
+                                <Picker.Item label="Masculino" value="male" />
+                                <Picker.Item label="Femenino" value="female" />
+                                <Picker.Item label="Otro" value="other" />
                             </Picker>
 
                             <Item floatingLabel error={!this.userValidation()}>
