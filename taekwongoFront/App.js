@@ -17,24 +17,14 @@ import Rules from './components/Rules';
 import Arbitraje from './components/Arbitraje';
 
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-    TextInput,
+    StyleSheet,
     AsyncStorage,
-    ActivityIndicator
 } from 'react-native';
 
 import {
     StackNavigator,
-    SwitchNavigator,
     DrawerNavigator
 } from 'react-navigation';
-
-import {Router, Scene} from 'react-native-router-flux'
-
-type Props = {};
 
 export default class App extends Component<Props> {
 
@@ -44,7 +34,7 @@ export default class App extends Component<Props> {
     }
 
     componentDidMount() {
-        AsyncStorage.getItem('id_token').then((token) => {
+        AsyncStorage.getItem('access_token').then((token) => {
             this.setState({ hasToken: token !== null, isLoaded: true })
         });
     }
@@ -53,6 +43,7 @@ export default class App extends Component<Props> {
       return <DrawerStack/>;
   }
 }
+
 export const StackLogin = StackNavigator({
     Login: {
         screen: Login
@@ -72,7 +63,7 @@ export const StackFeeds = StackNavigator({
     ItemFeed:{
         screen:ItemFeed
     }
-})
+});
 
 export const StackCalendar = StackNavigator({
     Calendar: {
@@ -82,19 +73,19 @@ export const StackCalendar = StackNavigator({
 
 
 export const StackVideo = StackNavigator({
-    Calendar: {
+	Video: {
         screen: Video
     },
 });
 
 export const StackRules = StackNavigator({
-    Calendar: {
+	Rules: {
         screen: Rules
     },
 });
 
 export const StackArbitraje = StackNavigator({
-    Calendar: {
+	Refereeing: {
         screen: Arbitraje
     },
 });
@@ -103,11 +94,10 @@ const DrawerStack = DrawerNavigator({
     Novedades: { screen: StackFeeds },
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
-    Reglamento: { screen: StackRules},
-    Arbitraje: { screen: StackArbitraje},
+    Rules: { screen: StackRules},
+    Refereeing: { screen: StackArbitraje},
     Entrenamiento: { screen: StackLogin }
-
-})
+});
 
 const styles = StyleSheet.create({
     container: {
@@ -117,5 +107,3 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
 });
-
-
