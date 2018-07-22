@@ -22,17 +22,22 @@ export default class Feeds extends Component {
         };
     }
 
-    componentDidMount(){
-        fetch('http://taekwongo.herokuapp.com/feeds')
-	        .then(response => response.json())
-	        .then(response => {
+    componentDidMount() {
+		fetch('http://taekwongo.herokuapp.com/feeds', {
+			method: 'GET',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+		}})
+			.then(response => response.json())
+			.then(response => {
 				this.setState({feeds: response});
-	        })
-	        .catch(error => {
-	        	alert('Error de conexión, intente nuevamente');
-	        	//console.log('Error en el el fetch: ' + error.message); // Santi: no funciona, no se porque. En Login anda
-	        });
-    }
+			})
+			.catch(error => {
+				alert('Error de conexión, intente nuevamente');
+				console.log('Error en el el fetch: ' + error.message);
+			});
+	}
 
     renderFeed = (item,i) => {
         return (

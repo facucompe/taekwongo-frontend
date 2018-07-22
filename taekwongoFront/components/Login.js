@@ -156,37 +156,38 @@ function notEmptyAndFitsRegex(aString,aRegex){
 }
 
 let LoginConector = function () {
-    function callApi(info) {
-        fetch('http://taekwongo.herokuapp.com/users/sessions', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(info),
-        })
-            .then(response => response.json())
-            .then(response => {
-                if (response['error']) {
-                    alert(response['error'])
-                }
-                else if (response['token']) {
-                    AsyncStorage.setItem("id_token", response['token']); // Revisar los nombres de los campos
-                }
-                else {
-                    console.log('No se comprendió el mensaje del servidor');
-                    console.log(response);
-                }
-            })
-            .catch(error => {
-                alert('Error de conexión, intente nuevamente');
-                console.log('Error en el el fetch: ' + error.message);
-            });
-    }
+	function callApi(info) {
+		fetch('http://taekwongo.herokuapp.com/users/sessions', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(info),
+		})
+			.then(response => response.json())
+			.then(response => {
+				if (response['error']) {
+					alert(response['error'])
+				}
+				else if (response['access_token'] && response['renew_id']) {
+					AsyncStorage.setItem("access_token", response['access_token']);
+					AsyncStorage.setItem("renew_id", response['renew_id']);
+				}
+				else {
+					console.log('No se comprendió el mensaje del servidor');
+					console.log(response);
+				}
+			})
+			.catch(error => {
+				alert('Error de conexión, intente nuevamente');
+				console.log('Error en el el fetch: ' + error.message);
+			});
+	}
 
-    return{
-        callApi: callApi
-    }
+	return{
+		callApi: callApi
+	}
 }();
 
 const win = Dimensions.get('window');

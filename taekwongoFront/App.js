@@ -44,7 +44,7 @@ export default class App extends Component<Props> {
     }
 
     componentDidMount() {
-        AsyncStorage.getItem('id_token').then((token) => {
+        AsyncStorage.getItem('access_token').then((token) => {
             this.setState({ hasToken: token !== null, isLoaded: true })
         });
     }
@@ -53,6 +53,7 @@ export default class App extends Component<Props> {
       return <DrawerStack/>;
   }
 }
+
 export const StackLogin = StackNavigator({
     Login: {
         screen: Login
@@ -82,19 +83,19 @@ export const StackCalendar = StackNavigator({
 
 
 export const StackVideo = StackNavigator({
-    Calendar: {
+	Video: {
         screen: Video
     },
 });
 
 export const StackRules = StackNavigator({
-    Calendar: {
+	Reglamento: {
         screen: Rules
     },
 });
 
 export const StackArbitraje = StackNavigator({
-    Calendar: {
+	Arbitraje: {
         screen: Arbitraje
     },
 });
@@ -117,5 +118,3 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
 });
-
-
