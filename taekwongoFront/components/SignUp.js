@@ -2,12 +2,7 @@ import React, { Component } from 'react';
 
 import {
     StyleSheet,
-    View
 } from 'react-native';
-
-import {
-    StackNavigator
-} from 'react-navigation';
 
 import {
     Button,
@@ -15,10 +10,8 @@ import {
     Container,
     Content,
     DatePicker,
-    Footer,
     Form,
     Grid,
-    Header,
     Icon,
     Input,
     Item,
@@ -31,7 +24,7 @@ export default class SignUp extends Component {
 
     static navigationOptions = {
         title: 'Registrarme'
-    };
+    }
 
     constructor(props) {
         super(props);
@@ -117,7 +110,7 @@ export default class SignUp extends Component {
             <Container>
                 <Content padder>
                     <Form>
-                        <Form style={styles.container}>
+                        <Form>
                             <Grid>
                                 <Col>
                                     <Item floatingLabel error={!this.firstNameValidation()}>
@@ -397,32 +390,8 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         backgroundColor: '#F5FCFF',
     },
-    buttonAndHelp:{
-        marginLeft:'10%',
-        marginRight:'10%'
-    },
     buttonText:{
         color:'white'
-    },
-    input:{
-        height:30,
-        marginTop:10
-    },
-    borderInput:{
-        justifyContent:'center',
-        marginTop:10,
-        borderRadius: 8,
-        borderWidth:1,
-        borderColor: '#a1a4a3',
-        marginLeft:'10%',
-        marginRight:'10%'
-    },
-    title:{
-        fontSize:40,
-        color:'black',
-    },
-    titlePosition:{
-        alignItems:'center'
     },
     registerView:{
         borderTopWidth:1,

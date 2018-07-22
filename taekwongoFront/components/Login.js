@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import SignUp from "./SignUp";
+import RecoverPassword from "./RecoverPassword";
 
 export default class Login extends Component{
     static navigationOptions = {
@@ -28,7 +29,7 @@ export default class Login extends Component{
         //Logic methods
         this.onLogin = this.onLogin.bind(this)
         this.signUp = this.signUp.bind(this)
-        this.help = this.help.bind(this)
+        this.recoverPassword = this.recoverPassword.bind(this)
     }
 
     render(){
@@ -69,11 +70,11 @@ export default class Login extends Component{
                         </TouchableHighlight>
                     </View>
                     <View style={styles.buttonAndHelp}>
-                        <Text>¿Olvidaste tus datos de inicio de sesion? <Text style={styles.registerPress} onPress={this.help}>Obten ayuda</Text></Text>
+                        <Text>¿Olvidaste tus datos de inicio de sesión? <Text style={styles.registerPress} onPress={this.recoverPassword}>Obtén ayuda</Text></Text>
                     </View>
                 </View>
                 <View style={styles.registerView}>
-                    <Text style={styles.registerText}>¿No tienes cuenta? <Text style={styles.registerPress} onPress={this.signUp}>Registrate.</Text></Text>
+                    <Text style={styles.registerText}>¿No tienes una cuenta? <Text style={styles.registerPress} onPress={this.signUp}>Registrate.</Text></Text>
                 </View>
             </View>
         );
@@ -87,8 +88,8 @@ export default class Login extends Component{
         this.props.navigation.navigate('SignUp', {})
     }
 
-    help(){
-
+    recoverPassword(){
+        this.props.navigation.navigate('RecoverPassword', {})
     }
 
     buildInfo(){
