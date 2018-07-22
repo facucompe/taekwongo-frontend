@@ -30,9 +30,9 @@ export default class Login extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            userText: undefined,
+            emailText: undefined,
             passwordText: undefined,
-            validatingUser: false
+            validatingEmail: false
         };
 
         //Logic methods
@@ -40,9 +40,9 @@ export default class Login extends Component{
         this.signUp = this.signUp.bind(this);
         this.recoverPassword = this.recoverPassword.bind(this);
 
-        this.userValidation = this.userValidation.bind(this);
-        this.setUser = this.setUser.bind(this);
-        this.renderUserError = this.renderUserError.bind(this);
+        this.emailValidation = this.emailValidation.bind(this);
+        this.setEmail = this.setEmail.bind(this);
+        this.renderEmailError = this.renderEmailError.bind(this);
 
         this.setPassword = this.setPassword.bind(this);
     }
@@ -56,14 +56,14 @@ export default class Login extends Component{
                             <Form style={styles.titlePosition}>
                                 <Text style={styles.title}>TaekwonGo!</Text>
                             </Form>
-                            <Item floatingLabel error={!this.userValidation()}>
+                            <Item floatingLabel error={!this.emailValidation()}>
                                 <Label>Correo electrónico</Label>
                                 <Input
-                                    onChangeText={this.setUser}
-                                    value={this.state.userText}
-                                    maxLength={30}
+                                    onChangeText={this.setEmail}
+                                    value={this.state.emailText}
+                                    maxLength={40}
                                 />
-                                {this.renderUserError()}
+                                {this.renderEmailError()}
                             </Item>
                             <Item floatingLabel>
                                 <Label>Contraseña</Label>
@@ -108,23 +108,23 @@ export default class Login extends Component{
         );
     }
 
-    setUser(aUser){
-        this.setState({userText: aUser, validatingUser:true})
+    setEmail(anEmail){
+        this.setState({emailText: anEmail, validatingEmail:true})
     }
 
     setPassword(aPassword){
         this.setState({passwordText: aPassword})
     }
 
-    renderUserError(){
-        if (!this.userValidation()) {
+    renderEmailError(){
+        if (!this.emailValidation()) {
             return <Icon name='close-circle' />;
         }
         return null;
     }
 
-    userValidation() {
-        return !this.state.validatingUser || isValidEmail(this.state.userText);
+    emailValidation() {
+        return !this.state.validatingEmail || isValidEmail(this.state.emailText);
     }
 
     onLogin(){
@@ -141,7 +141,7 @@ export default class Login extends Component{
 
     buildInfo(){
         return {
-            email:  this.state.userText,
+            email:  this.state.emailText,
             password: this.state.passwordText
         }
     }
