@@ -190,7 +190,7 @@ export default class SignUp extends Component {
                                 <Input
                                     onChangeText={this.setEmail}
                                     value={this.state.email}
-                                    maxLength={30}
+                                    maxLength={40}
                                 />
                                 {this.renderEmailError()}
                             </Item>
