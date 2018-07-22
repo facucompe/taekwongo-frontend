@@ -17,24 +17,14 @@ import Rules from './components/Rules';
 import Arbitraje from './components/Arbitraje';
 
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-    TextInput,
+    StyleSheet,
     AsyncStorage,
-    ActivityIndicator
 } from 'react-native';
 
 import {
     StackNavigator,
-    SwitchNavigator,
     DrawerNavigator
 } from 'react-navigation';
-
-import {Router, Scene} from 'react-native-router-flux'
-
-type Props = {};
 
 export default class App extends Component<Props> {
 
@@ -73,7 +63,7 @@ export const StackFeeds = StackNavigator({
     ItemFeed:{
         screen:ItemFeed
     }
-})
+});
 
 export const StackCalendar = StackNavigator({
     Calendar: {
@@ -89,13 +79,13 @@ export const StackVideo = StackNavigator({
 });
 
 export const StackRules = StackNavigator({
-	Reglamento: {
+	Rules: {
         screen: Rules
     },
 });
 
 export const StackArbitraje = StackNavigator({
-	Arbitraje: {
+	Refereeing: {
         screen: Arbitraje
     },
 });
@@ -104,11 +94,10 @@ const DrawerStack = DrawerNavigator({
     Novedades: { screen: StackFeeds },
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
-    Reglamento: { screen: StackRules},
-    Arbitraje: { screen: StackArbitraje},
+    Rules: { screen: StackRules},
+    Refereeing: { screen: StackArbitraje},
     Entrenamiento: { screen: StackLogin }
-
-})
+});
 
 const styles = StyleSheet.create({
     container: {

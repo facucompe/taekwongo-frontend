@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 
 import {
-    Platform,
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
-    ScrollView
 } from 'react-native';
 
 export default class Feeds extends Component {
@@ -60,12 +58,19 @@ export default class Feeds extends Component {
     }
 
     render () {
-        return (
-	        <View style={styles.container}>
-		        {this.state.feeds.map(this.renderFeed)}
-	        </View>
-        )
-    }
+			let show;
+			if (this.state.feeds === []) {
+				show = <Text>No Hay novedades para mostrar</Text>;
+			}
+			else {
+				show = this.state.feeds.map(this.renderFeed);
+			}
+		return (
+			<View style={styles.container}>
+				{show}
+			</View>
+		)
+	}
 }
 
 const styles = StyleSheet.create({

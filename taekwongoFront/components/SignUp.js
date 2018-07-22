@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import {
-    StyleSheet,
+    StyleSheet
 } from 'react-native';
 
 import {
