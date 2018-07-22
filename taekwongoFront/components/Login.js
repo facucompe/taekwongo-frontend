@@ -1,83 +1,130 @@
 import React, { Component } from 'react';
 
 import {
-    View,
-    Text,
-    TouchableHighlight,
-    Alert,
     StyleSheet,
-    TextInput,
-    Image,
     Dimensions,
     AsyncStorage
 } from 'react-native';
+
+import {
+    Button,
+    Container,
+    Content,
+    Form,
+    Icon,
+    Input,
+    Item,
+    Label,
+    Text
+} from 'native-base';
 
 import SignUp from "./SignUp";
 import RecoverPassword from "./RecoverPassword";
 
 export default class Login extends Component{
+
     static navigationOptions = {
         title: 'Entrenamiento'
-    }
+    };
+
     constructor(props) {
         super(props);
         this.state = {
-            textUser: '',
-            textPassword: '',
+            userText: undefined,
+            passwordText: undefined,
+            validatingUser: false
         };
 
         //Logic methods
-        this.onLogin = this.onLogin.bind(this)
-        this.signUp = this.signUp.bind(this)
-        this.recoverPassword = this.recoverPassword.bind(this)
+        this.onLogin = this.onLogin.bind(this);
+        this.signUp = this.signUp.bind(this);
+        this.recoverPassword = this.recoverPassword.bind(this);
+
+        this.userValidation = this.userValidation.bind(this);
+        this.setUser = this.setUser.bind(this);
+        this.renderUserError = this.renderUserError.bind(this);
+
+        this.setPassword = this.setPassword.bind(this);
     }
 
-    render(){
+    render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.titlePosition}>
-                    <Text style={styles.title}>TaekwonGo!</Text>
-                </View>
-                <View style={styles.form}>
-                    <View style={styles.borderInput}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(text) => this.setState({textUser: text})}
-                            placeholder={'User'}
-                            value={this.state.textUser}
-                            maxLength={30}
-                            underlineColorAndroid={'transparent'}
-                            padding={7}
-                            height={30}
-                        />
-                    </View>
-                    <View style={styles.borderInput}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(text) => this.setState({textPassword: text})}
-                            value={this.state.textPassword}
-                            placeholder={'Password'}
-                            maxLength={100}
-                            underlineColorAndroid={'transparent'}
-                            padding={7}
-                            height={30}
-                            secureTextEntry={true}
-                        />
-                    </View>
-                    <View style={styles.buttonAndHelp}>
-                        <TouchableHighlight onPress={(this.onLogin)} style={styles.button}>
-                            <Text style={styles.textButton}>Log In</Text>
-                        </TouchableHighlight>
-                    </View>
-                    <View style={styles.buttonAndHelp}>
-                        <Text>¿Olvidaste tus datos de inicio de sesión? <Text style={styles.registerPress} onPress={this.recoverPassword}>Obtén ayuda</Text></Text>
-                    </View>
-                </View>
-                <View style={styles.registerView}>
-                    <Text style={styles.registerText}>¿No tienes una cuenta? <Text style={styles.registerPress} onPress={this.signUp}>Registrate.</Text></Text>
-                </View>
-            </View>
+            <Container>
+                <Content padder>
+                    <Form>
+                        <Form style={styles.container}>
+                            <Form style={styles.titlePosition}>
+                                <Text style={styles.title}>TaekwonGo!</Text>
+                            </Form>
+                            <Item floatingLabel error={!this.userValidation()}>
+                                <Label>Correo electrónico</Label>
+                                <Input
+                                    onChangeText={this.setUser}
+                                    value={this.state.userText}
+                                    maxLength={30}
+                                />
+                                {this.renderUserError()}
+                            </Item>
+                            <Item floatingLabel>
+                                <Label>Contraseña</Label>
+                                <Input
+                                    onChangeText={this.setPassword}
+                                    value={this.state.passwordText}
+                                    maxLength={100}
+                                    secureTextEntry={true}
+                                />
+                            </Item>
+                            <Button
+                                primary
+                                block
+                                style={styles.mbt30}
+                                onPress={this.onLogin}
+                            >
+                                <Text style={styles.buttonText}>Ingresar</Text>
+                            </Button>
+                        </Form>
+                        <Form style={styles.container}>
+                            <Text style={styles.mb150t30}>
+                                ¿Olvidaste tus datos de inicio de sesión?
+
+                                <Text style={styles.registerPress} onPress={this.recoverPassword}>
+                                    {'\t'}Obtén ayuda
+                                </Text>
+                            </Text>
+                        </Form>
+                        <Form style={styles.registerView}>
+                            <Text style={styles.registerText}>
+                                ¿No tienes una cuenta?
+
+                                <Text style={styles.registerPress} onPress={this.signUp}>
+                                    {'\t'}Registrate
+                                </Text>
+
+                            </Text>
+                        </Form>
+                    </Form>
+                </Content>
+            </Container>
         );
+    }
+
+    setUser(aUser){
+        this.setState({userText: aUser, validatingUser:true})
+    }
+
+    setPassword(aPassword){
+        this.setState({passwordText: aPassword})
+    }
+
+    renderUserError(){
+        if (!this.userValidation()) {
+            return <Icon name='close-circle' />;
+        }
+        return null;
+    }
+
+    userValidation() {
+        return !this.state.validatingUser || isValidEmail(this.state.userText);
     }
 
     onLogin(){
@@ -94,45 +141,53 @@ export default class Login extends Component{
 
     buildInfo(){
         return {
-            email:  this.state.textUser,
-            password: this.state.textPassword
+            email:  this.state.userText,
+            password: this.state.passwordText
         }
     }
 }
 
-let LoginConector = function () {
-	function callApi(info) {
-		fetch('http://taekwongo.herokuapp.com/users/sessions', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(info),
-		})
-			.then(response => response.json())
-			.then(response => {
-				if (response['error']) {
-					alert(response['error'])
-				}
-				else if (response['token']) {
-					AsyncStorage.setItem("id_token", response['token']); // Revisar los nombres de los campos
-				}
-				else {
-					console.log('No se comprendió el mensaje del servidor');
-					console.log(response);
-				}
-			})
-			.catch(error => {
-				alert('Error de conexión, intente nuevamente');
-				console.log('Error en el el fetch: ' + error.message);
-			});
-	}
+function isValidEmail(aString) {
+    return notEmptyAndFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+}
 
-	return{
-		callApi: callApi
-	}
-}()
+function notEmptyAndFitsRegex(aString,aRegex){
+    return aString !== "" && aRegex.test(aString);
+}
+
+let LoginConector = function () {
+    function callApi(info) {
+        fetch('http://taekwongo.herokuapp.com/users/sessions', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(info),
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response['error']) {
+                    alert(response['error'])
+                }
+                else if (response['token']) {
+                    AsyncStorage.setItem("id_token", response['token']); // Revisar los nombres de los campos
+                }
+                else {
+                    console.log('No se comprendió el mensaje del servidor');
+                    console.log(response);
+                }
+            })
+            .catch(error => {
+                alert('Error de conexión, intente nuevamente');
+                console.log('Error en el el fetch: ' + error.message);
+            });
+    }
+
+    return{
+        callApi: callApi
+    }
+}();
 
 const win = Dimensions.get('window');
 
@@ -193,5 +248,13 @@ const styles = StyleSheet.create({
     },
     registerPress:{
         fontWeight:'bold'
+    },
+    mbt30: {
+        marginBottom: 30,
+        marginTop: 30
+    },
+    mb150t30: {
+        marginBottom: 180,
+        marginTop: 30
     }
-})
+});
