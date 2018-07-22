@@ -36,7 +36,7 @@ export default class SignUp extends Component {
         this.state = {
             firstName: undefined,
             lastName: undefined,
-            birthDate: new Date(),
+            birthDate: undefined,
             gender: undefined,
             nationality: undefined,
             user: undefined,
@@ -44,7 +44,11 @@ export default class SignUp extends Component {
             confirmedPassword: undefined,
             validatingFirstName: false,
             validatingLastName: false,
+            validatingBirthDate: false,
+            validatingGender: false,
+            validatingNationality: false,
             validatingUser: false,
+            validatingPassword: false,
             validatingConfirmedPassword: false
         };
 
@@ -55,13 +59,47 @@ export default class SignUp extends Component {
         this.renderLastNameError = this.renderLastNameError.bind(this);
         this.renderUserError = this.renderUserError.bind(this);
         this.renderPasswordError = this.renderPasswordError.bind(this);
-        this.renderConfirmedPasswordError = this.renderConfirmedPasswordError.bind(this);
+        this.renderConfirmedPasswordCheck = this.renderConfirmedPasswordCheck.bind(this);
+        this.renderConfirmedPasswordErrorText = this.renderConfirmedPasswordErrorText.bind(this);
+        this.renderPasswordErrorText = this.renderPasswordErrorText.bind(this);
 
+        this.setFirstName = this.setFirstName.bind(this);
+        this.setLastName = this.setLastName.bind(this);
         this.setBirthDate = this.setBirthDate.bind(this);
+        this.setUser = this.setUser.bind(this);
+        this.setPassword = this.setPassword.bind(this);
+        this.setConfirmedPassword = this.setConfirmedPassword.bind(this);
+
+        this.firstNameValidation = this.firstNameValidation.bind(this);
+        this.lastNameValidation = this.lastNameValidation.bind(this);
+        this.birthDateValidation = this.birthDateValidation.bind(this);
+        this.userValidation = this.userValidation.bind(this);
+        this.passwordValidation = this.passwordValidation.bind(this);
+        this.confirmedPasswordValidation = this.confirmedPasswordValidation.bind(this);
     }
 
-    setBirthDate(newDate) {
-        this.setState({ birthDate: newDate });
+    setFirstName(aFirstName){
+        this.setState({firstName: aFirstName, validatingFirstName: true })
+    }
+
+    setLastName(aLastName){
+        this.setState({lastName: aLastName, validatingLastName: true })
+    }
+
+    setBirthDate(aDate) {
+        this.setState({ birthDate: aDate, validatingBirthDate: true });
+    }
+
+    setUser(aUser){
+        this.setState({user: aUser, validatingUser:true})
+    }
+
+    setPassword(aPassword){
+        this.setState({password: aPassword, validatingPassword:true})
+    }
+
+    setConfirmedPassword(aPassword){
+        this.setState({confirmedPassword: aPassword, validatingConfirmedPassword:true})
     }
 
     onValueChangeGender(value){
@@ -82,7 +120,7 @@ export default class SignUp extends Component {
                             <Item floatingLabel error={!this.firstNameValidation()}>
                                 <Label>Nombre</Label>
                                 <Input
-                                    onChangeText={(text) => this.setState({firstName: text})}
+                                    onChangeText={this.setFirstName}
                                     value={this.state.firstName}
                                     maxLength={30}
                                 />
@@ -92,7 +130,7 @@ export default class SignUp extends Component {
                             <Item floatingLabel error={!this.lastNameValidation()}>
                                 <Label>Apellido</Label>
                                 <Input
-                                    onChangeText={(text) => this.setState({lastName: text})}
+                                    onChangeText={this.setLastName}
                                     value={this.state.lastName}
                                     maxLength={30}
                                 />
@@ -123,6 +161,7 @@ export default class SignUp extends Component {
                                 selectedValue={this.state.gender}
                                 onValueChange={this.onValueChangeGender.bind(this)}
                             >
+                                <Picker.Item label="Seleccionar Género" value={undefined} />
                                 <Picker.Item label="Masculino" value="m" />
                                 <Picker.Item label="Femenino" value="f" />
                                 <Picker.Item label="Otro" value="o" />
@@ -135,6 +174,7 @@ export default class SignUp extends Component {
                                 selectedValue={this.state.nationality}
                                 onValueChange={this.onValueChangeNationality.bind(this)}
                             >
+                                <Picker.Item label="Seleccionar Nacionalidad" value={undefined} />
                                 <Picker.Item label="Argentina" value="argentina" />
                                 <Picker.Item label="Brasil" value="brasil" />
                                 <Picker.Item label="Otro" value="otro" />
@@ -142,7 +182,7 @@ export default class SignUp extends Component {
                             <Item floatingLabel error={!this.userValidation()}>
                                 <Label>Correo electrónico</Label>
                                 <Input
-                                    onChangeText={(text) => this.setState({user: text})}
+                                    onChangeText={this.setUser}
                                     value={this.state.user}
                                     maxLength={30}
                                 />
@@ -151,23 +191,25 @@ export default class SignUp extends Component {
                             <Item floatingLabel error={!this.passwordValidation()}>
                                 <Label>Contraseña</Label>
                                 <Input
-                                    onChangeText={(text) => this.setState({password: text})}
+                                    onChangeText={this.setPassword}
                                     value={this.state.password}
                                     maxLength={100}
                                     secureTextEntry={true}
                                 />
                                 {this.renderPasswordError()}
                             </Item>
+                            {this.renderPasswordErrorText()}
                             <Item floatingLabel error={!this.confirmedPasswordValidation()}>
                                 <Label>Confirmar contraseña</Label>
                                 <Input
-                                    onChangeText={(text) => this.setState({confirmedPassword: text})}
+                                    onChangeText={this.setConfirmedPassword}
                                     value={this.state.confirmedPassword}
                                     maxLength={100}
                                     secureTextEntry={true}
                                 />
-                                {this.renderConfirmedPasswordError()}
+                                {this.renderConfirmedPasswordCheck()}
                             </Item>
+                            {this.renderConfirmedPasswordErrorText()}
                             <Button
                                 primary
                                 block
@@ -202,7 +244,7 @@ export default class SignUp extends Component {
     }
 
     firstNameValidation() {
-        return isValidName(this.state.firstName);
+        return !this.state.validatingFirstName || isValidName(this.state.firstName);
     }
 
     renderLastNameError(){
@@ -213,7 +255,7 @@ export default class SignUp extends Component {
     }
 
     lastNameValidation() {
-        return isValidName(this.state.lastName);
+        return !this.state.validatingLastName || isValidName(this.state.lastName);
     }
 
     renderUserError(){
@@ -224,36 +266,41 @@ export default class SignUp extends Component {
     }
 
     userValidation() {
-        return isValidEmail(this.state.user);
+        return !this.state.validatingUser || isValidEmail(this.state.user);
     }
 
     renderPasswordError(){
-        if (!this.passwordValidation()) {
-            return <Form>
-                <Icon name='close-circle' />
-                <Text style={styles.errorText}>{'/n'}Las contraseña debe tener más de 8 caracteres.</Text>
-            </Form>
+        if (!this.passwordValidation())
 
-        }
+            return <Icon name='close-circle' />;
 
-        return null;
+        else
+
+            return null;
+    }
+
+    renderPasswordErrorText(){
+        if (!this.passwordValidation())
+
+            return <Text style={styles.errorText}>Las contraseña debe tener más de 8 caracteres.</Text>;
+
+        else
+
+            return null;
     }
 
     passwordValidation() {
-        return isValidPassword(this.state.password);
+        return !this.state.validatingPassword || isValidPassword(this.state.password);
     }
 
-    renderConfirmedPasswordError(){
+    renderConfirmedPasswordCheck(){
         if (!this.confirmedPasswordValidation()) {
 
-            return <Form>
-                <Icon name='close-circle' />
-                <Text style={styles.errorText}>{'/n'}Las contraseñas ingresadas no coinciden.</Text>
-            </Form>;
+            return <Icon name='close-circle' color='green' />;
         }
 
         else{
-            if(this.state.confirmedPassword.length>0){
+            if(this.state.confirmedPassword !== undefined && this.state.confirmedPassword.length>0){
                 return <Icon name='checkmark-circle' />;
             }
             else
@@ -262,28 +309,38 @@ export default class SignUp extends Component {
         }
     }
 
+    renderConfirmedPasswordErrorText(){
+        if (!this.confirmedPasswordValidation())
+
+            return <Text style={styles.errorText}>Las contraseñas ingresadas no coinciden.</Text>;
+
+        else
+            return null
+
+    }
+
     confirmedPasswordValidation() {
-        return this.state.confirmedPassword !== undefined && matchBetween(this.state.password, this.state.confirmedPassword);
+        return !this.state.validatingConfirmedPassword || matchBetween(this.state.password, this.state.confirmedPassword);
+    }
+
+    birthDateValidation() {
+        return !this.state.validatingBirthDate || isValidBirthDate(this.state.birthDate);
     }
 
     onRegister() {
 
-        if (!this.birthDateValidation()) {
-            alert("La fecha de nacimiento debe ser anterior al día de hoy.")
+        if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
+            alert("Datos OK :)");
+            //To Do: Sacar el alert y hacer el POST al backend para registrar el usuario
         }
         else {
-            if (this.postOkFieldValidations()) {
-                alert("Datos OK :)");
-                //To Do: Sacar el alert y hacer el POST al backend para registrar el usuario
-            }
-            else {
-                alert("Corregir campos inválidos");
-            }
+            alert("Corregir campos inválidos");
         }
+
     }
 
-    birthDateValidation() {
-        return isValidBirthDate(this.state.birthDate);
+    allFieldsCompleted(){
+        return this.state.firstName !== undefined &&  this.state.lastName !== undefined && this.state.birthDate !== undefined && this.state.gender !== undefined && this.state.nationality !== undefined && this.state.user !== undefined && this.state.password !== undefined && this.state.confirmedPassword !== undefined;
     }
 
     postOkFieldValidations(){
