@@ -34,7 +34,7 @@ export default class SignUp extends Component {
             birthDate: undefined,
             gender: 'male',
             nationality: 'argentina',
-            user: undefined,
+            email: undefined,
             password: undefined,
             confirmedPassword: undefined,
             validatingFirstName: false,
@@ -42,7 +42,7 @@ export default class SignUp extends Component {
             validatingBirthDate: false,
             validatingGender: false,
             validatingNationality: false,
-            validatingUser: false,
+            validatingEmail: false,
             validatingPassword: false,
             validatingConfirmedPassword: false
         };
@@ -52,7 +52,7 @@ export default class SignUp extends Component {
 
         this.renderFirstNameError = this.renderFirstNameError.bind(this);
         this.renderLastNameError = this.renderLastNameError.bind(this);
-        this.renderUserError = this.renderUserError.bind(this);
+        this.renderEmailError = this.renderEmailError.bind(this);
         this.renderPasswordError = this.renderPasswordError.bind(this);
         this.renderConfirmedPasswordCheck = this.renderConfirmedPasswordCheck.bind(this);
         this.renderConfirmedPasswordErrorText = this.renderConfirmedPasswordErrorText.bind(this);
@@ -61,14 +61,14 @@ export default class SignUp extends Component {
         this.setFirstName = this.setFirstName.bind(this);
         this.setLastName = this.setLastName.bind(this);
         this.setBirthDate = this.setBirthDate.bind(this);
-        this.setUser = this.setUser.bind(this);
+        this.setEmail = this.setEmail.bind(this);
         this.setPassword = this.setPassword.bind(this);
         this.setConfirmedPassword = this.setConfirmedPassword.bind(this);
 
         this.firstNameValidation = this.firstNameValidation.bind(this);
         this.lastNameValidation = this.lastNameValidation.bind(this);
         this.birthDateValidation = this.birthDateValidation.bind(this);
-        this.userValidation = this.userValidation.bind(this);
+        this.emailValidation = this.emailValidation.bind(this);
         this.passwordValidation = this.passwordValidation.bind(this);
         this.confirmedPasswordValidation = this.confirmedPasswordValidation.bind(this);
     }
@@ -85,8 +85,8 @@ export default class SignUp extends Component {
         this.setState({ birthDate: aDate, validatingBirthDate: true });
     }
 
-    setUser(aUser){
-        this.setState({user: aUser, validatingUser:true})
+    setEmail(anEmail){
+        this.setState({email: anEmail, validatingEmail:true})
     }
 
     setPassword(aPassword){
@@ -185,14 +185,14 @@ export default class SignUp extends Component {
                                 <Picker.Item label="Otro" value="other" />
                             </Picker>
 
-                            <Item floatingLabel error={!this.userValidation()}>
+                            <Item floatingLabel error={!this.emailValidation()}>
                                 <Label>Correo electrónico</Label>
                                 <Input
-                                    onChangeText={this.setUser}
-                                    value={this.state.user}
+                                    onChangeText={this.setEmail}
+                                    value={this.state.email}
                                     maxLength={30}
                                 />
-                                {this.renderUserError()}
+                                {this.renderEmailError()}
                             </Item>
                             <Item floatingLabel error={!this.passwordValidation()}>
                                 <Label>Contraseña</Label>
@@ -264,15 +264,15 @@ export default class SignUp extends Component {
         return !this.state.validatingLastName || isValidName(this.state.lastName);
     }
 
-    renderUserError(){
-        if (!this.userValidation()) {
+    renderEmailError(){
+        if (!this.emailValidation()) {
             return <Icon name='close-circle' />;
         }
         return null;
     }
 
-    userValidation() {
-        return !this.state.validatingUser || isValidEmail(this.state.user);
+    emailValidation() {
+        return !this.state.validatingEmail || isValidEmail(this.state.email);
     }
 
     renderPasswordError(){
@@ -346,11 +346,11 @@ export default class SignUp extends Component {
     }
 
     allFieldsCompleted(){
-        return this.state.firstName !== undefined &&  this.state.lastName !== undefined && this.state.birthDate !== undefined && this.state.gender !== undefined && this.state.nationality !== undefined && this.state.user !== undefined && this.state.password !== undefined && this.state.confirmedPassword !== undefined;
+        return this.state.firstName !== undefined &&  this.state.lastName !== undefined && this.state.birthDate !== undefined && this.state.gender !== undefined && this.state.nationality !== undefined && this.state.email !== undefined && this.state.password !== undefined && this.state.confirmedPassword !== undefined;
     }
 
     postOkFieldValidations(){
-        return this.firstNameValidation() && this.lastNameValidation() && this.birthDateValidation() &&  this.userValidation()  && this.passwordValidation() && this.confirmedPasswordValidation();
+        return this.firstNameValidation() && this.lastNameValidation() && this.birthDateValidation() &&  this.emailValidation()  && this.passwordValidation() && this.confirmedPasswordValidation();
     }
 
     logIn() {
