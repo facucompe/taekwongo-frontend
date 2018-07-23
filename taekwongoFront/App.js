@@ -6,14 +6,15 @@
 
 import React, { Component } from 'react';
 
-import Feeds from './components/Feeds'
-import Login from './components/Login'
-import SignUp from './components/SignUp'
-import ItemFeed from './components/ItemFeed'
-import Calendar from './components/Calendar'
-import Video from './components/Video'
-import Rules from './components/Rules'
-import Arbitraje from './components/Arbitraje'
+import Feeds from './components/Feeds';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import RecoverPassword from "./components/RecoverPassword";
+import ItemFeed from './components/ItemFeed';
+import Calendar from './components/Calendar';
+import Video from './components/Video';
+import Rules from './components/Rules';
+import Arbitraje from './components/Arbitraje';
 
 import {
     StyleSheet,
@@ -46,6 +47,9 @@ export default class App extends Component<Props> {
 export const StackLogin = StackNavigator({
     Login: {
         screen: Login
+    },
+    RecoverPassword: {
+        screen: RecoverPassword
     },
     SignUp: {
         screen: SignUp
