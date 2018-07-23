@@ -72,10 +72,7 @@ export default class SignUp extends Component {
 
 
     renderUserError(){
-        if (!this.userValidation()) {
-            return <Icon name='close-circle' />;
-        }
-        return null;
+        return this.userValidation() ? null : <Icon name='close-circle'/>;
     }
 
     userValidation() {
