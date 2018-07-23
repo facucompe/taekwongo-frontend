@@ -22,13 +22,16 @@ import {
   View,
     TextInput,
     AsyncStorage,
-    ActivityIndicator
+    ActivityIndicator,
+    TouchableOpacity,
+    Image
 } from 'react-native';
 
 import {
     StackNavigator,
     SwitchNavigator,
-    DrawerNavigator
+    DrawerNavigator,
+    NavigationActions
 } from 'react-navigation';
 
 import {Router, Scene} from 'react-native-router-flux'
@@ -54,16 +57,26 @@ export default class App extends Component<Props> {
 }
 export const StackLogin = StackNavigator({
     Login: {
-        screen: Login
+        screen: Login,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
+        
     },
     SignUp: {
-        screen: SignUp
+        screen: SignUp,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
 export const StackFeeds = StackNavigator({
     Feeds:{
-        screen:Feeds
+        screen:Feeds,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })       
     },
     ItemFeed:{
         screen:ItemFeed
@@ -72,26 +85,38 @@ export const StackFeeds = StackNavigator({
 
 export const StackCalendar = StackNavigator({
     Calendar: {
-        screen: Calendar
+        screen: Calendar,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
 
 export const StackVideo = StackNavigator({
-    Calendar: {
-        screen: Video
+    Video: {
+        screen: Video,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
 export const StackRules = StackNavigator({
-    Calendar: {
-        screen: Rules
+    Rules: {
+        screen: Rules,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
 export const StackArbitraje = StackNavigator({
-    Calendar: {
-        screen: Arbitraje
+    Arbitraje: {
+        screen: Arbitraje,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
@@ -102,7 +127,6 @@ const DrawerStack = DrawerNavigator({
     Reglamento: { screen: StackRules},
     Arbitraje: { screen: StackArbitraje},
     Entrenamiento: { screen: StackLogin }
-
 })
 
 const styles = StyleSheet.create({
@@ -114,4 +138,12 @@ const styles = StyleSheet.create({
     },
 });
 
-
+export const MenuButton = (props) => {
+    return (
+    <View>
+        <TouchableOpacity onPress={() => {props.navigation.navigate('DrawerOpen'); } }>
+            <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/220px-Hamburger_icon.svg.png' }}  style={{padding: 15, marginLeft:20}}/>
+        </TouchableOpacity>
+    </View>
+    );
+}
