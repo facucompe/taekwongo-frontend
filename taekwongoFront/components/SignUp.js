@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
 
 import {
-    Platform,
     StyleSheet,
     Text,
     TextInput,
     View,
     TouchableHighlight,
-    Alert,
     Picker
 } from 'react-native';
-
-import {
-    StackNavigator
-} from 'react-navigation';
 
 import DatePicker from 'react-native-datepicker';
 
