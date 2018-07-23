@@ -108,12 +108,12 @@ export default class Login extends Component{
         );
     }
 
-    setEmail(anEmail){
-        this.setState({emailText: anEmail, validatingEmail:true})
+    setEmail(emailText){
+        this.setState({emailText, validatingEmail:true})
     }
 
-    setPassword(aPassword){
-        this.setState({passwordText: aPassword})
+    setPassword(passwordText){
+        this.setState({passwordText})
     }
 
     renderEmailError(){

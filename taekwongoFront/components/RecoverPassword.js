@@ -36,8 +36,8 @@ export default class SignUp extends Component {
         this.userValidation = this.userValidation.bind(this);
     }
 
-    setUser(aUser){
-        this.setState({user: aUser, validatingUser:true})
+    setUser(user){
+        this.setState({user, validatingUser:true})
     }
 
     render() {

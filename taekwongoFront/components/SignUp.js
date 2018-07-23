@@ -73,36 +73,36 @@ export default class SignUp extends Component {
         this.confirmedPasswordValidation = this.confirmedPasswordValidation.bind(this);
     }
 
-    setFirstName(aFirstName){
-        this.setState({firstName: aFirstName, validatingFirstName: true })
+    setFirstName(firstName){
+        this.setState({firstName, validatingFirstName: true })
     }
 
-    setLastName(aLastName){
-        this.setState({lastName: aLastName, validatingLastName: true })
+    setLastName(lastName){
+        this.setState({lastName, validatingLastName: true })
     }
 
-    setBirthDate(aDate) {
-        this.setState({ birthDate: aDate, validatingBirthDate: true });
+    setBirthDate(birthDate) {
+        this.setState({ birthDate, validatingBirthDate: true });
     }
 
-    setEmail(anEmail){
-        this.setState({email: anEmail, validatingEmail:true})
+    setEmail(email){
+        this.setState({email, validatingEmail:true})
     }
 
-    setPassword(aPassword){
-        this.setState({password: aPassword, validatingPassword:true})
+    setPassword(password){
+        this.setState({password, validatingPassword:true})
     }
 
-    setConfirmedPassword(aPassword){
-        this.setState({confirmedPassword: aPassword, validatingConfirmedPassword:true})
+    setConfirmedPassword(confirmedPassword){
+        this.setState({confirmedPassword, validatingConfirmedPassword:true})
     }
 
-    onValueChangeGender(value){
-        this.setState({ gender: value})
+    onValueChangeGender(gender){
+        this.setState({gender})
     }
 
-    onValueChangeNationality(value){
-        this.setState({ nationality: value})
+    onValueChangeNationality(nationality){
+        this.setState({nationality})
     }
 
     render() {
@@ -242,11 +242,7 @@ export default class SignUp extends Component {
     }
 
     renderFirstNameError() {
-        if (!this.firstNameValidation()) {
-            return <Icon name='close-circle' />;
-        }
-
-        return null;
+       return this.firstNameValidation() ? null :  <Icon name='close-circle' />;
     }
 
     firstNameValidation() {
@@ -254,10 +250,7 @@ export default class SignUp extends Component {
     }
 
     renderLastNameError(){
-        if (!this.lastNameValidation()) {
-            return <Icon name='close-circle' />;
-        }
-        return null;
+        return this.lastNameValidation() ? null : <Icon name='close-circle'/>;
     }
 
     lastNameValidation() {
@@ -265,10 +258,7 @@ export default class SignUp extends Component {
     }
 
     renderEmailError(){
-        if (!this.emailValidation()) {
-            return <Icon name='close-circle' />;
-        }
-        return null;
+        return this.emailValidation() ? null : <Icon name='close-circle'/>;
     }
 
     emailValidation() {
@@ -276,23 +266,12 @@ export default class SignUp extends Component {
     }
 
     renderPasswordError(){
-        if (!this.passwordValidation())
-
-            return <Icon name='close-circle' />;
-
-        else
-
-            return null;
+        return this.passwordValidation() ? null : <Icon name='close-circle'/>;
     }
 
     renderPasswordErrorText(){
-        if (!this.passwordValidation())
-
-            return <Text style={styles.errorText}>Las contraseña debe tener más de 8 caracteres.</Text>;
-
-        else
-
-            return null;
+        return this.passwordValidation() ? null :
+            <Text style={styles.errorText}>Las contraseña debe tener más de 8 caracteres.</Text>;
     }
 
     passwordValidation() {
@@ -300,28 +279,22 @@ export default class SignUp extends Component {
     }
 
     renderConfirmedPasswordCheck(){
-        if (!this.confirmedPasswordValidation()) {
-
-            return <Icon name='close-circle' color='green' />;
-        }
-
-        else{
-            if(this.state.confirmedPassword !== undefined && this.state.confirmedPassword.length>0){
-                return <Icon name='checkmark-circle' />;
+        if (this.confirmedPasswordValidation()) {
+            if (this.state.confirmedPassword !== undefined && this.state.confirmedPassword.length > 0) {
+                return <Icon name='checkmark-circle'/>;
             }
             else
-                return null;
-
+            return null;
         }
+
+        else
+            return <Icon name='close-circle' color='green'/>;
+
     }
 
     renderConfirmedPasswordErrorText(){
-        if (!this.confirmedPasswordValidation())
-
-            return <Text style={styles.errorText}>Las contraseñas ingresadas no coinciden.</Text>;
-
-        else
-            return null
+        return this.confirmedPasswordValidation() ? null :
+            <Text style={styles.errorText}>Las contraseñas ingresadas no coinciden.</Text>;
 
     }
 
