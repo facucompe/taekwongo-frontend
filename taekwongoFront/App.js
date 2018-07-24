@@ -34,6 +34,8 @@ import {
     NavigationActions
 } from 'react-navigation';
 
+import { Container, Header, Left, Body, Button, Icon, Title } from 'native-base';
+
 import {Router, Scene} from 'react-native-router-flux'
 
 type Props = {};
@@ -64,10 +66,7 @@ export const StackLogin = StackNavigator({
         
     },
     SignUp: {
-        screen: SignUp,
-        navigationOptions: ({ navigation }) => ({
-            headerLeft: <MenuButton navigation={navigation} />,
-          })
+        screen: SignUp
     },
 });
 
@@ -140,10 +139,10 @@ const styles = StyleSheet.create({
 
 export const MenuButton = (props) => {
     return (
-    <View>
-        <TouchableOpacity onPress={() => {props.navigation.navigate('DrawerOpen'); } }>
-            <Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/220px-Hamburger_icon.svg.png' }}  style={{padding: 15, marginLeft:20}}/>
-        </TouchableOpacity>
-    </View>
+        <Left>
+            <Button transparent onPress={() => {props.navigation.navigate('DrawerOpen'); } }>
+                <Icon name='menu' />
+            </Button>
+        </Left>
     );
 }
