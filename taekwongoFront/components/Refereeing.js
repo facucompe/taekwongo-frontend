@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 
 import {
-    Platform,
-    StyleSheet,
     Text,
     View
 } from 'react-native';
 
-export default class Arbitraje extends Component {
+export default class Refereeing extends Component {
     static navigationOptions = {
         title: 'Arbitraje'
     }

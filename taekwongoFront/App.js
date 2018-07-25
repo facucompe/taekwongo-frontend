@@ -6,25 +6,19 @@
 
 import React, { Component } from 'react';
 
-import Feeds from './components/Feeds'
-import Login from './components/Login'
-import SignUp from './components/SignUp'
-import ItemFeed from './components/ItemFeed'
-import Calendar from './components/Calendar'
-import Video from './components/Video'
-import Rules from './components/Rules'
-import Arbitraje from './components/Arbitraje'
+import Feeds from './components/Feeds';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import RecoverPassword from "./components/RecoverPassword";
+import ItemFeed from './components/ItemFeed';
+import Calendar from './components/Calendar';
+import Video from './components/Video';
+import Rules from './components/Rules';
+import Arbitraje from './components/Arbitraje';
 
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-    TextInput,
+    StyleSheet,
     AsyncStorage,
-    ActivityIndicator,
-    TouchableOpacity,
-    Image
 } from 'react-native';
 
 import {
@@ -48,7 +42,7 @@ export default class App extends Component<Props> {
     }
 
     componentDidMount() {
-        AsyncStorage.getItem('id_token').then((token) => {
+        AsyncStorage.getItem('access_token').then((token) => {
             this.setState({ hasToken: token !== null, isLoaded: true })
         });
     }
@@ -57,6 +51,7 @@ export default class App extends Component<Props> {
       return <DrawerStack/>;
   }
 }
+
 export const StackLogin = StackNavigator({
     Login: {
         screen: Login,
@@ -64,6 +59,9 @@ export const StackLogin = StackNavigator({
             headerLeft: <MenuButton navigation={navigation} />,
           })
         
+    },
+    RecoverPassword: {
+        screen: RecoverPassword
     },
     SignUp: {
         screen: SignUp
@@ -80,7 +78,7 @@ export const StackFeeds = StackNavigator({
     ItemFeed:{
         screen:ItemFeed
     }
-})
+});
 
 export const StackCalendar = StackNavigator({
     Calendar: {
@@ -110,9 +108,9 @@ export const StackRules = StackNavigator({
     },
 });
 
-export const StackArbitraje = StackNavigator({
-    Arbitraje: {
-        screen: Arbitraje,
+export const StackRefereeing = StackNavigator({
+	Refereeing: {
+        screen: Refereeing,
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
           })
@@ -123,10 +121,10 @@ const DrawerStack = DrawerNavigator({
     Novedades: { screen: StackFeeds },
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
-    Reglamento: { screen: StackRules},
-    Arbitraje: { screen: StackArbitraje},
+    Rules: { screen: StackRules},
+    Refereeing: { screen: StackRefereeing},
     Entrenamiento: { screen: StackLogin }
-})
+});
 
 const styles = StyleSheet.create({
     container: {
