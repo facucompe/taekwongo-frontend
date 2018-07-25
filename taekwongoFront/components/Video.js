@@ -7,13 +7,13 @@ import {
 
 export default class Video extends Component {
     static navigationOptions = {
-        title: 'Videos de Tecnica'
+        title: 'Videos de Técnica'
     }
     render() {
         return (
             <View>
                 <Text>
-                    Videos de tecnica component
+                    Videos de técnica component
                 </Text>
             </View>
         );

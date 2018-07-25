@@ -6,15 +6,15 @@
 
 import React, { Component } from 'react';
 
-import Feeds from './components/Feeds';
+import NewsFeed from './components/NewsFeed';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import RecoverPassword from "./components/RecoverPassword";
-import ItemFeed from './components/ItemFeed';
+import ItemNewsFeed from './components/ItemNewsFeed';
 import Calendar from './components/Calendar';
 import Video from './components/Video';
 import Rules from './components/Rules';
-import Arbitraje from './components/Arbitraje';
+import Refereeing from './components/Refereeing';
 
 import {
     StyleSheet,
@@ -23,14 +23,10 @@ import {
 
 import {
     StackNavigator,
-    SwitchNavigator,
     DrawerNavigator,
-    NavigationActions
 } from 'react-navigation';
 
-import { Container, Header, Left, Body, Button, Icon, Title } from 'native-base';
-
-import {Router, Scene} from 'react-native-router-flux'
+import { Left, Button, Icon } from 'native-base';
 
 type Props = {};
 
@@ -52,7 +48,7 @@ export default class App extends Component<Props> {
   }
 }
 
-export const StackLogin = StackNavigator({
+export const StackTraining = StackNavigator({
     Login: {
         screen: Login,
         navigationOptions: ({ navigation }) => ({
@@ -68,15 +64,15 @@ export const StackLogin = StackNavigator({
     },
 });
 
-export const StackFeeds = StackNavigator({
-    Feeds:{
-        screen:Feeds,
+export const StackNewsFeed = StackNavigator({
+    NewsFeed:{
+        screen:NewsFeed,
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
           })       
     },
-    ItemFeed:{
-        screen:ItemFeed
+    ItemNewsFeed:{
+        screen:ItemNewsFeed
     }
 });
 
@@ -118,12 +114,12 @@ export const StackRefereeing = StackNavigator({
 });
 
 const DrawerStack = DrawerNavigator({
-    Novedades: { screen: StackFeeds },
+    NewsFeed: { screen: StackNewsFeed },
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
     Rules: { screen: StackRules},
     Refereeing: { screen: StackRefereeing},
-    Entrenamiento: { screen: StackLogin }
+    Training: { screen: StackTraining }
 });
 
 const styles = StyleSheet.create({

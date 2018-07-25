@@ -5,7 +5,7 @@ import {
     View,
 } from 'react-native';
 
-export default class ItemFeed extends Component {
+export default class ItemNewsFeed extends Component {
 
     static navigationOptions = {
         title: 'Item'
