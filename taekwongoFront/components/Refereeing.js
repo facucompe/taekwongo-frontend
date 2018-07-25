@@ -5,7 +5,7 @@ import {
     View
 } from 'react-native';
 
-export default class Arbitraje extends Component {
+export default class Refereeing extends Component {
     static navigationOptions = {
         title: 'Arbitraje'
     }

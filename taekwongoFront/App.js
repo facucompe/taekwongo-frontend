@@ -23,8 +23,16 @@ import {
 
 import {
     StackNavigator,
-    DrawerNavigator
+    SwitchNavigator,
+    DrawerNavigator,
+    NavigationActions
 } from 'react-navigation';
+
+import { Container, Header, Left, Body, Button, Icon, Title } from 'native-base';
+
+import {Router, Scene} from 'react-native-router-flux'
+
+type Props = {};
 
 export default class App extends Component<Props> {
 
@@ -46,7 +54,11 @@ export default class App extends Component<Props> {
 
 export const StackLogin = StackNavigator({
     Login: {
-        screen: Login
+        screen: Login,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
+        
     },
     RecoverPassword: {
         screen: RecoverPassword
@@ -58,7 +70,10 @@ export const StackLogin = StackNavigator({
 
 export const StackFeeds = StackNavigator({
     Feeds:{
-        screen:Feeds
+        screen:Feeds,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })       
     },
     ItemFeed:{
         screen:ItemFeed
@@ -67,26 +82,38 @@ export const StackFeeds = StackNavigator({
 
 export const StackCalendar = StackNavigator({
     Calendar: {
-        screen: Calendar
+        screen: Calendar,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
 
 export const StackVideo = StackNavigator({
-	Video: {
-        screen: Video
+    Video: {
+        screen: Video,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
 export const StackRules = StackNavigator({
-	Rules: {
-        screen: Rules
+    Rules: {
+        screen: Rules,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
-export const StackArbitraje = StackNavigator({
+export const StackRefereeing = StackNavigator({
 	Refereeing: {
-        screen: Arbitraje
+        screen: Refereeing,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
@@ -95,7 +122,7 @@ const DrawerStack = DrawerNavigator({
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
     Rules: { screen: StackRules},
-    Refereeing: { screen: StackArbitraje},
+    Refereeing: { screen: StackRefereeing},
     Entrenamiento: { screen: StackLogin }
 });
 
@@ -107,3 +134,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
 });
+
+export const MenuButton = (props) => {
+    return (
+        <Left>
+            <Button transparent onPress={() => {props.navigation.navigate('DrawerOpen'); } }>
+                <Icon name='menu' />
+            </Button>
+        </Left>
+    );
+}
