@@ -6,23 +6,18 @@ import {
 } from "native-base";
 import {StyleSheet} from "react-native";
 
-export default class Training extends Component {
+export default class CreateTraining extends Component {
 
     static navigationOptions = {
-        title: 'Entrenamiento'
-    };
-
-    constructor(props){
-        super(props);
+        title: 'Crear Entrenamiento'
     };
 
     render() {
-        const training = this.props.navigation.getParam('training','NO-TRAINING');
         return (
             <Container style={styles.container}>
                 <Content>
                     <Text>
-                        {training.title}
+                        Crear Entrenamiento
                     </Text>
                 </Content>
             </Container>
