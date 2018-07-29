@@ -6,14 +6,15 @@
 
 import React, { Component } from 'react';
 
-import Feeds from './components/Feeds'
-import Login from './components/Login'
-import SignUp from './components/SignUp'
-import ItemFeed from './components/ItemFeed'
-import Calendar from './components/Calendar'
-import Video from './components/Video'
-import Rules from './components/Rules'
-import Arbitraje from './components/Arbitraje'
+import NewsFeed from './components/NewsFeed';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import RecoverPassword from "./components/RecoverPassword";
+import ItemNewsFeed from './components/ItemNewsFeed';
+import Calendar from './components/Calendar';
+import Video from './components/Video';
+import Rules from './components/Rules';
+import Refereeing from './components/Refereeing';
 
 import {
     StyleSheet,
@@ -22,8 +23,12 @@ import {
 
 import {
     StackNavigator,
-    DrawerNavigator
+    DrawerNavigator,
 } from 'react-navigation';
+
+import { Left, Button, Icon } from 'native-base';
+
+type Props = {};
 
 export default class App extends Component<Props> {
 
@@ -43,56 +48,78 @@ export default class App extends Component<Props> {
   }
 }
 
-export const StackLogin = StackNavigator({
+export const StackTraining = StackNavigator({
     Login: {
-        screen: Login
+        screen: Login,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
+        
+    },
+    RecoverPassword: {
+        screen: RecoverPassword
     },
     SignUp: {
         screen: SignUp
     },
 });
 
-export const StackFeeds = StackNavigator({
-    Feeds:{
-        screen:Feeds
+export const StackNewsFeed = StackNavigator({
+    NewsFeed:{
+        screen:NewsFeed,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })       
     },
-    ItemFeed:{
-        screen:ItemFeed
+    ItemNewsFeed:{
+        screen:ItemNewsFeed
     }
 });
 
 export const StackCalendar = StackNavigator({
     Calendar: {
-        screen: Calendar
+        screen: Calendar,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
 
 export const StackVideo = StackNavigator({
-	Video: {
-        screen: Video
+    Video: {
+        screen: Video,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
 export const StackRules = StackNavigator({
-	Rules: {
-        screen: Rules
+    Rules: {
+        screen: Rules,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
-export const StackArbitraje = StackNavigator({
+export const StackRefereeing = StackNavigator({
 	Refereeing: {
-        screen: Arbitraje
+        screen: Refereeing,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+          })
     },
 });
 
 const DrawerStack = DrawerNavigator({
-    Novedades: { screen: StackFeeds },
+    NewsFeed: { screen: StackNewsFeed },
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
     Rules: { screen: StackRules},
-    Refereeing: { screen: StackArbitraje},
-    Entrenamiento: { screen: StackLogin }
+    Refereeing: { screen: StackRefereeing},
+    Training: { screen: StackTraining }
 });
 
 const styles = StyleSheet.create({
@@ -103,3 +130,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
 });
+
+export const MenuButton = (props) => {
+    return (
+        <Left>
+            <Button transparent onPress={() => {props.navigation.navigate('DrawerOpen'); } }>
+                <Icon name='menu' />
+            </Button>
+        </Left>
+    );
+}

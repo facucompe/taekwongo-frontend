@@ -2,18 +2,26 @@ import React, { Component } from 'react';
 
 import {
     Text,
-    View
+    View,
 } from 'react-native';
 
-export default class Arbitraje extends Component {
+export default class ItemNewsFeed extends Component {
+
     static navigationOptions = {
-        title: 'Arbitraje'
+        title: 'Item'
     }
+
+
+    constructor(props) {
+        super(props);
+    }
+
     render() {
+        const param = this.props.navigation.getParam('itemId', 'NO-ID');
         return (
             <View>
                 <Text>
-                    Arbitraje component
+                    {param}
                 </Text>
             </View>
         );

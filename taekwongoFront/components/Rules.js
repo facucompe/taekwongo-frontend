@@ -7,7 +7,7 @@ import {
 
 export default class Rules extends Component {
     static navigationOptions = {
-        title: 'Reglas'
+        title: 'Reglamento'
     }
     render() {
         return (
