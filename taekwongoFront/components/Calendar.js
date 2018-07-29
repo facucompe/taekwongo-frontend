@@ -3,21 +3,87 @@ import React, { Component } from 'react';
 import {
     Platform,
     StyleSheet,
-    Text,
-    View
+    View,
+    FlatList
 } from 'react-native';
 
+import { Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text } from 'native-base';
+
 export default class Calendar extends Component {
+
     static navigationOptions = {
         title: 'Calendario'
     }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            competitions: []
+        };
+    }
+
+    componentDidMount() {
+		fetch('http://taekwongo.herokuapp.com/competitions', {
+			method: 'GET',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+		}})
+			.then(response => response.json())
+			.then(response => {
+				this.setState({competitions: response});
+			})
+			.catch(error => {
+				alert('Error de conexión, intente nuevamente');
+				console.log('Error en el fetch: ' + error.message);
+			});
+    }
+    
+    renderCompetition = (item) => {
+      var start_date = this.parseDate(item.start_date);
+        return ( 
+          <List key={item.id}>
+            <ListItem avatar>
+              <Left>
+                <Text> {start_date} </Text>
+              </Left>
+              <Body>
+                <Text>{item.name}</Text>
+                <Text note>{item.city}</Text>
+              </Body>
+              <Right>
+                <Text>{item.category}</Text>
+              </Right>
+              </ListItem>
+          </List>
+        )
+    }
+
+    parseDate (start_date) {
+      var date = new Date(start_date);
+      return (date.getDate() + 1) + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+    }
+
     render() {
         return (
-            <View>
-                <Text>
-                    Calendar component
-                </Text>
-            </View>
+          <Container style={styles.container}>
+            <Content>
+                {this.state.competitions.map(this.renderCompetition)}
+            </Content>
+	        </Container>
+          
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+     flex: 1,
+     paddingTop: 22
+    },
+    item: {
+      padding: 10,
+      fontSize: 18,
+      height: 44,
+    },
+  })
