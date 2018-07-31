@@ -42,8 +42,7 @@ export default class Calendar extends Component {
     renderCompetition = (item) => {
       var start_date = this.parseDate(item.start_date);
         return ( 
-          <List key={item.id}>
-            <ListItem avatar>
+          <ListItem avatar key={item.id}>
               <Left>
                 <Text> {start_date} </Text>
               </Left>
@@ -54,25 +53,28 @@ export default class Calendar extends Component {
               <Right>
                 <Text>{item.category}</Text>
               </Right>
-              </ListItem>
-          </List>
+          </ListItem>
         )
-    }
-
-    parseDate (start_date) {
-      var date = new Date(start_date);
-      return (date.getDate() + 1) + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
     }
 
     render() {
         return (
           <Container style={styles.container}>
             <Content>
-                {this.state.competitions.map(this.renderCompetition)}
+              <List>
+            {
+              this.state.competitions.sort((comp1, comp2) => comp1.start_date > comp2.start_date)
+                                     .map(this.renderCompetition)
+            }
+            </List>
             </Content>
 	        </Container>
-          
         );
+    }
+
+    parseDate (start_date) {
+      var date = new Date(start_date);
+      return (date.getDate() + 1) + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
     }
 }
 
