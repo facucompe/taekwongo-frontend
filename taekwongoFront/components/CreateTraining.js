@@ -83,7 +83,7 @@ export default class CreateTraining extends Component {
     }
 
     titleValidation() {
-        return !this.state.validatingTitle || isValidName(this.state.title);
+        return !this.state.validatingTitle || isValidTitle(this.state.title);
     }
 
     renderTitleError() {
@@ -113,8 +113,8 @@ export default class CreateTraining extends Component {
 
 }
 
-function isValidName(aString) {
-    return notEmptyAndFitsRegex(aString,/^[A-Za-z\s\u0027\u2019]+$/);
+function isValidTitle(aString) {
+    return notEmptyAndFitsRegex(aString,/^[A-Za-z0-9\s]+$/);
 }
 
 function notEmptyAndFitsRegex(aString,aRegex){
@@ -146,5 +146,9 @@ const styles = StyleSheet.create({
     },
     titleText:{
         fontWeight:'bold'
+    },
+    mbt30: {
+        marginBottom: 30,
+        marginTop: 30
     }
 });
