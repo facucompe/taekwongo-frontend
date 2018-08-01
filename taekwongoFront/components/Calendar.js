@@ -23,7 +23,7 @@ export default class Calendar extends Component {
     }
 
     componentDidMount() {
-		fetch('http://taekwongo.herokuapp.com/competitions', {
+		fetch('http://192.168.0.164:3000/competitions', {
 			method: 'GET',
 			headers: {
 				Accept: 'application/json',
@@ -58,13 +58,14 @@ export default class Calendar extends Component {
     }
 
     render() {
+      var orderedCompetitions = this.state.competitions.length > 1 ? this.state.competitions.sort((comp1, comp2) => comp1.start_date > comp2.start_date)
+                                                                   : this.state.competitions
         return (
           <Container style={styles.container}>
             <Content>
               <List>
             {
-              this.state.competitions.sort((comp1, comp2) => comp1.start_date > comp2.start_date)
-                                     .map(this.renderCompetition)
+              orderedCompetitions.map(this.renderCompetition)
             }
             </List>
             </Content>
