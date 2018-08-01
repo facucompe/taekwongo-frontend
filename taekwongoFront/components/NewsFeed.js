@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 
 import {
-    Platform,
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
-    ScrollView
 } from 'react-native';
 
-export default class Feeds extends Component {
+export default class NewsFeed extends Component {
 
     static navigationOptions = {
         title: 'Novedades'
@@ -18,7 +16,7 @@ export default class Feeds extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            feeds: []
+            news: []
         };
     }
 
@@ -31,7 +29,7 @@ export default class Feeds extends Component {
 		}})
 			.then(response => response.json())
 			.then(response => {
-				this.setState({feeds: response});
+				this.setState({news: response});
 			})
 			.catch(error => {
 				alert('Error de conexión, intente nuevamente');
@@ -39,7 +37,7 @@ export default class Feeds extends Component {
 			});
 	}
 
-    renderFeed = (item,i) => {
+    renderItemNewsFeed = (item,i) => {
         return (
             <TouchableOpacity
                 key={i}
@@ -56,16 +54,23 @@ export default class Feeds extends Component {
     }
 
     moveToItem(item){
-        this.props.navigation.navigate('ItemFeed', { itemId: item.title })
+        this.props.navigation.navigate('ItemNewsFeed', { itemId: item.title })
     }
 
     render () {
-        return (
-	        <View style={styles.container}>
-		        {this.state.feeds.map(this.renderFeed)}
-	        </View>
-        )
-    }
+			let show;
+			if (this.state.news === []) {
+				show = <Text>No Hay novedades para mostrar</Text>;
+			}
+			else {
+				show = this.state.news.map(this.renderItemNewsFeed);
+			}
+		return (
+			<View style={styles.container}>
+				{show}
+			</View>
+		)
+	}
 }
 
 const styles = StyleSheet.create({

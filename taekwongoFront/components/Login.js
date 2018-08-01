@@ -1,82 +1,130 @@
 import React, { Component } from 'react';
 
 import {
-    View,
-    Text,
-    TouchableHighlight,
-    Alert,
     StyleSheet,
-    TextInput,
-    Image,
     Dimensions,
     AsyncStorage
 } from 'react-native';
 
+import {
+    Button,
+    Container,
+    Content,
+    Form,
+    Icon,
+    Input,
+    Item,
+    Label,
+    Text
+} from 'native-base';
+
 import SignUp from "./SignUp";
+import RecoverPassword from "./RecoverPassword";
 
 export default class Login extends Component{
+
     static navigationOptions = {
         title: 'Entrenamiento'
-    }
+    };
+
     constructor(props) {
         super(props);
         this.state = {
-            textUser: '',
-            textPassword: '',
+            emailText: undefined,
+            passwordText: undefined,
+            validatingEmail: false
         };
 
         //Logic methods
-        this.onLogin = this.onLogin.bind(this)
-        this.signUp = this.signUp.bind(this)
-        this.help = this.help.bind(this)
+        this.onLogin = this.onLogin.bind(this);
+        this.signUp = this.signUp.bind(this);
+        this.recoverPassword = this.recoverPassword.bind(this);
+
+        this.emailValidation = this.emailValidation.bind(this);
+        this.setEmail = this.setEmail.bind(this);
+        this.renderEmailError = this.renderEmailError.bind(this);
+
+        this.setPassword = this.setPassword.bind(this);
     }
 
-    render(){
+    render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.titlePosition}>
-                    <Text style={styles.title}>TaekwonGo!</Text>
-                </View>
-                <View style={styles.form}>
-                    <View style={styles.borderInput}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(text) => this.setState({textUser: text})}
-                            placeholder={'User'}
-                            value={this.state.textUser}
-                            maxLength={30}
-                            underlineColorAndroid={'transparent'}
-                            padding={7}
-                            height={27}
-                        />
-                    </View>
-                    <View style={styles.borderInput}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={(text) => this.setState({textPassword: text})}
-                            value={this.state.textPassword}
-                            placeholder={'Password'}
-                            maxLength={100}
-                            underlineColorAndroid={'transparent'}
-                            padding={7}
-                            height={27}
-                            secureTextEntry={true}
-                        />
-                    </View>
-                    <View style={styles.buttonAndHelp}>
-                        <TouchableHighlight onPress={(this.onLogin)} style={styles.button}>
-                            <Text style={styles.textButton}>Log In</Text>
-                        </TouchableHighlight>
-                    </View>
-                    <View style={styles.buttonAndHelp}>
-                        <Text>¿Olvidaste tus datos de inicio de sesion? <Text style={styles.registerPress} onPress={this.help}>Obten ayuda</Text></Text>
-                    </View>
-                </View>
-                <View style={styles.registerView}>
-                    <Text style={styles.registerText}>¿No tienes cuenta? <Text style={styles.registerPress} onPress={this.signUp}>Registrate.</Text></Text>
-                </View>
-            </View>
+            <Container>
+                <Content padder>
+                    <Form>
+                        <Form style={styles.container}>
+                            <Form style={styles.titlePosition}>
+                                <Text style={styles.title}>TaekwonGo!</Text>
+                            </Form>
+                            <Item floatingLabel error={!this.emailValidation()}>
+                                <Label>Correo electrónico</Label>
+                                <Input
+                                    onChangeText={this.setEmail}
+                                    value={this.state.emailText}
+                                    maxLength={40}
+                                />
+                                {this.renderEmailError()}
+                            </Item>
+                            <Item floatingLabel>
+                                <Label>Contraseña</Label>
+                                <Input
+                                    onChangeText={this.setPassword}
+                                    value={this.state.passwordText}
+                                    maxLength={100}
+                                    secureTextEntry={true}
+                                />
+                            </Item>
+                            <Button
+                                primary
+                                block
+                                style={styles.mbt30}
+                                onPress={this.onLogin}
+                            >
+                                <Text style={styles.buttonText}>Ingresar</Text>
+                            </Button>
+                        </Form>
+                        <Form style={styles.container}>
+                            <Text style={styles.mb150t30}>
+                                ¿Olvidaste tus datos de inicio de sesión?
+
+                                <Text style={styles.registerPress} onPress={this.recoverPassword}>
+                                    {'\t'}Obtén ayuda
+                                </Text>
+                            </Text>
+                        </Form>
+                        <Form style={styles.registerView}>
+                            <Text style={styles.registerText}>
+                                ¿No tienes una cuenta?
+
+                                <Text style={styles.registerPress} onPress={this.signUp}>
+                                    {'\t'}Registrate
+                                </Text>
+
+                            </Text>
+                        </Form>
+                    </Form>
+                </Content>
+            </Container>
         );
+    }
+
+    setEmail(emailText){
+        this.setState({emailText, validatingEmail:true})
+    }
+
+    setPassword(passwordText){
+        this.setState({passwordText})
+    }
+
+    renderEmailError(){
+        if (!this.emailValidation()) {
+            return <Icon name='close-circle' />;
+        }
+        return null;
+    }
+
+    emailValidation() {
+        return !this.state.validatingEmail || isValidEmail(this.state.emailText);
     }
 
     onLogin(){
@@ -84,19 +132,27 @@ export default class Login extends Component{
     }
 
     signUp(){
-        this.props.navigation.navigate('SignUp', { hola: 'hola' })
+        this.props.navigation.navigate('SignUp', {})
     }
 
-    help(){
-
+    recoverPassword(){
+        this.props.navigation.navigate('RecoverPassword', {})
     }
 
     buildInfo(){
         return {
-            email:  this.state.textUser,
-            password: this.state.textPassword
+            email:  this.state.emailText,
+            password: this.state.passwordText
         }
     }
+}
+
+function isValidEmail(aString) {
+    return notEmptyAndFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+}
+
+function notEmptyAndFitsRegex(aString,aRegex){
+    return aString !== "" && aRegex.test(aString);
 }
 
 let LoginConector = function () {
@@ -132,7 +188,7 @@ let LoginConector = function () {
 	return{
 		callApi: callApi
 	}
-}()
+}();
 
 const win = Dimensions.get('window');
 
@@ -193,5 +249,13 @@ const styles = StyleSheet.create({
     },
     registerPress:{
         fontWeight:'bold'
+    },
+    mbt30: {
+        marginBottom: 30,
+        marginTop: 30
+    },
+    mb150t30: {
+        marginBottom: 180,
+        marginTop: 30
     }
-})
+});

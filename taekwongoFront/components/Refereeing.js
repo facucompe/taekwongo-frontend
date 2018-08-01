@@ -5,15 +5,15 @@ import {
     View
 } from 'react-native';
 
-export default class Video extends Component {
+export default class Refereeing extends Component {
     static navigationOptions = {
-        title: 'Videos de Técnica'
+        title: 'Arbitraje'
     }
     render() {
         return (
             <View>
                 <Text>
-                    Videos de técnica component
+                    Arbitraje component
                 </Text>
             </View>
         );
