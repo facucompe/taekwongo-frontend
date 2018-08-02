@@ -54,7 +54,7 @@ export default class NewsFeed extends Component {
     }
 
     moveToItem(item){
-        this.props.navigation.navigate('ItemNewsFeed', { itemId: item.title })
+        this.props.navigation.navigate('ItemNewsFeed', { itemTitle: item.title })
     }
 
     render () {

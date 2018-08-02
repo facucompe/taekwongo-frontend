@@ -7,9 +7,13 @@ import {
 
 export default class ItemNewsFeed extends Component {
 
-    static navigationOptions = {
-        title: 'Item'
-    }
+    static navigationOptions = ({ navigation }) => ({
+        title: `${navigation.state.params.itemTitle}`,
+        headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
+        headerStyle:{
+            backgroundColor:'white',
+        },
+    });
 
 
     constructor(props) {

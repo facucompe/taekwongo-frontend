@@ -11,8 +11,9 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import RecoverPassword from "./components/RecoverPassword";
 import ItemNewsFeed from './components/ItemNewsFeed';
-import Calendar from './components/Calendar';
-import Video from './components/Video';
+import Calendar from './components/Calendar'
+import VideoMenu from './components/VideoMenu';
+import VideoTecnica from './components/VideoTecnica';
 import Rules from './components/Rules';
 import Refereeing from './components/Refereeing';
 
@@ -87,12 +88,15 @@ export const StackCalendar = StackNavigator({
 
 
 export const StackVideo = StackNavigator({
-    Video: {
-        screen: Video,
+    VideoMenu: {
+        screen: VideoMenu,
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
           })
     },
+    VideoTecnica:{
+        screen:VideoTecnica
+    }
 });
 
 export const StackRules = StackNavigator({
