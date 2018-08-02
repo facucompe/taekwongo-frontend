@@ -58,14 +58,12 @@ export default class Calendar extends Component {
     }
 
     render() {
-      var orderedCompetitions = this.state.competitions.length > 1 ? this.state.competitions.sort((comp1, comp2) => comp1.start_date > comp2.start_date)
-                                                                   : this.state.competitions
         return (
           <Container style={styles.container}>
             <Content>
               <List>
             {
-              orderedCompetitions.map(this.renderCompetition)
+              this.state.competitions.map(this.renderCompetition)
             }
             </List>
             </Content>
