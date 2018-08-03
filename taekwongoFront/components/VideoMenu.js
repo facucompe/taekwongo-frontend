@@ -36,7 +36,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('Ataque')}
+                    onPress={() => this.onPressButton('ataque')}
                 >
                     <Text style={styles.buttonText}>Ataque</Text>
                 </Button>
@@ -45,7 +45,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('Defensa')}
+                    onPress={() => this.onPressButton('defensa')}
                 >
                     <Text style={styles.buttonText}>Defensa</Text>
                 </Button>
@@ -53,7 +53,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('Contrataque')}
+                    onPress={() => this.onPressButton('contrataque')}
                 >
                     <Text style={styles.buttonText}>Contraataque</Text>
                 </Button>
@@ -61,7 +61,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('Punio')}
+                    onPress={() => this.onPressButton('punio')}
                 >
                     <Text style={styles.buttonText}>Puño</Text>
                 </Button>
@@ -69,7 +69,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('Patada')}
+                    onPress={() => this.onPressButton('patada')}
                 >
                     <Text style={styles.buttonText}>Patada</Text>
                 </Button>
@@ -77,7 +77,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('Steps')}
+                    onPress={() => this.onPressButton('steps')}
                 >
                     <Text style={styles.buttonText}>Steps</Text>
                 </Button>
@@ -85,7 +85,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('Cuerpo a Cuerpo')}
+                    onPress={() => this.onPressButton('cuerpo_a_cuerpo')}
                 >
                     <Text style={styles.buttonText}>Cuerpo a cuerpo</Text>
                 </Button>
