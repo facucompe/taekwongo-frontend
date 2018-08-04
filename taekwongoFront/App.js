@@ -16,6 +16,8 @@ import VideoMenu from './components/VideoMenu';
 import VideoTecnica from './components/VideoTecnica';
 import Rules from './components/Rules';
 import Refereeing from './components/Refereeing';
+import Pumse from './components/Pumse';
+import SpecificPumse from './components/SpecificPumse'
 
 import {
     StyleSheet,
@@ -108,6 +110,18 @@ export const StackRules = StackNavigator({
     },
 });
 
+export const StackPumse = StackNavigator({
+    Pumse: {
+        screen: Pumse,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+        })
+    },
+    SpecificPumse: {
+        screen: SpecificPumse
+    }
+});
+
 export const StackRefereeing = StackNavigator({
 	Refereeing: {
         screen: Refereeing,
@@ -122,6 +136,7 @@ const DrawerStack = DrawerNavigator({
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
     Rules: { screen: StackRules},
+    Pemse : {screen: StackPumse},
     Refereeing: { screen: StackRefereeing},
     Training: { screen: StackTraining }
 });
