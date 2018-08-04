@@ -322,7 +322,7 @@ export default class SignUp extends Component {
             }).then((res) => {
                 alert('Ya podes realizar tus entrenamientos');    
             }).catch((err) => {
-                alert('Ha habido un error. Pruebe más tarde);
+                alert('Ha habido un error. Pruebe más tarde');
             });
         }
         else {
