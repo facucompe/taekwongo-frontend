@@ -66,7 +66,7 @@ export default class Calendar extends Component {
               {this.renderMonthFilters()}
             </Col>
             <Col>
-              <Text style={styles.text}>  Categoria</Text>
+              <Text style={styles.text}>  Categoría</Text>
               {this.renderCategoryFilters()}
             </Col>
           </Header>
