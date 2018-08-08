@@ -5,7 +5,8 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    ScrollView
+    ScrollView,
+    Image
 } from 'react-native';
 
 
@@ -73,19 +74,25 @@ export default class SpecificPumse extends Component {
             <View style={styles.container}>
                 <Carousel
                     animate={false}
-                    height={500}
+                    height={Dimensions.get('window').height/2}
                     indicatorSize={20}
                     indicatorColor="red"
                 >
-                    <View style={styles.contentContainer}>
-                        <Text>Page 1</Text>
+                    <View style={styles.myViewContainer}>
+                        <Image
+                            style={styles.image}
+                            source={{uri: 'https://i.vimeocdn.com/portrait/58832_300x300.jpg'}}
+                        />
                     </View>
-                    <View style={styles.contentContainer}>
+                    <View style={styles.myViewContainer}>
                         <Video
                             url={"http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"}/>
                     </View>
-                    <View style={styles.contentContainer}>
-                        <Text>Page 3</Text>
+                    <View style={styles.myViewContainer}>
+                        <Image
+                            style={styles.image}
+                            source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/1/10/Wappen_Uri_matt.svg'}}
+                        />
                     </View>
                 </Carousel>
             </View>
@@ -97,6 +104,11 @@ export default class SpecificPumse extends Component {
 var styles = StyleSheet.create({
     container:{
         flex: 1,
+        justifyContent: 'center',
+        backgroundColor:'#000'
+    },
+    myViewContainer:{
+        flex:1,
         justifyContent: 'center',
         backgroundColor:'#FFF'
     },
@@ -129,5 +141,9 @@ var styles = StyleSheet.create({
         fontWeight:'bold',
         fontSize:20
     },
+    image:{
+        alignSelf:'stretch',
+        flex:1
+    }
 
 });

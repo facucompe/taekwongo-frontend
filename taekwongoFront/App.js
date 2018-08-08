@@ -119,7 +119,7 @@ export const StackPumse = StackNavigator({
     },
     SpecificPumse: {
         screen: SpecificPumse
-    }
+    },
 });
 
 export const StackRefereeing = StackNavigator({
@@ -136,7 +136,7 @@ const DrawerStack = DrawerNavigator({
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
     Rules: { screen: StackRules},
-    Pemse : {screen: StackPumse},
+    Pumse : {screen: StackPumse},
     Refereeing: { screen: StackRefereeing},
     Training: { screen: StackTraining }
 });

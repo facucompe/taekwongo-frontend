@@ -5,6 +5,7 @@ import {
     Text,
     View,
     TouchableOpacity,
+    Image,
 } from 'react-native';
 
 export default class NewsFeed extends Component {
@@ -39,18 +40,23 @@ export default class NewsFeed extends Component {
 
     renderItemNewsFeed = (item,i) => {
         return (
+            <View style={styles.itemContainer}>
             <TouchableOpacity
                 key={i}
                 style={styles.item}
                 onPress={() => this.moveToItem(item)}>
-                <View style={styles.image}>
-                    <Text>Imagen</Text>
+                <View style={styles.imageContainer}>
+                    <Image
+                        style={styles.image}
+                        source={{uri: item.picture_url}}
+                    />
                 </View>
                 <View>
                     <View><Text style={styles.titleText}>{item.title}</Text></View>
                     <View><Text style={styles.bodyText}>{item.body}</Text></View>
                 </View>
-            </TouchableOpacity>)
+            </TouchableOpacity>
+            </View>)
     }
 
     moveToItem(item){
@@ -75,15 +81,10 @@ export default class NewsFeed extends Component {
 
 const styles = StyleSheet.create({
     container:{
-        flex:1,
-        flexDirection:'column',
         backgroundColor: '#F5FCFF'
     },
     text:{
         color:'black'
-    },
-    image:{
-        marginRight:10
     },
     itemText:{
         color:'black'
@@ -91,6 +92,9 @@ const styles = StyleSheet.create({
     item:{
         flex:1,
         flexDirection:'row',
+    },
+    itemContainer:{
+        height:100,
         padding:10,
         borderRadius: 4,
         borderWidth: 0.5,
@@ -98,5 +102,12 @@ const styles = StyleSheet.create({
     },
     titleText:{
         fontWeight:'bold'
+    },
+    imageContainer:{
+        marginRight:10
+    },
+    image:{
+        height:100,
+        width:100
     }
 })
