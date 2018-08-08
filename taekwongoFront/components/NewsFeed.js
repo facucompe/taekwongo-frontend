@@ -51,9 +51,13 @@ export default class NewsFeed extends Component {
                         source={{uri: item.picture_url}}
                     />
                 </View>
-                <View>
-                    <View><Text style={styles.titleText}>{item.title}</Text></View>
-                    <View><Text style={styles.bodyText}>{item.body}</Text></View>
+                <View style={styles.flexBox}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.titleText}>{item.title}</Text>
+                    </View>
+                    <View style={styles.bodyContainer}>
+                        <Text style={styles.itemText} numberOfLines={2}> {item.body}</Text>
+                    </View>
                 </View>
             </TouchableOpacity>
             </View>)
@@ -83,11 +87,19 @@ const styles = StyleSheet.create({
     container:{
         backgroundColor: '#F5FCFF'
     },
+    flexBox:{
+        flex:1,
+        flexDirection:'column'
+    },
     text:{
         color:'black'
     },
+    bodyContainer:{
+        flex:1,
+        flexDirection:'row',
+    },
     itemText:{
-        color:'black'
+        color:'#000'
     },
     item:{
         flex:1,
@@ -101,7 +113,13 @@ const styles = StyleSheet.create({
         borderColor: '#d6d7da'
     },
     titleText:{
-        fontWeight:'bold'
+        fontWeight:'bold',
+        color:'#000',
+        fontSize:15,
+    },
+    titleContainer:{
+        flex:1,
+        flexDirection:'row',
     },
     imageContainer:{
         marginRight:10
