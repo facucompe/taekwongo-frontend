@@ -6,6 +6,7 @@ import {
     View,
     TouchableOpacity,
     Image,
+    ScrollView
 } from 'react-native';
 
 export default class NewsFeed extends Component {
@@ -64,7 +65,7 @@ export default class NewsFeed extends Component {
     }
 
     moveToItem(item){
-        this.props.navigation.navigate('ItemNewsFeed', { itemTitle: item.title })
+        this.props.navigation.navigate('ItemNewsFeed', { item: item })
     }
 
     render () {
@@ -76,9 +77,11 @@ export default class NewsFeed extends Component {
 				show = this.state.news.map(this.renderItemNewsFeed);
 			}
 		return (
-			<View style={styles.container}>
-				{show}
-			</View>
+		    <ScrollView>
+                <View style={styles.container}>
+                    {show}
+                </View>
+            </ScrollView>
 		)
 	}
 }

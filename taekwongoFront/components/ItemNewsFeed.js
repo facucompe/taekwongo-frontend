@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
+    Image
 } from 'react-native';
 
 export default class ItemNewsFeed extends Component {
 
     static navigationOptions = ({ navigation }) => ({
-        title: `${navigation.state.params.itemTitle}`,
+        title: `Item`,
         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
         headerStyle:{
             backgroundColor:'white',
@@ -21,12 +22,22 @@ export default class ItemNewsFeed extends Component {
     }
 
     render() {
-        const param = this.props.navigation.getParam('itemId', 'NO-ID');
+        const item = this.props.navigation.getParam('item', 'NO-ID');
         return (
             <View>
                 <Text>
-                    {param}
+                    {item.title}
                 </Text>
+                <View>
+                    <Text>
+                        {item.body}
+                    </Text>
+                </View>
+                <View>
+                    <Image
+                        source={{uri: item.picture_url}}
+                    />
+                </View>
             </View>
         );
     }
