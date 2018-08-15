@@ -9,10 +9,6 @@ import {
     Container,
     Content,
     Form,
-    Icon,
-    Input,
-    Item,
-    Label,
     Text
 } from 'native-base';
 
@@ -30,6 +26,25 @@ export default class Pumse extends Component {
         //Logic method
         this.onPressButton = this.onPressButton.bind(this);
     }
+
+
+    componentDidMount() {
+        fetch('http://taekwongo.herokuapp.com/pumses', {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }})
+            .then(response => response.json())
+            .then(response => {
+                this.setState({formas: response});
+            })
+            .catch(error => {
+                alert('Error de conexión, intente nuevamente');
+                console.log('Error en el el fetch: ' + error.message);
+            });
+    }
+
 
     renderFormas = (forma,i) => {
         return (

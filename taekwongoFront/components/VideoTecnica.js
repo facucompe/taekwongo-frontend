@@ -11,7 +11,7 @@ import {
 
 import Video from 'react-native-af-video-player'
 
-const movimientosEnum={"ataque":"Ataque","defensa":"Defensa","contraataque":"Contraataque","punio":"Puño","patada":"Patada","steps":"Steps","cuerpo_a_cuerpo":"Cuerpo a Cuerpo"}
+const movimientosEnum={"attack":"Ataque","defense":"Defensa","counterattack":"Contraataque","fist":"Puño","kick":"Patada","steps":"Steps","body_to_body":"Cuerpo a Cuerpo"}
 export default class VideoTecnica extends Component {
 
     static navigationOptions = ({ navigation }) => ({

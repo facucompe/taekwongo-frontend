@@ -36,7 +36,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('ataque')}
+                    onPress={() => this.onPressButton('attack')}
                 >
                     <Text style={styles.buttonText}>Ataque</Text>
                 </Button>
@@ -45,7 +45,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('defensa')}
+                    onPress={() => this.onPressButton('defense')}
                 >
                     <Text style={styles.buttonText}>Defensa</Text>
                 </Button>
@@ -53,7 +53,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('contrataque')}
+                    onPress={() => this.onPressButton('counterattack')}
                 >
                     <Text style={styles.buttonText}>Contraataque</Text>
                 </Button>
@@ -61,7 +61,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('punio')}
+                    onPress={() => this.onPressButton('fist')}
                 >
                     <Text style={styles.buttonText}>Puño</Text>
                 </Button>
@@ -69,7 +69,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('patada')}
+                    onPress={() => this.onPressButton('kick')}
                 >
                     <Text style={styles.buttonText}>Patada</Text>
                 </Button>
@@ -85,7 +85,7 @@ export default class VideoMenu extends Component {
                     primary
                     block
                     style={styles.mbt30}
-                    onPress={() => this.onPressButton('cuerpo_a_cuerpo')}
+                    onPress={() => this.onPressButton('body_to_body')}
                 >
                     <Text style={styles.buttonText}>Cuerpo a cuerpo</Text>
                 </Button>
@@ -95,7 +95,7 @@ export default class VideoMenu extends Component {
         );
     }
     onPressButton(movimiento){
-        this.props.navigation.navigate('VideoTecnica', { movementName: movimiento })
+        this.props.navigation.navigate('VideoTechnique', { movementName: movimiento })
     }
 }
 

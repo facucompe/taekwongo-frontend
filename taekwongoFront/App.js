@@ -13,7 +13,7 @@ import RecoverPassword from "./components/RecoverPassword";
 import ItemNewsFeed from './components/ItemNewsFeed';
 import Calendar from './components/Calendar'
 import VideoMenu from './components/VideoMenu';
-import VideoTecnica from './components/VideoTecnica';
+import VideoTechnique from './components/VideoTecnica';
 import Rules from './components/Rules';
 import Refereeing from './components/Refereeing';
 import Pumse from './components/Pumse';
@@ -96,8 +96,8 @@ export const StackVideo = StackNavigator({
             headerLeft: <MenuButton navigation={navigation} />,
           })
     },
-    VideoTecnica:{
-        screen:VideoTecnica
+    VideoTechnique:{
+        screen:VideoTechnique
     }
 });
 
