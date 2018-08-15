@@ -5,13 +5,17 @@ import {
 } from 'react-native';
 
 import {
+    StackNavigator
+} from 'react-navigation's
+
+import {
     Button,
-    Col,
     Container,
     Content,
     DatePicker,
+    Footer,
     Form,
-    Grid,
+    Header,
     Icon,
     Input,
     Item,
@@ -20,32 +24,26 @@ import {
     Text
 } from 'native-base';
 
-import moment from 'moment';
-
 export default class SignUp extends Component {
 
     static navigationOptions = {
         title: 'Registrarme'
-    }
+    };
 
     constructor(props) {
         super(props);
         this.state = {
             firstName: undefined,
             lastName: undefined,
-            birthDate: undefined,
-            gender: 'male',
-            nationality: 'argentina',
-            email: undefined,
+            birthDate: new Date(),
+            gender: undefined,
+            nationality: undefined,
+            user: undefined,
             password: undefined,
             confirmedPassword: undefined,
             validatingFirstName: false,
             validatingLastName: false,
-            validatingBirthDate: false,
-            validatingGender: false,
-            validatingNationality: false,
-            validatingEmail: false,
-            validatingPassword: false,
+            validatingUser: false,
             validatingConfirmedPassword: false
         };
 
@@ -54,57 +52,23 @@ export default class SignUp extends Component {
 
         this.renderFirstNameError = this.renderFirstNameError.bind(this);
         this.renderLastNameError = this.renderLastNameError.bind(this);
-        this.renderEmailError = this.renderEmailError.bind(this);
+        this.renderUserError = this.renderUserError.bind(this);
         this.renderPasswordError = this.renderPasswordError.bind(this);
-        this.renderConfirmedPasswordCheck = this.renderConfirmedPasswordCheck.bind(this);
-        this.renderConfirmedPasswordErrorText = this.renderConfirmedPasswordErrorText.bind(this);
-        this.renderPasswordErrorText = this.renderPasswordErrorText.bind(this);
+        this.renderConfirmedPasswordError = this.renderConfirmedPasswordError.bind(this);
 
-        this.setFirstName = this.setFirstName.bind(this);
-        this.setLastName = this.setLastName.bind(this);
         this.setBirthDate = this.setBirthDate.bind(this);
-        this.setEmail = this.setEmail.bind(this);
-        this.setPassword = this.setPassword.bind(this);
-        this.setConfirmedPassword = this.setConfirmedPassword.bind(this);
-
-        this.firstNameValidation = this.firstNameValidation.bind(this);
-        this.lastNameValidation = this.lastNameValidation.bind(this);
-        this.birthDateValidation = this.birthDateValidation.bind(this);
-        this.emailValidation = this.emailValidation.bind(this);
-        this.passwordValidation = this.passwordValidation.bind(this);
-        this.confirmedPasswordValidation = this.confirmedPasswordValidation.bind(this);
     }
 
-    setFirstName(firstName){
-        this.setState({firstName, validatingFirstName: true })
+    setBirthDate(newDate) {
+        this.setState({ birthDate: newDate });
     }
 
-    setLastName(lastName){
-        this.setState({lastName, validatingLastName: true })
+    onValueChangeGender(value){
+        this.setState({ gender: value})
     }
 
-    setBirthDate(birthDate) {
-        this.setState({ birthDate, validatingBirthDate: true });
-    }
-
-    setEmail(email){
-        this.setState({email, validatingEmail:true})
-    }
-
-    setPassword(password){
-        this.setState({password, validatingPassword:true})
-    }
-
-    setConfirmedPassword(confirmedPassword){
-        this.setState({confirmedPassword, validatingConfirmedPassword:true})
-    }
-
-    onValueChangeGender(gender){
-        this.setState({gender})
-    }
-
-    onValueChangeNationality(nationality){
-        this.setState({nationality})
+    onValueChangeNationality(value){
+        this.setState({ nationality: value})
     }
 
     render() {
@@ -112,68 +76,44 @@ export default class SignUp extends Component {
             <Container>
                 <Content padder>
                     <Form>
-                        <Form>
-                            <Grid>
-                                <Col>
-                                    <Item floatingLabel error={!this.firstNameValidation()}>
-                                        <Label>Nombre</Label>
-                                        <Input
-                                            onChangeText={this.setFirstName}
-                                            value={this.state.firstName}
-                                            maxLength={30}
-                                        />
-                                        {this.renderFirstNameError()}
-                                    </Item>
-                                </Col>
-                                <Col>
-                                    <Item floatingLabel error={!this.lastNameValidation()}>
-                                        <Label>Apellido</Label>
-                                        <Input
-                                            onChangeText={this.setLastName}
-                                            value={this.state.lastName}
-                                            maxLength={30}
-                                        />
-                                        {this.renderLastNameError()}
-                                    </Item>
-                                </Col>
-                            </Grid>
-                            <Grid>
-                                <Col>
-                                    <Text>{'\n\t'}Fecha de Nacimiento</Text>
-                                    <DatePicker
+                        <Form style={styles.container}>
 
-                                        defaultDate={new Date(1995, 10, 30)}
-                                        minimumDate={new Date(1900, 1, 1)}
-                                        maximumDate={new Date()}
-                                        locale={"en"}
-                                        timeZoneOffsetInMinutes={undefined}
-                                        modalTransparent={false}
-                                        animationType={"fade"}
-                                        androidMode={"default"}
-                                        placeHolderText="Seleccionar Fecha"
-                                        textStyle={{ color: "black" }}
-                                        placeHolderTextStyle={{ color: "black" }}
-                                        onDateChange={this.setBirthDate}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Text>{'\n\t'}Nacionalidad</Text>
-                                    <Picker
-                                        mode="dropdown"
-                                        placeholder="Nacionalidad"
-                                        placeholderStyle={{ color: "black" }}
-                                        placeholderIconColor="black"
-                                        selectedValue={this.state.nationality}
-                                        onValueChange={this.onValueChangeNationality.bind(this)}
-                                    >
-                                        <Picker.Item label="Argentina" value="argentina" />
-                                        <Picker.Item label="Brasil" value="brasil" />
-                                        <Picker.Item label="Otro" value="other" />
-                                    </Picker>
-                                </Col>
-                            </Grid>
+                            <Item floatingLabel error={!this.firstNameValidation()}>
+                                <Label>Nombre</Label>
+                                <Input
+                                    onChangeText={(text) => this.setState({firstName: text})}
+                                    value={this.state.firstName}
+                                    maxLength={30}
+                                />
+                                {this.renderFirstNameError()}
+                            </Item>
 
-                            <Text>{'\t'}Género</Text>
+                            <Item floatingLabel error={!this.lastNameValidation()}>
+                                <Label>Apellido</Label>
+                                <Input
+                                    onChangeText={(text) => this.setState({lastName: text})}
+                                    value={this.state.lastName}
+                                    maxLength={30}
+                                />
+                                {this.renderLastNameError()}
+                            </Item>
+
+                            <Text>{'\n\t'}Fecha de Nacimiento</Text>
+                            <DatePicker
+
+                                defaultDate={new Date(1995, 10, 30)}
+                                minimumDate={new Date(1900, 1, 1)}
+                                maximumDate={new Date()}
+                                locale={"en"}
+                                timeZoneOffsetInMinutes={undefined}
+                                modalTransparent={false}
+                                animationType={"fade"}
+                                androidMode={"default"}
+                                placeHolderText="Seleccionar Fecha"
+                                textStyle={{ color: "black" }}
+                                placeHolderTextStyle={{ color: "black" }}
+                                onDateChange={this.setBirthDate}
+                            />
                             <Picker
                                 mode="dropdown"
                                 placeholder="Género"
@@ -182,46 +122,55 @@ export default class SignUp extends Component {
                                 selectedValue={this.state.gender}
                                 onValueChange={this.onValueChangeGender.bind(this)}
                             >
-                                <Picker.Item label="Masculino" value="male" />
-                                <Picker.Item label="Femenino" value="female" />
-                                <Picker.Item label="Otro" value="other" />
+                                <Picker.Item label="Masculino" value="m" />
+                                <Picker.Item label="Femenino" value="f" />
+                                <Picker.Item label="Otro" value="o" />
                             </Picker>
-
-                            <Item floatingLabel error={!this.emailValidation()}>
+                            <Picker
+                                mode="dropdown"
+                                placeholder="Nacionalidad"
+                                placeholderStyle={{ color: "black" }}
+                                placeholderIconColor="black"
+                                selectedValue={this.state.nationality}
+                                onValueChange={this.onValueChangeNationality.bind(this)}
+                            >
+                                <Picker.Item label="Argentina" value="argentina" />
+                                <Picker.Item label="Brasil" value="brasil" />
+                                <Picker.Item label="Otro" value="otro" />
+                            </Picker>
+                            <Item floatingLabel error={!this.userValidation()}>
                                 <Label>Correo electrónico</Label>
                                 <Input
-                                    onChangeText={this.setEmail}
-                                    value={this.state.email}
-                                    maxLength={40}
+                                    onChangeText={(text) => this.setState({user: text})}
+                                    value={this.state.user}
+                                    maxLength={30}
                                 />
-                                {this.renderEmailError()}
+                                {this.renderUserError()}
                             </Item>
                             <Item floatingLabel error={!this.passwordValidation()}>
                                 <Label>Contraseña</Label>
                                 <Input
-                                    onChangeText={this.setPassword}
+                                    onChangeText={(text) => this.setState({password: text})}
                                     value={this.state.password}
                                     maxLength={100}
                                     secureTextEntry={true}
                                 />
                                 {this.renderPasswordError()}
                             </Item>
-                            {this.renderPasswordErrorText()}
                             <Item floatingLabel error={!this.confirmedPasswordValidation()}>
                                 <Label>Confirmar contraseña</Label>
                                 <Input
-                                    onChangeText={this.setConfirmedPassword}
+                                    onChangeText={(text) => this.setState({confirmedPassword: text})}
                                     value={this.state.confirmedPassword}
                                     maxLength={100}
                                     secureTextEntry={true}
                                 />
-                                {this.renderConfirmedPasswordCheck()}
+                                {this.renderConfirmedPasswordError()}
                             </Item>
-                            {this.renderConfirmedPasswordErrorText()}
                             <Button
                                 primary
                                 block
-                                style={styles.mbt30}
+                                style={styles.mbt15}
                                 onPress={(this.onRegister)}
                             >
                                 <Text style={styles.buttonText}>Registrarme</Text>
@@ -244,118 +193,104 @@ export default class SignUp extends Component {
     }
 
     renderFirstNameError() {
-       return this.firstNameValidation() ? null :  <Icon name='close-circle' />;
+        if (!this.firstNameValidation()) {
+            return <Icon name='close-circle' />;
+        }
+
+        return null;
     }
 
     firstNameValidation() {
-        return !this.state.validatingFirstName || isValidName(this.state.firstName);
+        return isValidName(this.state.firstName);
     }
 
     renderLastNameError(){
-        return this.lastNameValidation() ? null : <Icon name='close-circle'/>;
+        if (!this.lastNameValidation()) {
+            return <Icon name='close-circle' />;
+        }
+        return null;
     }
 
     lastNameValidation() {
-        return !this.state.validatingLastName || isValidName(this.state.lastName);
+        return isValidName(this.state.lastName);
     }
 
-    renderEmailError(){
-        return this.emailValidation() ? null : <Icon name='close-circle'/>;
+    renderUserError(){
+        if (!this.userValidation()) {
+            return <Icon name='close-circle' />;
+        }
+        return null;
     }
 
-    emailValidation() {
-        return !this.state.validatingEmail || isValidEmail(this.state.email);
+    userValidation() {
+        return isValidEmail(this.state.user);
     }
 
     renderPasswordError(){
-        return this.passwordValidation() ? null : <Icon name='close-circle'/>;
-    }
+        if (!this.passwordValidation()) {
+            return <Form>
+                <Icon name='close-circle' />
+                <Text style={styles.errorText}>{'/n'}Las contraseña debe tener más de 8 caracteres.</Text>
+            </Form>
 
-    renderPasswordErrorText(){
-        return this.passwordValidation() ? null :
-            <Text style={styles.errorText}>Las contraseña debe tener más de 8 caracteres.</Text>;
+        }
+
+        return null;
     }
 
     passwordValidation() {
-        return !this.state.validatingPassword || isValidPassword(this.state.password);
+        return isValidPassword(this.state.password);
     }
 
-    renderConfirmedPasswordCheck(){
-        if (this.confirmedPasswordValidation()) {
-            if (this.state.confirmedPassword !== undefined && this.state.confirmedPassword.length > 0) {
-                return <Icon name='checkmark-circle'/>;
-            }
-            else
-            return null;
+    renderConfirmedPasswordError(){
+        if (!this.confirmedPasswordValidation()) {
+
+            return <Form>
+                <Icon name='close-circle' />
+                <Text style={styles.errorText}>{'/n'}Las contraseñas ingresadas no coinciden.</Text>
+            </Form>;
         }
 
-        else
-            return <Icon name='close-circle' color='green'/>;
+        else{
+            if(this.state.confirmedPassword.length>0){
+                return <Icon name='checkmark-circle' />;
+            }
+            else
+                return null;
 
-    }
-
-    renderConfirmedPasswordErrorText(){
-        return this.confirmedPasswordValidation() ? null :
-            <Text style={styles.errorText}>Las contraseñas ingresadas no coinciden.</Text>;
-
+        }
     }
 
     confirmedPasswordValidation() {
-        return !this.state.validatingConfirmedPassword || matchBetween(this.state.password, this.state.confirmedPassword);
-    }
-
-    birthDateValidation() {
-        return !this.state.validatingBirthDate || isValidBirthDate(this.state.birthDate);
+        return this.state.confirmedPassword !== undefined && matchBetween(this.state.password, this.state.confirmedPassword);
     }
 
     onRegister() {
 
-        if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
-            alert("Datos OK :)");
-            fetch('http://taekwongo.herokuapp.com/users', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.creationInfo()),
-            }).then((res) => {
-                alert('Ya podes realizar tus entrenamientos');    
-            }).catch((err) => {
-                alert('Ha habido un error. Pruebe más tarde');
-            });
+        if (!this.birthDateValidation()) {
+            alert("La fecha de nacimiento debe ser anterior al día de hoy.")
         }
         else {
-            alert("Corregir campos inválidos");
+            if (this.postOkFieldValidations()) {
+                alert("Datos OK :)");
+                //To Do: Sacar el alert y hacer el POST al backend para registrar el usuario
+            }
+            else {
+                alert("Corregir campos inválidos");
+            }
         }
-
     }
 
-    allFieldsCompleted(){
-        return this.state.firstName !== undefined &&  this.state.lastName !== undefined && this.state.birthDate !== undefined && this.state.gender !== undefined && this.state.nationality !== undefined && this.state.email !== undefined && this.state.password !== undefined && this.state.confirmedPassword !== undefined;
+    birthDateValidation() {
+        return isValidBirthDate(this.state.birthDate);
     }
 
     postOkFieldValidations(){
-        return this.firstNameValidation() && this.lastNameValidation() && this.birthDateValidation() &&  this.emailValidation()  && this.passwordValidation() && this.confirmedPasswordValidation();
+        return this.firstNameValidation() && this.lastNameValidation() && this.birthDateValidation() &&  this.userValidation()  && this.passwordValidation() && this.confirmedPasswordValidation();
     }
 
     logIn() {
         this.props.navigation.navigate('Login', {});
-    }
-
-    creationInfo() {
-        return {
-            user: {
-                email: this.state.email,
-                first_name: this.state.firstName,
-                last_name: this.state.lastName,
-                birth_date: this.state.birthDate,
-                country: this.state.nationality,
-                gender: this.state.gender,
-                password: this.state.password,
-                password_confirmation: this.state.confirmedPassword
-            }
-        }
     }
 }
 
@@ -391,8 +326,32 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         backgroundColor: '#F5FCFF',
     },
+    buttonAndHelp:{
+        marginLeft:'10%',
+        marginRight:'10%'
+    },
     buttonText:{
         color:'white'
+    },
+    input:{
+        height:30,
+        marginTop:10
+    },
+    borderInput:{
+        justifyContent:'center',
+        marginTop:10,
+        borderRadius: 8,
+        borderWidth:1,
+        borderColor: '#a1a4a3',
+        marginLeft:'10%',
+        marginRight:'10%'
+    },
+    title:{
+        fontSize:40,
+        color:'black',
+    },
+    titlePosition:{
+        alignItems:'center'
     },
     registerView:{
         borderTopWidth:1,
@@ -408,8 +367,8 @@ const styles = StyleSheet.create({
     errorText:{
         color: 'red'
     },
-    mbt30: {
-        marginBottom: 30,
-        marginTop: 30
+    mbt15: {
+        marginBottom: 15,
+        marginTop: 15
     }
 });
