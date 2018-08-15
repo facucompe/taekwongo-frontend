@@ -11,7 +11,15 @@ import {
 
 import Video from 'react-native-af-video-player'
 
-const movimientosEnum={"attack":"Ataque","defense":"Defensa","counterattack":"Contraataque","fist":"Puño","kick":"Patada","steps":"Steps","body_to_body":"Cuerpo a Cuerpo"}
+const movimientosEnum={
+    "attack":"Ataque",
+    "defense":"Defensa",
+    "counterattack":"Contraataque",
+    "fist":"Puño",
+    "kick":"Patada",
+    "steps":"Steps",
+    "body_to_body":"Cuerpo a Cuerpo"};
+
 export default class VideoTecnica extends Component {
 
     static navigationOptions = ({ navigation }) => ({
@@ -24,12 +32,20 @@ export default class VideoTecnica extends Component {
 
     constructor(props) {
         super(props);
-
-
         this.state = {
             listItems : [1,2,3,4,5,6,7,8],
             movements : []
         };
+    }
+
+    checkStatus(response) {
+        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
+            return response
+        } else {
+            let error = new Error(response.statusText);
+            error.response = response;
+            throw error
+        }
     }
 
     componentDidMount() {
@@ -40,6 +56,7 @@ export default class VideoTecnica extends Component {
                 'Content-Type': 'application/json'
             }})
             .then(response => response.json())
+            .then(response => this.checkStatus(response))
             .then(response => {
                 this.setState({movements: response});
             })

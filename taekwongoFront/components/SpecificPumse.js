@@ -66,8 +66,6 @@ export default class SpecificPumse extends Component {
                 >
                     {poomse.images.map(this.renderImages)}
                     {poomse.videos.map(this.renderVideos)}
-
-
                 </Carousel>
             </View>
         );

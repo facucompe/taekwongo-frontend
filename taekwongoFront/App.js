@@ -133,10 +133,10 @@ export const StackRefereeing = StackNavigator({
 });
 
 const DrawerStack = DrawerNavigator({
-    Pumse : {screen: StackPumse},
     NewsFeed: { screen: StackNewsFeed },
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
+    Pumse : {screen: StackPumse},
     Rules: { screen: StackRules},
     Refereeing: { screen: StackRefereeing},
     Training: { screen: StackTraining }

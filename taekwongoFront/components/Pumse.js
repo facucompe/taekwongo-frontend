@@ -27,6 +27,15 @@ export default class Pumse extends Component {
         this.onPressButton = this.onPressButton.bind(this);
     }
 
+    checkStatus(response) {
+        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
+            return response
+        } else {
+            let error = new Error(response.statusText);
+            error.response = response;
+            throw error
+        }
+    }
 
     componentDidMount() {
         fetch('http://taekwongo.herokuapp.com/poomses', {
@@ -36,6 +45,7 @@ export default class Pumse extends Component {
                 'Content-Type': 'application/json'
             }})
             .then(response => response.json())
+            .then(response => this.checkStatus(response))
             .then(response => {
                 this.setState({poomses: response});
             })
@@ -44,7 +54,6 @@ export default class Pumse extends Component {
                 console.log('Error en el el fetch: ' + error.message);
             });
     }
-
 
     renderFormas = (forma,i) => {
         return (
@@ -58,7 +67,6 @@ export default class Pumse extends Component {
             </Button>
         )
     };
-
 
     render() {
         return (
@@ -75,7 +83,6 @@ export default class Pumse extends Component {
         this.props.navigation.navigate('SpecificPumse', {poomse: forma})
     }
 }
-
 
 const styles = StyleSheet.create({
     container:{

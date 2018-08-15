@@ -5,17 +5,11 @@ import {
 } from 'react-native';
 
 import {
-    StackNavigator
-} from 'react-navigation'
-
-import {
     Button,
     Container,
     Content,
     DatePicker,
-    Footer,
     Form,
-    Header,
     Icon,
     Input,
     Item,

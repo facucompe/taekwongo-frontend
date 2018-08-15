@@ -154,6 +154,16 @@ function notEmptyAndFitsRegex(aString,aRegex){
     return aString !== "" && aRegex.test(aString);
 }
 
+function checkStatus(response) {
+    if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
+        return response
+    } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        throw error
+    }
+}
+
 let LoginConector = function () {
 	function callApi(info) {
 		fetch('http://taekwongo.herokuapp.com/users/sessions', {
@@ -165,6 +175,7 @@ let LoginConector = function () {
 			body: JSON.stringify(info),
 		})
 			.then(response => response.json())
+            .then(response => checkStatus(response))
 			.then(response => {
 				if (response['error']) {
 					alert(response['error'])
