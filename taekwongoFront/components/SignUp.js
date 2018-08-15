@@ -6,7 +6,7 @@ import {
 
 import {
     StackNavigator
-} from 'react-navigation's
+} from 'react-navigation'
 
 import {
     Button,
