@@ -17,8 +17,7 @@ import Carousel from 'react-native-carousel-view';
 export default class SpecificPumse extends Component {
 
     static navigationOptions = ({ navigation }) => ({
-        //title: `${movimientosEnum[navigation.state.params.movementName]}`,
-        title: 'Un Pumse',
+        title: `${navigation.state.params.poomse.title}`,
         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
         headerStyle:{
             backgroundColor:'white',
@@ -35,41 +34,28 @@ export default class SpecificPumse extends Component {
         };
     }
 
-    /*componentDidMount() {
-        fetch('http://taekwongo.herokuapp.com/movements?movement='+this.props.navigation.getParam('movementName', 'NO-ID'), {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }})
-            .then(response => response.json())
-            .then(response => {
-                this.setState({movements: response});
-            })
-            .catch(error => {
-                alert('Error de conexión, intente nuevamente');
-                console.log('Error en el el fetch: ' + error.message);
-            });
-    }*/
-
     renderVideos = (video,i) => {
         return (
-            <View style={[styles.videoContainer,(i < this.state.listItems.length -1) ? styles.borderVideo : styles.none]}>
-                <View style={styles.video}>
-                    <View style={styles.viewTextVideo}>
-                        <Text style={styles.textVideo}>X Movimiento</Text>
-                    </View>
-                    <View>
-                        <Video
-                            url={"http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"}/>
-                    </View>
-                </View>
+            <View style={styles.myViewContainer}>
+                <Video
+                    url={video.link.url}/>
             </View>
         )
-    }
+    };
+
+    renderImages = (imagen,i) => {
+        return (
+            <View style={styles.myViewContainer}>
+                <Image
+                    style={styles.image}
+                    source={{uri: imagen.link.url}}
+                />
+            </View>
+        )
+    };
 
     render() {
-        //const movementName = this.props.navigation.getPar5am('movementName', 'No-POSSIBLE');
+        const poomse = this.props.navigation.getParam('poomse', 'No-POSSIBLE');
         return (
             <View style={styles.container}>
                 <Carousel
@@ -78,30 +64,17 @@ export default class SpecificPumse extends Component {
                     indicatorSize={20}
                     indicatorColor="red"
                 >
-                    <View style={styles.myViewContainer}>
-                        <Image
-                            style={styles.image}
-                            source={{uri: 'https://i.vimeocdn.com/portrait/58832_300x300.jpg'}}
-                        />
-                    </View>
-                    <View style={styles.myViewContainer}>
-                        <Video
-                            url={"http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"}/>
-                    </View>
-                    <View style={styles.myViewContainer}>
-                        <Image
-                            style={styles.image}
-                            source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/1/10/Wappen_Uri_matt.svg'}}
-                        />
-                    </View>
+                    {poomse.images.map(this.renderImages)}
+                    {poomse.videos.map(this.renderVideos)}
+
+
                 </Carousel>
             </View>
         );
     }
 }
 
-
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
     container:{
         flex: 1,
         justifyContent: 'center',

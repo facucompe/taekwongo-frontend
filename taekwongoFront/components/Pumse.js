@@ -15,21 +15,21 @@ import {
 export default class Pumse extends Component {
     static navigationOptions = {
         title: 'Pumses'
-    }
+    };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            formas : [1,2,3,4,5]
-        }
+            poomses : []
+        };
         //Logic method
         this.onPressButton = this.onPressButton.bind(this);
     }
 
 
     componentDidMount() {
-        fetch('http://taekwongo.herokuapp.com/pumses', {
+        fetch('http://taekwongo.herokuapp.com/poomses', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -37,7 +37,7 @@ export default class Pumse extends Component {
             }})
             .then(response => response.json())
             .then(response => {
-                this.setState({formas: response});
+                this.setState({poomses: response});
             })
             .catch(error => {
                 alert('Error de conexión, intente nuevamente');
@@ -54,10 +54,10 @@ export default class Pumse extends Component {
                 style={styles.mbt30}
                 onPress={() => this.onPressButton(forma)}
             >
-                <Text style={styles.buttonText}>{forma}° forma</Text>
+                <Text style={styles.buttonText}>{forma.title}</Text>
             </Button>
         )
-    }
+    };
 
 
     render() {
@@ -65,14 +65,14 @@ export default class Pumse extends Component {
             <Container>
                 <Content padder>
                     <Form>
-                        {this.state.formas.map(this.renderFormas)}
+                        {this.state.poomses.map(this.renderFormas)}
                     </Form>
                 </Content>
             </Container>
         );
     }
     onPressButton(forma){
-        this.props.navigation.navigate('SpecificPumse')
+        this.props.navigation.navigate('SpecificPumse', {poomse: forma})
     }
 }
 

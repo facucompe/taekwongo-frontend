@@ -38,6 +38,7 @@ export default class App extends Component<Props> {
     constructor() {
         super();
         this.state = { hasToken: false, isLoaded: false };
+        console.disableYellowBox = true;
     }
 
     componentDidMount() {
@@ -132,11 +133,11 @@ export const StackRefereeing = StackNavigator({
 });
 
 const DrawerStack = DrawerNavigator({
+    Pumse : {screen: StackPumse},
     NewsFeed: { screen: StackNewsFeed },
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
     Rules: { screen: StackRules},
-    Pumse : {screen: StackPumse},
     Refereeing: { screen: StackRefereeing},
     Training: { screen: StackTraining }
 });
