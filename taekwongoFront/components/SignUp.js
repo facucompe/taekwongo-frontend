@@ -20,6 +20,8 @@ import {
     Text
 } from 'native-base';
 
+import moment from 'moment';
+
 export default class SignUp extends Component {
 
     static navigationOptions = {
@@ -310,7 +312,18 @@ export default class SignUp extends Component {
 
         if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
             alert("Datos OK :)");
-            //To Do: Sacar el alert y hacer el POST al backend para registrar el usuario
+            fetch('http://taekwongo.herokuapp.com/users', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.creationInfo()),
+            }).then((res) => {
+                alert('Ya podes realizar tus entrenamientos');    
+            }).catch((err) => {
+                alert('Ha habido un error. Pruebe más tarde');
+            });
         }
         else {
             alert("Corregir campos inválidos");
@@ -328,6 +341,21 @@ export default class SignUp extends Component {
 
     logIn() {
         this.props.navigation.navigate('Login', {});
+    }
+
+    creationInfo() {
+        return {
+            user: {
+                email: this.state.email,
+                first_name: this.state.firstName,
+                last_name: this.state.lastName,
+                birth_date: this.state.birthDate,
+                country: this.state.nationality,
+                gender: this.state.gender,
+                password: this.state.password,
+                password_confirmation: this.state.confirmedPassword
+            }
+        }
     }
 }
 

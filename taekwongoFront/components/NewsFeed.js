@@ -5,6 +5,8 @@ import {
     Text,
     View,
     TouchableOpacity,
+    Image,
+    ScrollView
 } from 'react-native';
 
 export default class NewsFeed extends Component {
@@ -39,22 +41,31 @@ export default class NewsFeed extends Component {
 
     renderItemNewsFeed = (item,i) => {
         return (
+            <View style={styles.itemContainer}>
             <TouchableOpacity
                 key={i}
                 style={styles.item}
                 onPress={() => this.moveToItem(item)}>
-                <View style={styles.image}>
-                    <Text>Imagen</Text>
+                <View style={styles.imageContainer}>
+                    <Image
+                        style={styles.image}
+                        source={{uri: item.picture_url}}
+                    />
                 </View>
-                <View>
-                    <View><Text style={styles.titleText}>{item.title}</Text></View>
-                    <View><Text style={styles.bodyText}>{item.body}</Text></View>
+                <View style={styles.flexBox}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.titleText}>{item.title}</Text>
+                    </View>
+                    <View style={styles.bodyContainer}>
+                        <Text style={styles.itemText} numberOfLines={2}> {item.body}</Text>
+                    </View>
                 </View>
-            </TouchableOpacity>)
+            </TouchableOpacity>
+            </View>)
     }
 
     moveToItem(item){
-        this.props.navigation.navigate('ItemNewsFeed', { itemId: item.title })
+        this.props.navigation.navigate('ItemNewsFeed', { item: item })
     }
 
     render () {
@@ -66,37 +77,58 @@ export default class NewsFeed extends Component {
 				show = this.state.news.map(this.renderItemNewsFeed);
 			}
 		return (
-			<View style={styles.container}>
-				{show}
-			</View>
+		    <ScrollView>
+                <View style={styles.container}>
+                    {show}
+                </View>
+            </ScrollView>
 		)
 	}
 }
 
 const styles = StyleSheet.create({
     container:{
-        flex:1,
-        flexDirection:'column',
         backgroundColor: '#F5FCFF'
+    },
+    flexBox:{
+        flex:1,
+        flexDirection:'column'
     },
     text:{
         color:'black'
     },
-    image:{
-        marginRight:10
+    bodyContainer:{
+        flex:1,
+        flexDirection:'row',
     },
     itemText:{
-        color:'black'
+        color:'#000'
     },
     item:{
         flex:1,
         flexDirection:'row',
+    },
+    itemContainer:{
+        height:100,
         padding:10,
         borderRadius: 4,
         borderWidth: 0.5,
         borderColor: '#d6d7da'
     },
     titleText:{
-        fontWeight:'bold'
+        fontWeight:'bold',
+        color:'#000',
+        fontSize:15,
+    },
+    titleContainer:{
+        flex:1,
+        flexDirection:'row',
+    },
+    imageContainer:{
+        marginRight:10
+    },
+    image:{
+        height:100,
+        width:100
     }
 })
