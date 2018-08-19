@@ -29,18 +29,8 @@ export default class Calendar extends Component {
         this.setState({category: aCategoryValue});
     }
 
-    onValueChangeMonth(month){
-      this.setState({month});
-      this.filterCompetitions(month, this.filterMonth);
-    }
-
-    onValueChangeCategory(category){
-      this.setState({category});
-      this.filterCompetitions(category, this.filterCategory);      
-    }
-
     componentDidMount() {
-		fetch('http://taekwongo.herokuapp.com/competitions', {
+		fetch('http://192.168.0.192:3000/competitions', {
 			method: 'GET',
 			headers: {
 				Accept: 'application/json',
@@ -48,8 +38,7 @@ export default class Calendar extends Component {
 		}})
 			.then(response => response.json())
 			.then(response => {
-        this.setState({competitions: response});
-				this.setState({auxCompetitions: response});        
+				this.setState({allCompetitions: response});        
 			})
 			.catch(error => {
 				alert('Error de conexión, intente nuevamente');
@@ -145,7 +134,7 @@ export default class Calendar extends Component {
     }
 
     formatDate (start_date) {
-        return start_date;
+        return moment(start_date).format("DD/MM/YYYY");
     }
 
     shouldRender(competition){
@@ -158,24 +147,6 @@ export default class Calendar extends Component {
 
     monthApplies(competition){
         return this.state.month == "-1" || this.state.month == moment(competition.start_date).month();
-    }
-
-    filterCompetitions(item, filterFunction) {
-      if (item == -1) {
-        this.setState({competitions: this.state.auxCompetitions});
-      }
-      else {
-        var filteredCompetitions = this.state.auxCompetitions.filter(c => filterFunction(c) == item);
-        this.setState({competitions: filteredCompetitions})
-      }
-    }
-
-    filterMonth(competition) {
-      return new Date(competition.start_date).getMonth();
-    }
-
-    filterCategory(competition) {
-      return competition.category;
     }
 }
 
