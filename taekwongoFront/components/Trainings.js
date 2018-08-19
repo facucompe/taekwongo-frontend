@@ -46,7 +46,7 @@ export default class Trainings extends Component {
                     <List
                         dataArray={trainings}
                         renderRow={training =>
-                            <ListItem button onPress={() => {this.moveTo(training)}}>
+                            <ListItem onPress={this.moveTo}>
                                 <Grid>
                                     <Row>
                                         <Col size={1}>
@@ -79,7 +79,7 @@ export default class Trainings extends Component {
     }
 
     moveTo(training){
-        this.props.navigation.navigate('Training', { selectedTraining: training })
+        this.props.navigation.navigate('Training', { training: training })
     }
 
     iconNameFor(training) {
