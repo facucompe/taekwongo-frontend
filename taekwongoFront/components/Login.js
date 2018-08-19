@@ -20,7 +20,6 @@ import {
 
 import SignUp from "./SignUp";
 import RecoverPassword from "./RecoverPassword";
-import Trainings from "./Trainings";
 
 export default class Login extends Component{
 
@@ -40,7 +39,6 @@ export default class Login extends Component{
         this.onLogin = this.onLogin.bind(this);
         this.signUp = this.signUp.bind(this);
         this.recoverPassword = this.recoverPassword.bind(this);
-        this.trainings = this.trainings.bind(this);
 
         this.emailValidation = this.emailValidation.bind(this);
         this.setEmail = this.setEmail.bind(this);
@@ -86,8 +84,12 @@ export default class Login extends Component{
                             </Button>
                         </Form>
                         <Form style={styles.container}>
-                            <Text style={styles.blueCenteredLink} onPress={this.recoverPassword}>
-                                ¿Olvidaste tu contraseña?
+                            <Text style={styles.mb150t30}>
+                                ¿Olvidaste tus datos de inicio de sesión?
+
+                                <Text style={styles.registerPress} onPress={this.recoverPassword}>
+                                    {'\t'}Obtén ayuda
+                                </Text>
                             </Text>
                         </Form>
                         <Form style={styles.registerView}>
@@ -126,8 +128,7 @@ export default class Login extends Component{
     }
 
     onLogin(){
-        LoginConector.callApi(this.buildInfo());
-        this.trainings()
+        LoginConector.callApi(this.buildInfo())
     }
 
     signUp(){
@@ -136,10 +137,6 @@ export default class Login extends Component{
 
     recoverPassword(){
         this.props.navigation.navigate('RecoverPassword', {})
-    }
-
-    trainings(){
-        this.props.navigation.navigate('Trainings', {})
     }
 
     buildInfo(){
@@ -251,16 +248,14 @@ const styles = StyleSheet.create({
         textAlign:'center'
     },
     registerPress:{
-        fontWeight:'bold',
-        color: 'blue'
+        fontWeight:'bold'
     },
     mbt30: {
         marginBottom: 30,
         marginTop: 30
     },
-    blueCenteredLink:{
-        color: 'blue',
-        textAlign:'center',
-        marginBottom: 30
+    mb150t30: {
+        marginBottom: 180,
+        marginTop: 30
     }
 });

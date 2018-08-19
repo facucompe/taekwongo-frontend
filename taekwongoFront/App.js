@@ -10,7 +10,6 @@ import NewsFeed from './components/NewsFeed';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import RecoverPassword from "./components/RecoverPassword";
-import Trainings from './components/Trainings';
 import ItemNewsFeed from './components/ItemNewsFeed';
 import Calendar from './components/Calendar'
 import VideoMenu from './components/VideoMenu';
@@ -58,7 +57,7 @@ export const StackTraining = StackNavigator({
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
           })
-
+        
     },
     RecoverPassword: {
         screen: RecoverPassword
@@ -66,9 +65,6 @@ export const StackTraining = StackNavigator({
     SignUp: {
         screen: SignUp
     },
-    Trainings:{
-        screen: Trainings
-    }
 });
 
 export const StackNewsFeed = StackNavigator({
@@ -76,7 +72,7 @@ export const StackNewsFeed = StackNavigator({
         screen:NewsFeed,
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
-          })
+          })       
     },
     ItemNewsFeed:{
         screen:ItemNewsFeed
