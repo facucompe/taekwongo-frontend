@@ -30,7 +30,7 @@ export default class Calendar extends Component {
     }
 
     componentDidMount() {
-		fetch('http://192.168.0.192:3000/competitions', {
+		fetch('http://taekwongo.herokuapp.com/competitions', {
 			method: 'GET',
 			headers: {
 				Accept: 'application/json',
