@@ -11,8 +11,6 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import RecoverPassword from "./components/RecoverPassword";
 import Trainings from './components/Trainings';
-import Training from './components/Training';
-import CreateTraining from './components/CreateTraining';
 import ItemNewsFeed from './components/ItemNewsFeed';
 import Calendar from './components/Calendar'
 import VideoMenu from './components/VideoMenu';
@@ -70,12 +68,6 @@ export const StackTraining = StackNavigator({
     },
     Trainings:{
         screen: Trainings
-    },
-    Training:{
-        screen: Training
-    },
-    CreateTraining:{
-        screen: CreateTraining
     }
 });
 

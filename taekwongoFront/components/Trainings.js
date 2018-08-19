@@ -1,42 +1,34 @@
 import React, { Component } from "react";
 import {
     Container,
+    Header,
+    Title,
     Content,
     Button,
     Icon,
     List,
     ListItem,
     Text,
-    Grid,
-    Col,
-    Row,
+    Left,
     Right,
-    Footer
+    Body
 } from "native-base";
-
 import {StyleSheet} from "react-native";
 
 import Training from "./Training";
 
 const trainings = [
-    {title: "Patada baja", date: "2018-07-25", type: "V"},
-    {title: "Golpe de puño fuerte", date: "2018-07-25", type: "F"},
-    {title: "Kaioken", date: "2018-07-25", type:"F"},
-    {title: "La gruya", date: "2018-07-25", type: "V"},
-    {title: "Hacer nada", date: "2018-07-25", type:"F"}
+    {title: "Patada baja", date: "2018-07-25"},
+    {title: "Golpe de puño fuerte", date: "2018-07-25"},
+    {title: "Kaioken", date: "2018-07-25"},
+    {title: "La gruya", date: "2018-07-25"},
+    {title: "Hacer nada", date: "2018-07-25"}
 ];
 
 export default class Trainings extends Component {
 
     static navigationOptions = {
         title: 'Entrenamientos'
-    };
-
-    constructor(props){
-      super(props);
-
-      this.openCreateTrainingView = this.openCreateTrainingView.bind(this);
-      this.moveTo = this.moveTo.bind(this);
     };
 
     render() {
@@ -46,52 +38,24 @@ export default class Trainings extends Component {
                     <List
                         dataArray={trainings}
                         renderRow={training =>
-                            <ListItem onPress={this.moveTo}>
-                                <Grid>
-                                    <Row>
-                                        <Col size={1}>
-                                            <Icon type={"MaterialCommunityIcons"} name={this.iconNameFor(training)}/>
-                                        </Col>
-                                        <Col size={8}>
-                                            <Text >
-                                                {training.title}
-                                            </Text>
-                                        </Col>
-                                        <Col size={4}>
-                                            <Text>
-                                                {training.date}
-                                            </Text>
-                                        </Col>
-                                    </Row>
-                                </Grid>
+                            <ListItem>
+                                <Left>
+                                    <Text>
+                                        {training.date}{'\t\t\t\t\t'}{training.title}
+                                    </Text>
+                                </Left>
+                                <Right>
+                                        <Icon name="arrow-forward" onPress={this.moveTo(training)}/>
+                                </Right>
                             </ListItem>}
                     />
                 </Content>
-                <Footer style={styles.footer}>
-                    <Right>
-                        <Button onPress={this.openCreateTrainingView} rounded style={styles.plusButton}>
-                            <Icon name='add' />
-                        </Button>
-                    </Right>
-                </Footer>
             </Container>
         );
     }
 
     moveTo(training){
         this.props.navigation.navigate('Training', { training: training })
-    }
-
-    iconNameFor(training) {
-        if(training.type === "V"){
-            return 'flash'
-        }
-        else
-            return 'dumbbell'
-    }
-
-    openCreateTrainingView() {
-        this.props.navigation.navigate('CreateTraining', {})
     }
 }
 
@@ -120,13 +84,5 @@ const styles = StyleSheet.create({
     },
     titleText:{
         fontWeight:'bold'
-    },
-    footer:{
-        backgroundColor: '#F5FCFF'
-    },
-    plusButton:{
-        backgroundColor: '#2666ff',
-        marginRight: 10,
-        marginBottom: 10
     }
 });

@@ -6,23 +6,19 @@ import {
 } from "native-base";
 import {StyleSheet} from "react-native";
 
-export default class Training extends Component {
+export default class Trainings extends Component {
 
     static navigationOptions = {
         title: 'Entrenamiento'
     };
 
-    constructor(props){
-        super(props);
-    };
-
     render() {
-        const training = this.props.navigation.getParam('training','NO-TRAINING');
         return (
             <Container style={styles.container}>
                 <Content>
+
                     <Text>
-                        {training.title}
+                        {training.date}{'\t\t\t\t\t'}{training.title}
                     </Text>
                 </Content>
             </Container>
