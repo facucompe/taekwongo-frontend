@@ -1,4 +1,4 @@
-{
+s{
   "name": "taekwongo_front",
   "version": "0.0.1",
   "private": true,
@@ -7,11 +7,17 @@
     "test": "jest"
   },
   "dependencies": {
+    "moment": "^2.22.2",
     "native-base": "^2.7.2",
     "react": "16.3.1",
     "react-devtools": "^3.2.3",
     "react-native": "0.55.2",
-    "react-native-easy-grid": "^0.2.0",
+    "react-native-af-video-player": "^0.2.1",
+    "react-native-carousel-view": "^0.5.1",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-router-flux": "^4.0.0-beta.31",
+    "react-native-smart-carousel": "^1.1.0",
+    "react-native-video": "^3.1.0",
     "react-navigation": "^1.5.12"
   },
   "devDependencies": {
