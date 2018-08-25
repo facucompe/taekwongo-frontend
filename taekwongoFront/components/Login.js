@@ -18,7 +18,8 @@ import {
     Text
 } from 'native-base';
 
-
+import SignUp from "./SignUp";
+import RecoverPassword from "./RecoverPassword";
 
 export default class Login extends Component{
 
