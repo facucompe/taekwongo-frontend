@@ -99,7 +99,7 @@ export default class Calendar extends Component {
                 onValueChange={(itemValue, itemIndex) => this.onValueChangeMonth(itemValue)}
                 style={styles.text}
             >
-                <Picker.Item label="Ninguno" value="-1" />
+                <Picker.Item label="Todos" value="-1" />
                 <Picker.Item label="Enero" value="0" />
                 <Picker.Item label="Febrero" value="1" />
                 <Picker.Item label="Marzo" value="2" />
@@ -124,7 +124,7 @@ export default class Calendar extends Component {
                 onValueChange={(itemValue, itemIndex) => this.onValueChangeCategory(itemValue)}
                 style={styles.text}
             >
-                <Picker.Item label="Ninguno" value="-1" />
+                <Picker.Item label="Todas" value="-1" />
                 <Picker.Item label="G1/G2" value="G1G2" />
                 <Picker.Item label="GP" value="GP" />
                 <Picker.Item label="JJOO" value="JJOO" />
