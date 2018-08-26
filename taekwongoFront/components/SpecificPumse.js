@@ -43,12 +43,12 @@ export default class SpecificPumse extends Component {
         )
     };
 
-    renderImages = (imagen,i) => {
+    renderImages = (image,i) => {
         return (
             <View style={styles.myViewContainer}>
                 <Image
                     style={styles.image}
-                    source={{uri: imagen.link.url}}
+                    source={{uri: image.link.url}}
                 />
             </View>
         )

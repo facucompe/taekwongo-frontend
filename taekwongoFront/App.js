@@ -16,7 +16,7 @@ import VideoMenu from './components/VideoMenu';
 import VideoTechnique from './components/VideoTecnica';
 import Rules from './components/Rules';
 import Refereeing from './components/Refereeing';
-import Pumse from './components/Pumse';
+import Poomse from './components/Poomse';
 import SpecificPumse from './components/SpecificPumse'
 
 import {
@@ -113,7 +113,7 @@ export const StackRules = StackNavigator({
 
 export const StackPumse = StackNavigator({
     Pumse: {
-        screen: Pumse,
+        screen: Poomse,
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
         })

@@ -12,9 +12,9 @@ import {
     Text
 } from 'native-base';
 
-export default class Pumse extends Component {
+export default class Poomse extends Component {
     static navigationOptions = {
-        title: 'Pumses'
+        title: 'Poomses'
     };
 
     constructor(props) {
@@ -55,7 +55,7 @@ export default class Pumse extends Component {
             });
     }
 
-    renderFormas = (forma,i) => {
+    renderPoomses = (forma,i) => {
         return (
             <Button
                 primary
@@ -73,14 +73,14 @@ export default class Pumse extends Component {
             <Container>
                 <Content padder>
                     <Form>
-                        {this.state.poomses.map(this.renderFormas)}
+                        {this.state.poomses.map(this.renderPoomses)}
                     </Form>
                 </Content>
             </Container>
         );
     }
-    onPressButton(forma){
-        this.props.navigation.navigate('SpecificPumse', {poomse: forma})
+    onPressButton(somePoomse){
+        this.props.navigation.navigate('SpecificPumse', {poomse: somePoomse})
     }
 }
 
