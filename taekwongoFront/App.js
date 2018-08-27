@@ -38,6 +38,7 @@ export default class App extends Component<Props> {
     constructor() {
         super();
         this.state = { hasToken: false, isLoaded: false };
+        console.disableYellowBox = true;
     }
 
     componentDidMount() {
