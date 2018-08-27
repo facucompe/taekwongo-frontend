@@ -11,7 +11,8 @@
     "react": "16.3.1",
     "react-devtools": "^3.2.3",
     "react-native": "0.55.2",
-    "react-navigation": "^1.5.12"
+    "react-navigation": "^1.5.12",
+    "moment": "latest"
   },
   "devDependencies": {
     "babel-jest": "22.4.3",

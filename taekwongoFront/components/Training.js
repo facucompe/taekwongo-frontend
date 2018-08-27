@@ -8,14 +8,7 @@ import {
 } from "native-base";
 import {StyleSheet} from "react-native";
 
-const measurements = [
-    {timestamp: "2018-07-25 15:00:00", magnitude: 5},
-    {timestamp: "2018-07-25 15:30:00", magnitude: 10},
-    {timestamp: "2018-07-26 08:20:15", magnitude: 12.5},
-    {timestamp: "2018-07-27 08:15:08", magnitude: 13},
-    {timestamp: "2018-07-28 23:59:50", magnitude: 20},
-    {timestamp: "2018-07-28 23:59:55", magnitude: 18}
-];
+import moment from "moment";
 
 export default class Training extends Component {
 
@@ -27,7 +20,30 @@ export default class Training extends Component {
         super(props);
 
         this.training = this.props.navigation.getParam('selectedTraining','NO-TRAINING');
+        this.session_token = this.props.navigation.getParam('session_token','NO-TOKEN');
+
+        this.state = {
+            measurements: []
+        };
     };
+
+    componentDidMount() {
+        fetch('http://192.168.43.41:3000/trainings/' + this.training.id + '/measurements',
+            {
+                method: 'GET',
+                headers: {
+                    authorization: this.session_token
+                }
+            })
+            .then(response => response.json())
+            .then(response => {
+                this.setState({measurements: response});
+            })
+            .catch(error => {
+                alert('Error de conexión, intente nuevamente');
+                console.log('Error en el el fetch: ' + error.message);
+            });
+    }
 
     render() {
 
@@ -77,7 +93,7 @@ export default class Training extends Component {
     }
 
     iconNameFor(training) {
-        if(training.type === "V"){
+        if(training.training_type === "V"){
             return 'flash'
         }
         else
@@ -86,19 +102,19 @@ export default class Training extends Component {
 
     renderMeasurementsTable() {
         return <List
-            dataArray={measurements}
+            dataArray={this.state.measurements}
             renderRow={measurement =>
                 <ListItem>
                     <Grid>
                         <Row>
                             <Col size={10}>
                                 <Text >
-                                    {measurement.timestamp}
+                                    {moment(measurement.created_at).format("DD/MM/YYYY HH:mm:ss.SSS")}
                                 </Text>
                             </Col>
                             <Col size={5}>
                                 <Text >
-                                    {measurement.magnitude} {this.unitFor(measurement)}
+                                    {measurement.magnitude} {this.unitForTraining()}
                                 </Text>
                             </Col>
                         </Row>
@@ -116,7 +132,7 @@ export default class Training extends Component {
 
     }
 
-    unitFor(measurement) {
+    unitForTraining() {
         return this.training.type === 'V' ? 'ms' : 'm/s^2';
     }
 }

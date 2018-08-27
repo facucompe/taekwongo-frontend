@@ -33,7 +33,8 @@ export default class Login extends Component{
         this.state = {
             emailText: undefined,
             passwordText: undefined,
-            validatingEmail: false
+            validatingEmail: false,
+            session_token: undefined,
         };
 
         //Logic methods
@@ -127,6 +128,9 @@ export default class Login extends Component{
 
     onLogin(){
         LoginConector.callApi(this.buildInfo());
+        AsyncStorage.getItem("access_token").then((value) => {
+            this.setState({"session_token": value});
+        });
         this.trainings()
     }
 
@@ -139,7 +143,9 @@ export default class Login extends Component{
     }
 
     trainings(){
-        this.props.navigation.navigate('Trainings', {})
+        if(this.state.session_token !== undefined) {
+            this.props.navigation.navigate('Trainings', {session_token: this.state.session_token})
+        }
     }
 
     buildInfo(){
@@ -160,7 +166,7 @@ function notEmptyAndFitsRegex(aString,aRegex){
 
 let LoginConector = function () {
 	function callApi(info) {
-		fetch('http://taekwongo.herokuapp.com/users/sessions', {
+		fetch('http://192.168.43.41:3000/users/sessions', {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',

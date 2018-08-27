@@ -18,13 +18,7 @@ import {StyleSheet} from "react-native";
 
 import Training from "./Training";
 
-const trainings = [
-    {title: "Patada baja", date: "2018-07-25", type: "V"},
-    {title: "Golpe de puño fuerte", date: "2018-07-25", type: "F"},
-    {title: "Kaioken", date: "2018-07-25", type:"F"},
-    {title: "La gruya", date: "2018-07-25", type: "V"},
-    {title: "Hacer nada", date: "2018-07-25", type:"F"}
-];
+import moment from "moment";
 
 export default class Trainings extends Component {
 
@@ -33,18 +27,42 @@ export default class Trainings extends Component {
     };
 
     constructor(props){
-      super(props);
+        super(props);
 
-      this.openCreateTrainingView = this.openCreateTrainingView.bind(this);
-      this.moveTo = this.moveTo.bind(this);
+        this.session_token = this.props.navigation.getParam('session_token','NO-TOKEN');
+
+        this.state = {
+            trainings: []
+        };
+
+        this.openCreateTrainingView = this.openCreateTrainingView.bind(this);
+        this.moveTo = this.moveTo.bind(this);
     };
+
+    componentDidMount() {
+        fetch('http://192.168.43.41:3000/trainings',
+            {
+                method: 'GET',
+                headers: {
+                    authorization: this.session_token
+                }
+            })
+            .then(response => response.json())
+            .then(response => {
+                this.setState({trainings: response});
+            })
+            .catch(error => {
+                alert('Error de conexión, intente nuevamente');
+                console.log('Error en el el fetch: ' + error.message);
+            });
+    }
 
     render() {
         return (
             <Container style={styles.container}>
                 <Content>
                     <List
-                        dataArray={trainings}
+                        dataArray={this.state.trainings}
                         renderRow={training =>
                             <ListItem button onPress={() => {this.moveTo(training)}}>
                                 <Grid>
@@ -59,7 +77,7 @@ export default class Trainings extends Component {
                                         </Col>
                                         <Col size={4}>
                                             <Text>
-                                                {training.date}
+                                                {moment(training.created_at).format("DD/MM/YYYY")}
                                             </Text>
                                         </Col>
                                     </Row>
@@ -79,11 +97,11 @@ export default class Trainings extends Component {
     }
 
     moveTo(training){
-        this.props.navigation.navigate('Training', { selectedTraining: training })
+        this.props.navigation.navigate('Training', {session_token: this.session_token, selectedTraining: training })
     }
 
     iconNameFor(training) {
-        if(training.type === "V"){
+        if(training.training_type === "V"){
             return 'flash'
         }
         else
