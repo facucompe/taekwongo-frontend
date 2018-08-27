@@ -12,32 +12,42 @@ import {
     Text
 } from 'native-base';
 
-export default class Pumse extends Component {
+export default class Poomse extends Component {
     static navigationOptions = {
-        title: 'Pumses'
-    }
+        title: 'Poomses'
+    };
 
     constructor(props) {
         super(props);
 
         this.state = {
-            formas : [1,2,3,4,5]
-        }
+            poomses : []
+        };
         //Logic method
         this.onPressButton = this.onPressButton.bind(this);
     }
 
+    checkStatus(response) {
+        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
+            return response
+        } else {
+            let error = new Error(response.statusText);
+            error.response = response;
+            throw error
+        }
+    }
 
     componentDidMount() {
-        fetch('http://taekwongo.herokuapp.com/pumses', {
+        fetch('http://taekwongo.herokuapp.com/poomses', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             }})
             .then(response => response.json())
+            .then(response => this.checkStatus(response))
             .then(response => {
-                this.setState({formas: response});
+                this.setState({poomses: response});
             })
             .catch(error => {
                 alert('Error de conexión, intente nuevamente');
@@ -45,37 +55,34 @@ export default class Pumse extends Component {
             });
     }
 
-
-    renderFormas = (forma,i) => {
+    renderPoomses = (poomse,i) => {
         return (
             <Button
                 primary
                 block
                 style={styles.mbt30}
-                onPress={() => this.onPressButton(forma)}
+                onPress={() => this.onPressButton(poomse)}
             >
-                <Text style={styles.buttonText}>{forma}° forma</Text>
+                <Text style={styles.buttonText}>{poomse.title}</Text>
             </Button>
         )
-    }
-
+    };
 
     render() {
         return (
             <Container>
                 <Content padder>
                     <Form>
-                        {this.state.formas.map(this.renderFormas)}
+                        {this.state.poomses.map(this.renderPoomses)}
                     </Form>
                 </Content>
             </Container>
         );
     }
-    onPressButton(forma){
-        this.props.navigation.navigate('SpecificPumse')
+    onPressButton(somePoomse){
+        this.props.navigation.navigate('SpecificPumse', {poomse: somePoomse})
     }
 }
-
 
 const styles = StyleSheet.create({
     container:{

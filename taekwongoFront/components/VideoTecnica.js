@@ -11,7 +11,15 @@ import {
 
 import Video from 'react-native-af-video-player'
 
-const movimientosEnum={"attack":"Ataque","defense":"Defensa","counterattack":"Contraataque","fist":"Puño","kick":"Patada","steps":"Steps","body_to_body":"Cuerpo a Cuerpo"}
+const movimientosEnum={
+    "attack":"Ataque",
+    "defense":"Defensa",
+    "counterattack":"Contraataque",
+    "fist":"Puño",
+    "kick":"Patada",
+    "steps":"Steps",
+    "body_to_body":"Cuerpo a Cuerpo"};
+
 export default class VideoTecnica extends Component {
 
     static navigationOptions = ({ navigation }) => ({
@@ -24,22 +32,30 @@ export default class VideoTecnica extends Component {
 
     constructor(props) {
         super(props);
-
-
         this.state = {
-            listItems : [1,2,3,4,5,6,7,8],
             movements : []
         };
     }
 
+    checkStatus(response) {
+        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
+            return response
+        } else {
+            let error = new Error(response.statusText);
+            error.response = response;
+            throw error
+        }
+    }
+
     componentDidMount() {
-        fetch('http://taekwongo.herokuapp.com/movements?movement='+this.props.navigation.getParam('movementName', 'NO-ID'), {
+        fetch('http://taekwongo.herokuapp.com/video_techniques?category='+this.props.navigation.getParam('movementName', 'NO-ID'), {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             }})
             .then(response => response.json())
+            .then(response => this.checkStatus(response))
             .then(response => {
                 this.setState({movements: response});
             })
@@ -51,14 +67,14 @@ export default class VideoTecnica extends Component {
 
     renderVideos = (video,i) => {
         return (
-            <View style={[styles.videoContainer,(i < this.state.listItems.length -1) ? styles.borderVideo : styles.none]}>
+            <View style={[styles.videoContainer,(i < this.state.movements.length -1) ? styles.borderVideo : styles.none]}>
                 <View style={styles.video}>
                     <View style={styles.viewTextVideo}>
-                        <Text style={styles.textVideo}>X Movimiento</Text>
+                        <Text style={styles.textVideo}>{video.title}</Text>
                     </View>
                     <View>
                         <Video
-                            url={"http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"}/>
+                            url={video.link.url}/>
                     </View>
                 </View>
             </View>
@@ -70,7 +86,7 @@ export default class VideoTecnica extends Component {
         return (
             <View style={styles.container}>
                 <ScrollView>
-                {this.state.listItems.map(this.renderVideos)}
+                {this.state.movements.map(this.renderVideos)}
                 </ScrollView>
             </View>
         );

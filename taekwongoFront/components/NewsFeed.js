@@ -22,6 +22,16 @@ export default class NewsFeed extends Component {
         };
     }
 
+    checkStatus(response) {
+        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
+            return response
+        } else {
+            let error = new Error(response.statusText);
+            error.response = response;
+            throw error
+        }
+    }
+
     componentDidMount() {
 		fetch('http://taekwongo.herokuapp.com/feeds', {
 			method: 'GET',
@@ -30,6 +40,7 @@ export default class NewsFeed extends Component {
 				'Content-Type': 'application/json'
 		}})
 			.then(response => response.json())
+            .then(response => this.checkStatus(response))
 			.then(response => {
 				this.setState({news: response});
 			})
