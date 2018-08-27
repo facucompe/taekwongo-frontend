@@ -5,7 +5,9 @@ import {
     View,
     StyleSheet
 } from 'react-native';
+
 import { Button } from 'native-base';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 export default class Rules extends Component {
     static navigationOptions = {
@@ -20,20 +22,20 @@ export default class Rules extends Component {
     }
 
     componentDidMount() {
-		fetch('http://taekwongo.herokuapp.com/rules/isnewversionavailable', {
-			method: 'GET',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-		}})
-			.then(response => response.json())
-			.then(response => {
-				this.setState({isNewVersionAvailable: false});
-			})
-			.catch(error => {
-				alert('Error de conexión, intente nuevamente');
-				console.log('Error en el fetch: ' + error.message);
-			});
+        fetch('http://taekwongo.herokuapp.com/rules/isnewversionavailable', {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+        }})
+            .then(response => response.json())
+            .then(response => {
+                this.setState({isNewVersionAvailable: false});
+            })
+            .catch(error => {
+                alert('Error de conexión, intente nuevamente');
+                console.log('Error en el fetch: ' + error.message);
+            });
     }
 
     render() {
@@ -46,12 +48,29 @@ export default class Rules extends Component {
                 <Button 
                 primary
                 block
-                style={styles.mbt30}>
+                style={styles.mbt30}
+                onPress={(this.downloadRules)}>
                     <Text style={styles.textButton}>Descargar Reglamento</Text>
                 </Button>
             </View>
         );
     }
+
+    downloadRules() {
+        const { config, fs } = RNFetchBlob;
+        const downloads = fs.dirs.DownloadDir;
+        config({
+          // add this option that makes response data to be stored as a file,
+          // this is much more performant.
+          fileCache : true,
+          addAndroidDownloads : {
+            useDownloadManager : true,
+            notification : false,
+            path:  downloads + '/taekwondo_rules.pdf',
+          }
+        })
+        .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf')//'https://files.fm/down.php?i=nqevcqkj');
+      }              
 }
 
 const styles = StyleSheet.create({
