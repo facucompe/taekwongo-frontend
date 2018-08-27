@@ -55,15 +55,15 @@ export default class Poomse extends Component {
             });
     }
 
-    renderPoomses = (forma,i) => {
+    renderPoomses = (poomse,i) => {
         return (
             <Button
                 primary
                 block
                 style={styles.mbt30}
-                onPress={() => this.onPressButton(forma)}
+                onPress={() => this.onPressButton(poomse)}
             >
-                <Text style={styles.buttonText}>{forma.title}</Text>
+                <Text style={styles.buttonText}>{poomse.title}</Text>
             </Button>
         )
     };
