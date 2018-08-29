@@ -8,6 +8,7 @@ import {
 
 import { Button } from 'native-base';
 import RNFetchBlob from 'react-native-fetch-blob';
+import RNFSPackage from 'react-native-fs';
 
 export default class Rules extends Component {
     static navigationOptions = {
@@ -49,29 +50,48 @@ export default class Rules extends Component {
                 primary
                 block
                 style={styles.mbt30}
-                onPress={(this.downloadRules)}>
+                onPress={(openRules)}>
+                    <Text style={styles.textButton}>Abrir Reglamento</Text>
+                </Button>
+                <Button 
+                primary
+                block
+                style={styles.mbt30}
+                onPress={(downloadRules)}>
                     <Text style={styles.textButton}>Descargar Reglamento</Text>
                 </Button>
             </View>
         );
-    }
-
-    downloadRules() {
-        const { config, fs } = RNFetchBlob;
-        const downloads = fs.dirs.DownloadDir;
-        config({
-          // add this option that makes response data to be stored as a file,
-          // this is much more performant.
-          fileCache : true,
-          addAndroidDownloads : {
-            useDownloadManager : true,
-            notification : false,
-            path:  downloads + '/taekwondo_rules.pdf',
-          }
-        })
-        .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf')//'https://files.fm/down.php?i=nqevcqkj');
-      }              
+    }             
 }
+
+function openRules() {        
+    RNFSPackage.exists(RNFetchBlob.fs.dirs.DownloadDir + '/taekwondo_rules.pdf')
+    .then(function(doesFileExist) {
+            if (doesFileExist) {
+            
+            } else {
+                downloadRules();
+            }
+        }
+    ) 
+} 
+
+function downloadRules() {
+    const { config, fs } = RNFetchBlob;
+    const downloads = fs.dirs.DownloadDir;
+    config({
+      // add this option that makes response data to be stored as a file,
+      // this is much more performant.
+      fileCache : true,
+      addAndroidDownloads : {
+        useDownloadManager : true,
+        notification : false,
+        path:  downloads + '/taekwondo_rules.pdf',
+      }
+    })
+    .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf')//'https://files.fm/down.php?i=nqevcqkj');
+  }
 
 const styles = StyleSheet.create({
     textButton:{
