@@ -18,6 +18,8 @@ import Rules from './components/Rules';
 import Refereeing from './components/Refereeing';
 import Poomse from './components/Poomse';
 import SpecificPumse from './components/SpecificPumse'
+import RefereeingInfo from './components/RefereeingInfo'
+import RefereeingCategory from './components/RefereeingCategory'
 
 import {
     StyleSheet,
@@ -130,6 +132,12 @@ export const StackRefereeing = StackNavigator({
             headerLeft: <MenuButton navigation={navigation} />,
           })
     },
+    RefereeingInfo:{
+	    screen: RefereeingInfo
+    },
+    RefereeingCategory:{
+	    screen:RefereeingCategory
+    }
 });
 
 const DrawerStack = DrawerNavigator({
