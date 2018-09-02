@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 
 import {
     StyleSheet,
+    ActivityIndicator
 } from 'react-native';
 
-import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
+import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Spinner } from 'native-base';
 
 
 export default class NewsFeed extends Component {
@@ -16,7 +17,8 @@ export default class NewsFeed extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            news: []
+            news: [],
+            isLoading: true
         };
     }
 
@@ -40,6 +42,7 @@ export default class NewsFeed extends Component {
 			.then(response => response.json())
             .then(response => this.checkStatus(response))
 			.then(response => {
+			    this.setState({isLoading:false});
 				this.setState({news: response});
 			})
 			.catch(error => {
@@ -84,6 +87,10 @@ export default class NewsFeed extends Component {
             <Content>
             <List>
                 {show}
+
+                {this.state.isLoading && (
+                    <Spinner color='blue' />
+                )}
     </List>
     </Content>
     </Container>
