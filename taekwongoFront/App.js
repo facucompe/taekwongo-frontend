@@ -6,6 +6,8 @@
 
 import React, { Component } from 'react';
 
+import {Thumbnail } from 'native-base';
+
 import NewsFeed from './components/NewsFeed';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
@@ -20,6 +22,8 @@ import Poomse from './components/Poomse';
 import SpecificPumse from './components/SpecificPumse'
 import RefereeingInfo from './components/RefereeingInfo'
 import RefereeingCategory from './components/RefereeingCategory'
+import RefereeingItem from './components/RefereeingItem'
+
 
 import {
     StyleSheet,
@@ -137,6 +141,9 @@ export const StackRefereeing = StackNavigator({
     },
     RefereeingCategory:{
 	    screen:RefereeingCategory
+    },
+    RefereeingItem:{
+	    screen:RefereeingItem
     }
 });
 

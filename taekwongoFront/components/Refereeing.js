@@ -5,18 +5,7 @@ import {
     Image
 } from 'react-native';
 
-import {
-    Button,
-    Container,
-    Content,
-    Form,
-    Text,
-    Card,
-    CardItem,
-    Left,
-    Body,
-    Thumbnail
-} from 'native-base';
+import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
 
 
 export default class Refereeing extends Component {
@@ -62,27 +51,24 @@ export default class Refereeing extends Component {
             });
     }
 
-    renderChanges = (change,i) => {
+    renderChanges = (item,i) => {
         return (
-            <Card style={{flex: 0, marginTop:10}}>
-                <CardItem>
-                    <Left>
-                        <Thumbnail source={{uri: 'https://image.ibb.co/mqPwkK/TAEKWONGO.png'}} />
-                        <Body>
-                        <Text>Cambio en Arbitraje</Text>
-                        <Text note>15/05/2018</Text>
-                        </Body>
-                    </Left>
-                </CardItem>
-                <CardItem>
-                    <Body>
-                    <Image source={{uri: 'http://442.perfil.com/wp-content/uploads/2011/03/0301_riquelme_telam_g-650x446.jpg'}} style={{height: 200, width:'100%',flex: 1}}/>
-                    <Text>
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis
-                    </Text>
-                    </Body>
-                </CardItem>
-            </Card>
+
+            <ListItem thumbnail onPress={() => this.moveToItem(item)}>
+                <Left>
+                    <Thumbnail source={{ uri: 'https://image.ibb.co/mqPwkK/TAEKWONGO.png' }} />
+                </Left>
+                <Body>
+                <Text numberOfLines={2}>Cambio en Arbitraje</Text>
+                <Text note numberOfLines={2}>Descripcion del cambio en el arbitraje</Text>
+                </Body>
+                <Right>
+                    <Button transparent onPress={() => this.moveToItem(item)}>
+                        <Text>Ver Mas</Text>
+                    </Button>
+                </Right>
+            </ListItem>
+
         )
     };
 
@@ -91,22 +77,26 @@ export default class Refereeing extends Component {
 
             <Container>
                 <Content padder>
-                    <Form>
-                        <Button
-                            primary
-                            block
-                            style={styles.mbt30}
-                            onPress={() => this.onPressButton()}
-                        >
-                            <Text style={styles.buttonText}>Ver Información</Text>
-                        </Button>
+                    <Button
+                        primary
+                        block
+                        style={styles.mbt30}
+                        onPress={() => this.onPressButton()}
+                    >
+                        <Text style={styles.buttonText}>Ver Información</Text>
+                    </Button>
 
+                    <List>
                         {this.state.changes.map(this.renderChanges)}
-                    </Form>
+                    </List>
                 </Content>
             </Container>
 
         );
+    }
+
+    moveToItem(item){
+        this.props.navigation.navigate('RefereeingItem')
     }
 
     onPressButton(){
