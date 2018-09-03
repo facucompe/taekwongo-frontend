@@ -18,6 +18,7 @@ import Calendar from './components/Calendar';
 import Video from './components/Video';
 import Rules from './components/Rules';
 import Refereeing from './components/Refereeing';
+import Bluetooth from './components/BluetoothAndTraining';
 
 import {
     StyleSheet,
@@ -126,7 +127,18 @@ export const StackRefereeing = StackNavigator({
     },
 });
 
+
+export const StackBluetooth = StackNavigator({
+    Bluetooth: {
+        screen: Bluetooth,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+        })
+    },
+});
+
 const DrawerStack = DrawerNavigator({
+    Bluetooth: {screen: StackBluetooth},
     NewsFeed: { screen: StackNewsFeed },
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},

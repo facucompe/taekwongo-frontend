@@ -7,12 +7,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "@remobile/react-native-toast": "^1.0.7",
+    "moment": "latest",
     "native-base": "^2.7.2",
     "react": "16.3.1",
     "react-devtools": "^3.2.3",
     "react-native": "0.55.2",
-    "react-navigation": "^1.5.12",
-    "moment": "latest"
+    "react-native-bluetooth-serial": "^1.0.0-rc1",
+    "react-navigation": "^1.5.12"
   },
   "devDependencies": {
     "babel-jest": "22.4.3",
