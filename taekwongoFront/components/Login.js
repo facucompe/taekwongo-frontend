@@ -172,8 +172,9 @@ export default class Login extends Component{
                 else if (response['access_token'] && response['renew_id']) {
                     AsyncStorage.setItem("access_token", response['access_token']);
                     AsyncStorage.setItem("renew_id", response['renew_id']);
-                    this.setState({session_token: response['access_token']});
-                    onSuccess();
+                    this.setState({session_token: response['access_token']}, function () {
+                        onSuccess();
+                    });
                 }
                 else {
                     console.log('No se comprendió el mensaje del servidor');
