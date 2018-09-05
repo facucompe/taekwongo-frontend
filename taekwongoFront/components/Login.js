@@ -41,11 +41,12 @@ export default class Login extends Component{
         this.onLogin = this.onLogin.bind(this);
         this.signUp = this.signUp.bind(this);
         this.recoverPassword = this.recoverPassword.bind(this);
-        this.trainings = this.trainings.bind(this);
+        this.openTrainingsView = this.openTrainingsView.bind(this);
 
         this.emailValidation = this.emailValidation.bind(this);
         this.setEmail = this.setEmail.bind(this);
         this.renderEmailError = this.renderEmailError.bind(this);
+        this.callLoginApi = this.callLoginApi.bind(this);
 
         this.setPassword = this.setPassword.bind(this);
     }
@@ -127,11 +128,10 @@ export default class Login extends Component{
     }
 
     onLogin(){
-        LoginConector.callApi(this.buildInfo());
-        AsyncStorage.getItem("access_token").then((value) => {
-            this.setState({"session_token": value});
+        this.setState({session_token: undefined}, function () {
+            this.callLoginApi(this.buildInfo());
+            this.openTrainingsView();
         });
-        this.trainings()
     }
 
     signUp(){
@@ -142,10 +142,11 @@ export default class Login extends Component{
         this.props.navigation.navigate('RecoverPassword', {})
     }
 
-    trainings(){
-        if(this.state.session_token !== undefined) {
+    openTrainingsView(){
+        if(this.state.session_token != undefined) {
             this.props.navigation.navigate('Trainings', {session_token: this.state.session_token})
         }
+
     }
 
     buildInfo(){
@@ -153,6 +154,36 @@ export default class Login extends Component{
             email:  this.state.emailText,
             password: this.state.passwordText
         }
+    }
+
+    callLoginApi(info) {
+        fetch('http://192.168.0.43:3000/users/sessions', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(info),
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response['error']) {
+                    alert(response['error'])
+                }
+                else if (response['access_token'] && response['renew_id']) {
+                    AsyncStorage.setItem("access_token", response['access_token']);
+                    AsyncStorage.setItem("renew_id", response['renew_id']);
+                    this.setState({session_token: response['access_token']});
+                }
+                else {
+                    console.log('No se comprendió el mensaje del servidor');
+                    console.log(response);
+                }
+            })
+            .catch(error => {
+                alert('Error de conexión, intente nuevamente');
+                console.log('Error en el el fetch: ' + error.message);
+            });
     }
 }
 
@@ -164,9 +195,9 @@ function notEmptyAndFitsRegex(aString,aRegex){
     return aString !== "" && aRegex.test(aString);
 }
 
-let LoginConector = function () {
+/*let LoginConnector = function () {
 	function callApi(info) {
-		fetch('http://192.168.43.41:3000/users/sessions', {
+		fetch('http://192.168.0.42:3000/users/sessions', {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -198,7 +229,7 @@ let LoginConector = function () {
 		callApi: callApi
 	}
 }();
-
+*/
 const win = Dimensions.get('window');
 
 const styles = StyleSheet.create({
