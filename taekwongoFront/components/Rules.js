@@ -89,7 +89,7 @@ function downloadRules() {
         path: downloads + '/taekwondo_rules.pdf',
       }
     })
-    .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf')//'https://files.fm/down.php?i=nqevcqkj');
+    .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf');
 }
 
 function openRulesPDF() {
