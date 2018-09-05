@@ -93,9 +93,6 @@ function downloadRules() {
 }
 
 function openRulesPDF() {
-    var source = RNFetchBlob.fs.dirs.DownloadDir + '/taekwondo_rules.pdf';
-
-    return <Pdf source={source}/>
 }
 
 const styles = StyleSheet.create({
