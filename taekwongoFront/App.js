@@ -6,8 +6,6 @@
 
 import React, { Component } from 'react';
 
-import {Thumbnail } from 'native-base';
-
 import NewsFeed from './components/NewsFeed';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
@@ -24,18 +22,15 @@ import RefereeingInfo from './components/RefereeingInfo'
 import RefereeingCategory from './components/RefereeingCategory'
 import RefereeingItem from './components/RefereeingItem'
 
-
 import {
     StyleSheet,
     AsyncStorage,
+    Image,
+    ScrollView
 } from 'react-native';
 
-import {
-    StackNavigator,
-    DrawerNavigator,
-} from 'react-navigation';
-
-import { Left, Button, Icon } from 'native-base';
+import { Container, Content, Icon, Header, Body, Left, Button } from 'native-base'
+import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView } from 'react-navigation'
 
 type Props = {};
 
@@ -147,6 +142,24 @@ export const StackRefereeing = StackNavigator({
     }
 });
 
+
+const CustomDrawerContentComponent = (props) => (
+
+    <Container>
+        <Header style={styles.drawerHeader}>
+            <Body>
+            <Image
+                style={styles.drawerImage}
+                source={{uri: 'https://image.ibb.co/mqPwkK/TAEKWONGO.png'}} />
+            </Body>
+        </Header>
+        <Content>
+            <DrawerItems {...props} />
+        </Content>
+
+    </Container>
+
+);
 const DrawerStack = DrawerNavigator({
     NewsFeed: { screen: StackNewsFeed },
     Calendar: { screen: StackCalendar},
@@ -154,7 +167,11 @@ const DrawerStack = DrawerNavigator({
     Pumse : {screen: StackPumse},
     Rules: { screen: StackRules},
     Refereeing: { screen: StackRefereeing},
-    Training: { screen: StackTraining }
+    Training: { screen: StackTraining },
+},
+{
+    drawerPosition: 'left',
+    contentComponent: CustomDrawerContentComponent,
 });
 
 const styles = StyleSheet.create({
@@ -164,6 +181,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
+    drawerHeader: {
+        height: 200,
+        backgroundColor: '#af4c3a'
+    },
+    drawerImage: {
+        height: 140,
+        width: 200,
+        alignItems:'center',
+    }
 });
 
 export const MenuButton = (props) => {

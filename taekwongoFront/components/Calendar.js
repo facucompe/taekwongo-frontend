@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Image} from 'react-native';
 
 import { Col, Grid, Row, Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Picker } from 'native-base';
 import moment from "moment";
@@ -8,7 +8,14 @@ import moment from "moment";
 export default class Calendar extends Component {
 
     static navigationOptions = {
-        title: 'Calendario'
+        title: 'Calendario',
+        drawerLabel: 'Calendario',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('./img/calendario.png')}
+                style={styles.icon}
+            />
+        ),
     };
 
     constructor(props) {
@@ -172,4 +179,8 @@ const styles = StyleSheet.create({
     text: {
         color: 'black'
     },
+    icon: {
+        width: 24,
+        height: 24,
+    }
 });

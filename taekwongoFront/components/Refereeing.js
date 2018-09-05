@@ -7,10 +7,16 @@ import {
 
 import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
 
-
 export default class Refereeing extends Component {
     static navigationOptions = {
-        title: 'Arbitraje'
+        title: 'Arbitraje',
+        drawerLabel: 'Arbitraje',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('./img/arbitraje5.png')}
+                style={styles.icon}
+            />
+        ),
     }
 
     constructor(props) {
@@ -169,5 +175,9 @@ const styles = StyleSheet.create({
     mb150t30: {
         marginBottom: 180,
         marginTop: 30
+    },
+    icon: {
+        width: 24,
+        height: 24,
     }
 });

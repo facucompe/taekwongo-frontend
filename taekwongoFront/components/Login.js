@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Dimensions,
-    AsyncStorage
+    AsyncStorage,
+    Image
 } from 'react-native';
 
 import {
@@ -24,7 +25,14 @@ import RecoverPassword from "./RecoverPassword";
 export default class Login extends Component{
 
     static navigationOptions = {
-        title: 'Entrenamiento'
+        title: 'Entrenamiento',
+        drawerLabel: 'Entrenamiento',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('./img/entrenamiento.png')}
+                style={styles.icon}
+            />
+        ),
     };
 
     constructor(props) {
@@ -268,5 +276,9 @@ const styles = StyleSheet.create({
     mb150t30: {
         marginBottom: 180,
         marginTop: 30
+    },
+    icon: {
+        width: 24,
+        height: 24,
     }
 });

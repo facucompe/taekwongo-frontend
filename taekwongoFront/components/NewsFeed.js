@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import {
     StyleSheet,
-    ActivityIndicator
+    ActivityIndicator,
+    Image
 } from 'react-native';
 
 import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Spinner } from 'native-base';
@@ -11,7 +12,14 @@ import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right,
 export default class NewsFeed extends Component {
 
     static navigationOptions = {
-        title: 'Novedades'
+        title: 'Novedades',
+        drawerLabel: 'Novedades',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('./img/news.png')}
+                style={styles.icon}
+            />
+        )
     }
 
     constructor(props) {
@@ -142,5 +150,9 @@ const styles = StyleSheet.create({
     image:{
         height:100,
         width:100
+    },
+    icon: {
+        width: 24,
+        height: 24,
     }
 })
