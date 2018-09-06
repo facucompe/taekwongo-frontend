@@ -93,11 +93,7 @@ export default class Training extends Component {
     }
 
     iconNameFor(training) {
-        if(training.training_type === "V"){
-            return 'flash'
-        }
-        else
-            return 'dumbbell'
+        return training.training_type === "V" ? 'flash' : 'dumbbell';
     }
 
     renderMeasurementsTable() {
