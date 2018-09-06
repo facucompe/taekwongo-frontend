@@ -10,14 +10,14 @@ import NewsFeed from './components/NewsFeed';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import RecoverPassword from "./components/RecoverPassword";
-import Trainings from './components/Trainings';
-import Training from './components/Training';
-import CreateTraining from './components/CreateTraining';
 import ItemNewsFeed from './components/ItemNewsFeed';
-import Calendar from './components/Calendar';
-import Video from './components/Video';
+import Calendar from './components/Calendar'
+import VideoMenu from './components/VideoMenu';
+import VideoTechnique from './components/VideoTecnica';
 import Rules from './components/Rules';
 import Refereeing from './components/Refereeing';
+import Poomse from './components/Poomse';
+import SpecificPumse from './components/SpecificPumse'
 
 import {
     StyleSheet,
@@ -58,7 +58,7 @@ export const StackTraining = StackNavigator({
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
           })
-
+        
     },
     RecoverPassword: {
         screen: RecoverPassword
@@ -66,15 +66,6 @@ export const StackTraining = StackNavigator({
     SignUp: {
         screen: SignUp
     },
-    Trainings:{
-        screen: Trainings
-    },
-    Training:{
-        screen: Training
-    },
-    CreateTraining:{
-        screen: CreateTraining
-    }
 });
 
 export const StackNewsFeed = StackNavigator({
@@ -82,7 +73,7 @@ export const StackNewsFeed = StackNavigator({
         screen:NewsFeed,
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
-          })
+          })       
     },
     ItemNewsFeed:{
         screen:ItemNewsFeed
@@ -100,12 +91,15 @@ export const StackCalendar = StackNavigator({
 
 
 export const StackVideo = StackNavigator({
-    Video: {
-        screen: Video,
+    VideoMenu: {
+        screen: VideoMenu,
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
           })
     },
+    VideoTechnique:{
+        screen:VideoTechnique
+    }
 });
 
 export const StackRules = StackNavigator({
@@ -114,6 +108,18 @@ export const StackRules = StackNavigator({
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
           })
+    },
+});
+
+export const StackPumse = StackNavigator({
+    Pumse: {
+        screen: Poomse,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+        })
+    },
+    SpecificPumse: {
+        screen: SpecificPumse
     },
 });
 
@@ -130,6 +136,7 @@ const DrawerStack = DrawerNavigator({
     NewsFeed: { screen: StackNewsFeed },
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
+    Pumse : {screen: StackPumse},
     Rules: { screen: StackRules},
     Refereeing: { screen: StackRefereeing},
     Training: { screen: StackTraining }
