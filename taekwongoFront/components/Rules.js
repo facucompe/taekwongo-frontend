@@ -17,33 +17,9 @@ export default class Rules extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isNewVersionAvailable: false
-        };
     }
 
-    componentDidMount() {
-        fetch('http://taekwongo.herokuapp.com/rules/isnewversionavailable', {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-        }})
-            .then(response => response.json())
-            .then(response => {
-                this.setState({isNewVersionAvailable: false});
-            })
-            .catch(error => {
-                alert('Error de conexión, intente nuevamente');
-                console.log('Error en el fetch: ' + error.message);
-            });
-    }
-
-    render() {
-        if (this.state.isNewVersionAvailable) {
-            alert("Hay una nueva versión disponible");
-        }
-        
+    render() {        
         return (
             <View style={styles.margins}>
                 <Button 
