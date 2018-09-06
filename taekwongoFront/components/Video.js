@@ -2,26 +2,18 @@ import React, { Component } from 'react';
 
 import {
     Text,
-    View,
+    View
 } from 'react-native';
 
-export default class ItemNewsFeed extends Component {
-
+export default class Video extends Component {
     static navigationOptions = {
-        title: 'Item'
+        title: 'Videos de Técnica'
     }
-
-
-    constructor(props) {
-        super(props);
-    }
-
     render() {
-        const param = this.props.navigation.getParam('itemId', 'NO-ID');
         return (
             <View>
                 <Text>
-                    {param}
+                    Videos de técnica component
                 </Text>
             </View>
         );
