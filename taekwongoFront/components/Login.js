@@ -20,7 +20,6 @@ import {
 
 import SignUp from "./SignUp";
 import RecoverPassword from "./RecoverPassword";
-import Trainings from "./Trainings";
 
 export default class Login extends Component{
 
@@ -89,8 +88,12 @@ export default class Login extends Component{
                             </Button>
                         </Form>
                         <Form style={styles.container}>
-                            <Text style={styles.blueCenteredLink} onPress={this.recoverPassword}>
-                                ¿Olvidaste tu contraseña?
+                            <Text style={styles.mb150t30}>
+                                ¿Olvidaste tus datos de inicio de sesión?
+
+                                <Text style={styles.registerPress} onPress={this.recoverPassword}>
+                                    {'\t'}Obtén ayuda
+                                </Text>
                             </Text>
                         </Form>
                         <Form style={styles.registerView}>
@@ -180,40 +183,50 @@ function notEmptyAndFitsRegex(aString,aRegex){
     return aString !== "" && aRegex.test(aString);
 }
 
-let LoginConnector = function () {
-    function callApi(info) {
-        fetch('http://taekwongo.herokuapp.com/users/sessions', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(info),
-        })
-            .then(response => response.json())
-            .then(response => {
-
-                if (response['error']) {
-                    alert(response['error'])
-                }
-                else if (response['access_token'] && response['renew_id']) {
-                    AsyncStorage.setItem("access_token", response['access_token']);
-                    AsyncStorage.setItem("renew_id", response['renew_id']);
-                }
-                else {
-                    console.log('No se comprendió el mensaje del servidor');
-                    console.log(response);
-                }
-            })
-            .catch(error => {
-                alert('Error de conexión, intente nuevamente');
-                console.log('Error en el el fetch: ' + error.message);
-            });
+function checkStatus(response) {
+    if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
+        return response
+    } else {
+        let error = new Error(response.statusText);
+        error.response = response;
+        throw error
     }
+}
 
-    return{
-        callApi: callApi
-    }
+let LoginConector = function () {
+	function callApi(info) {
+		fetch('http://taekwongo.herokuapp.com/users/sessions', {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(info),
+		})
+			.then(response => response.json())
+            .then(response => checkStatus(response))
+			.then(response => {
+				if (response['error']) {
+					alert(response['error'])
+				}
+				else if (response['access_token'] && response['renew_id']) {
+					AsyncStorage.setItem("access_token", response['access_token']);
+					AsyncStorage.setItem("renew_id", response['renew_id']);
+				}
+				else {
+					console.log('No se comprendió el mensaje del servidor');
+					console.log(response);
+				}
+			})
+			.catch(error => {
+				alert('Error de conexión, intente nuevamente');
+				console.log('Error en el el fetch: ' + error.message);
+			});
+	}
+
+	return{
+		callApi: callApi
+	}
 }();
 
 function resetTokenAndRenewID(){
@@ -281,16 +294,14 @@ const styles = StyleSheet.create({
         textAlign:'center'
     },
     registerPress:{
-        fontWeight:'bold',
-        color: 'blue'
+        fontWeight:'bold'
     },
     mbt30: {
         marginBottom: 30,
         marginTop: 30
     },
-    blueCenteredLink:{
-        color: 'blue',
-        textAlign:'center',
-        marginBottom: 30
+    mb150t30: {
+        marginBottom: 180,
+        marginTop: 30
     }
 });
