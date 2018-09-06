@@ -129,7 +129,8 @@ export default class Login extends Component{
 
     onLogin(){
         this.setState({session_token: undefined}, function () {
-            this.callLoginApi(this.buildInfo(), this.openTrainingsView);
+            this.callLoginApi(this.buildInfo());
+            this.openTrainingsView();
         });
     }
 
@@ -155,8 +156,8 @@ export default class Login extends Component{
         }
     }
 
-    callLoginApi(info, onSuccess) {
-        fetch('http://taekwongo.herokuapp.com/users/sessions', {
+    callLoginApi(info) {
+        fetch('http://192.168.0.43:3000/users/sessions', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -173,7 +174,6 @@ export default class Login extends Component{
                     AsyncStorage.setItem("access_token", response['access_token']);
                     AsyncStorage.setItem("renew_id", response['renew_id']);
                     this.setState({session_token: response['access_token']});
-                    onSuccess();
                 }
                 else {
                     console.log('No se comprendió el mensaje del servidor');
