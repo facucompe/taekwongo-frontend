@@ -94,8 +94,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 26
 
     defaultConfig {
         applicationId "com.taekwongofront"
@@ -137,6 +136,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-svg')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-orientation')
     compile project(':react-native-vector-icons')

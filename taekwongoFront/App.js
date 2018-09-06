@@ -189,14 +189,24 @@ const styles = StyleSheet.create({
         height: 140,
         width: 200,
         alignItems:'center',
+    },
+    icon: {
+        width: 24,
+        height: 24,
     }
 });
 
 export const MenuButton = (props) => {
+    /*<Image
+                    source={require('./components/img/menu.png')}
+                    style={styles.icon}
+                />*/
     return (
         <Left>
             <Button transparent onPress={() => {props.navigation.navigate('DrawerOpen'); } }>
-                <Icon name='menu' />
+                <Icon name='menu' type="MaterialIcons"/>
+
+
             </Button>
         </Left>
     );
