@@ -40,7 +40,7 @@ export default class Trainings extends Component {
     };
 
     componentDidMount() {
-        fetch('http://192.168.43.41:3000/trainings',
+        fetch('http://taekwongo.herokuapp.com/trainings',
             {
                 method: 'GET',
                 headers: {

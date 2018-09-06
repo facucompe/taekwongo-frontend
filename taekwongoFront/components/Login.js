@@ -33,22 +33,23 @@ export default class Login extends Component{
         this.state = {
             emailText: undefined,
             passwordText: undefined,
-            validatingEmail: false,
-            session_token: undefined,
+            validatingEmail: false
         };
 
         //Logic methods
         this.onLogin = this.onLogin.bind(this);
         this.signUp = this.signUp.bind(this);
         this.recoverPassword = this.recoverPassword.bind(this);
-        this.openTrainingsView = this.openTrainingsView.bind(this);
 
         this.emailValidation = this.emailValidation.bind(this);
         this.setEmail = this.setEmail.bind(this);
         this.renderEmailError = this.renderEmailError.bind(this);
-        this.callLoginApi = this.callLoginApi.bind(this);
 
         this.setPassword = this.setPassword.bind(this);
+    }
+
+    componentWillMount(){
+        resetTokenAndRenewID()
     }
 
     render() {
@@ -128,10 +129,24 @@ export default class Login extends Component{
     }
 
     onLogin(){
-        this.setState({session_token: undefined}, function () {
-            this.callLoginApi(this.buildInfo());
-            this.openTrainingsView();
-        });
+        if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
+            LoginConnector.callApi(this.buildInfo());
+            AsyncStorage.getItem("access_token").then((token) => {
+                    this.openTrainingsView(token);
+                }
+            );
+        }
+        else{
+            alert("Corregir campos inválidos");
+        }
+    }
+
+    allFieldsCompleted(){
+        return this.state.emailText != undefined && this.state.passwordText != undefined
+    }
+
+    postOkFieldValidations(){
+        return this.emailValidation()
     }
 
     signUp(){
@@ -142,11 +157,10 @@ export default class Login extends Component{
         this.props.navigation.navigate('RecoverPassword', {})
     }
 
-    openTrainingsView(){
-        if(this.state.session_token != undefined) {
-            this.props.navigation.navigate('Trainings', {session_token: this.state.session_token})
+    openTrainingsView(token){
+        if(token != undefined) {
+            this.props.navigation.navigate('Trainings', {session_token: token})
         }
-
     }
 
     buildInfo(){
@@ -155,9 +169,20 @@ export default class Login extends Component{
             password: this.state.passwordText
         }
     }
+}
 
-    callLoginApi(info) {
-        fetch('http://192.168.0.43:3000/users/sessions', {
+
+function isValidEmail(aString) {
+    return notEmptyAndFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+}
+
+function notEmptyAndFitsRegex(aString,aRegex){
+    return aString !== "" && aRegex.test(aString);
+}
+
+let LoginConnector = function () {
+    function callApi(info) {
+        fetch('http://taekwongo.herokuapp.com/users/sessions', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -167,13 +192,13 @@ export default class Login extends Component{
         })
             .then(response => response.json())
             .then(response => {
+
                 if (response['error']) {
                     alert(response['error'])
                 }
                 else if (response['access_token'] && response['renew_id']) {
                     AsyncStorage.setItem("access_token", response['access_token']);
                     AsyncStorage.setItem("renew_id", response['renew_id']);
-                    this.setState({session_token: response['access_token']});
                 }
                 else {
                     console.log('No se comprendió el mensaje del servidor');
@@ -185,51 +210,19 @@ export default class Login extends Component{
                 console.log('Error en el el fetch: ' + error.message);
             });
     }
-}
 
-function isValidEmail(aString) {
-    return notEmptyAndFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-}
-
-function notEmptyAndFitsRegex(aString,aRegex){
-    return aString !== "" && aRegex.test(aString);
-}
-
-/*let LoginConnector = function () {
-	function callApi(info) {
-		fetch('http://192.168.0.42:3000/users/sessions', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(info),
-		})
-			.then(response => response.json())
-			.then(response => {
-				if (response['error']) {
-					alert(response['error'])
-				}
-				else if (response['access_token'] && response['renew_id']) {
-					AsyncStorage.setItem("access_token", response['access_token']);
-					AsyncStorage.setItem("renew_id", response['renew_id']);
-				}
-				else {
-					console.log('No se comprendió el mensaje del servidor');
-					console.log(response);
-				}
-			})
-			.catch(error => {
-				alert('Error de conexión, intente nuevamente');
-				console.log('Error en el el fetch: ' + error.message);
-			});
-	}
-
-	return{
-		callApi: callApi
-	}
+    return{
+        callApi: callApi
+    }
 }();
-*/
+
+function resetTokenAndRenewID(){
+
+    AsyncStorage.setItem("access_token", "");
+    AsyncStorage.setItem("renew_id", "");
+
+}
+
 const win = Dimensions.get('window');
 
 const styles = StyleSheet.create({
