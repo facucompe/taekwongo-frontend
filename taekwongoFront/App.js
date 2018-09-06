@@ -69,15 +69,6 @@ export const StackTraining = StackNavigator({
     SignUp: {
         screen: SignUp
     },
-    Trainings:{
-        screen: Trainings
-    },
-    Training:{
-        screen: Training
-    },
-    CreateTraining:{
-        screen: CreateTraining
-    }
 });
 
 export const StackNewsFeed = StackNavigator({
