@@ -29,7 +29,7 @@ import {
     ScrollView
 } from 'react-native';
 
-import { Container, Content, Icon, Header, Body, Left, Button } from 'native-base'
+import { Container, Content, Icon, Header, Body, Left, Button, Text } from 'native-base'
 import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView } from 'react-navigation'
 
 type Props = {};
@@ -147,10 +147,13 @@ const CustomDrawerContentComponent = (props) => (
 
     <Container>
         <Header style={styles.drawerHeader}>
-            <Body>
-            <Image
-                style={styles.drawerImage}
-                source={{uri: 'https://image.ibb.co/mqPwkK/TAEKWONGO.png'}} />
+            <Body style={{flex:1}}>
+            <Left style={{alignSelf:"center",justifyContent:"center"}}>
+                <Image
+                    source={require('./components/img/poomse1.png')}
+                    style={styles.iconMenu}
+                />
+            </Left>
             </Body>
         </Header>
         <Content>
@@ -190,23 +193,17 @@ const styles = StyleSheet.create({
         width: 200,
         alignItems:'center',
     },
-    icon: {
-        width: 24,
-        height: 24,
+    iconMenu: {
+       width:100,
+       height:100
     }
 });
 
 export const MenuButton = (props) => {
-    /*<Image
-                    source={require('./components/img/menu.png')}
-                    style={styles.icon}
-                />*/
     return (
         <Left>
             <Button transparent onPress={() => {props.navigation.navigate('DrawerOpen'); } }>
                 <Icon name='menu' type="MaterialIcons"/>
-
-
             </Button>
         </Left>
     );
