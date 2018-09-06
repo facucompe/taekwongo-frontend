@@ -193,7 +193,7 @@ function checkStatus(response) {
     }
 }
 
-let LoginConector = function () {
+let LoginConnector = function () {
 	function callApi(info) {
 		fetch('http://taekwongo.herokuapp.com/users/sessions', {
 			method: 'POST',
