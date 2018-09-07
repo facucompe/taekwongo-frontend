@@ -55,6 +55,10 @@ export default class Login extends Component{
         this.setPassword = this.setPassword.bind(this);
     }
 
+    componentWillMount(){
+        resetTokenAndRenewID()
+    }
+
     render() {
         return (
             <Container>
@@ -136,7 +140,24 @@ export default class Login extends Component{
     }
 
     onLogin(){
-        LoginConector.callApi(this.buildInfo())
+        if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
+            LoginConnector.callApi(this.buildInfo());
+            AsyncStorage.getItem("access_token").then((token) => {
+                    this.openTrainingsView(token);
+                }
+            );
+        }
+        else{
+            alert("Corregir campos inválidos");
+        }
+    }
+
+    allFieldsCompleted(){
+        return this.state.emailText != undefined && this.state.passwordText != undefined
+    }
+
+    postOkFieldValidations(){
+        return this.emailValidation()
     }
 
     signUp(){
@@ -147,6 +168,12 @@ export default class Login extends Component{
         this.props.navigation.navigate('RecoverPassword', {})
     }
 
+    openTrainingsView(token){
+        if(token != undefined) {
+            this.props.navigation.navigate('Trainings', {session_token: token})
+        }
+    }
+
     buildInfo(){
         return {
             email:  this.state.emailText,
@@ -154,6 +181,7 @@ export default class Login extends Component{
         }
     }
 }
+
 
 function isValidEmail(aString) {
     return notEmptyAndFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -173,7 +201,7 @@ function checkStatus(response) {
     }
 }
 
-let LoginConector = function () {
+let LoginConnector = function () {
 	function callApi(info) {
 		fetch('http://taekwongo.herokuapp.com/users/sessions', {
 			method: 'POST',
@@ -208,6 +236,13 @@ let LoginConector = function () {
 		callApi: callApi
 	}
 }();
+
+function resetTokenAndRenewID(){
+
+    AsyncStorage.setItem("access_token", "");
+    AsyncStorage.setItem("renew_id", "");
+
+}
 
 const win = Dimensions.get('window');
 

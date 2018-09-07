@@ -5,7 +5,6 @@
  */
 
 import React, { Component } from 'react';
-
 import NewsFeed from './components/NewsFeed';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
@@ -17,10 +16,13 @@ import VideoTechnique from './components/VideoTecnica';
 import Rules from './components/Rules';
 import Refereeing from './components/Refereeing';
 import Poomse from './components/Poomse';
-import SpecificPumse from './components/SpecificPumse'
 import RefereeingInfo from './components/RefereeingInfo'
 import RefereeingCategory from './components/RefereeingCategory'
 import RefereeingItem from './components/RefereeingItem'
+import SpecificPumse from './components/SpecificPumse';
+import Trainings from './components/Trainings';
+import Training from './components/Training';
+import CreateTraining from './components/CreateTraining';
 
 import {
     StyleSheet,
@@ -67,6 +69,15 @@ export const StackTraining = StackNavigator({
     SignUp: {
         screen: SignUp
     },
+    Trainings:{
+        screen: Trainings
+    },
+    Training:{
+        screen: Training
+    },
+    CreateTraining:{
+        screen: CreateTraining
+    }
 });
 
 export const StackNewsFeed = StackNavigator({
