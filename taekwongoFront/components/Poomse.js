@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import {
     StyleSheet,
+    Image
 } from 'react-native';
 
 import {
@@ -14,7 +15,14 @@ import {
 
 export default class Poomse extends Component {
     static navigationOptions = {
-        title: 'Poomses'
+        title: 'Poomses',
+        drawerLabel: 'Poomses',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('./img/poomse.png')}
+                style={styles.icon}
+            />
+        ),
     };
 
     constructor(props) {
@@ -149,5 +157,9 @@ const styles = StyleSheet.create({
     mb150t30: {
         marginBottom: 180,
         marginTop: 30
+    },
+    icon: {
+        width: 24,
+        height: 24,
     }
 });

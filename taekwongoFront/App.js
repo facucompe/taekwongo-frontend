@@ -5,7 +5,6 @@
  */
 
 import React, { Component } from 'react';
-
 import NewsFeed from './components/NewsFeed';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
@@ -17,6 +16,9 @@ import VideoTechnique from './components/VideoTecnica';
 import Rules from './components/Rules';
 import Refereeing from './components/Refereeing';
 import Poomse from './components/Poomse';
+import RefereeingInfo from './components/RefereeingInfo'
+import RefereeingCategory from './components/RefereeingCategory'
+import RefereeingItem from './components/RefereeingItem'
 import SpecificPumse from './components/SpecificPumse';
 import Trainings from './components/Trainings';
 import Training from './components/Training';
@@ -25,14 +27,12 @@ import CreateTraining from './components/CreateTraining';
 import {
     StyleSheet,
     AsyncStorage,
+    Image,
+    ScrollView
 } from 'react-native';
 
-import {
-    StackNavigator,
-    DrawerNavigator,
-} from 'react-navigation';
-
-import { Left, Button, Icon } from 'native-base';
+import { Container, Content, Icon, Header, Body, Left, Button, Text } from 'native-base'
+import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView } from 'react-navigation'
 
 type Props = {};
 
@@ -142,8 +142,38 @@ export const StackRefereeing = StackNavigator({
             headerLeft: <MenuButton navigation={navigation} />,
           })
     },
+    RefereeingInfo:{
+	    screen: RefereeingInfo
+    },
+    RefereeingCategory:{
+	    screen:RefereeingCategory
+    },
+    RefereeingItem:{
+	    screen:RefereeingItem
+    }
 });
 
+
+const CustomDrawerContentComponent = (props) => (
+
+    <Container>
+        <Header style={styles.drawerHeader}>
+            <Body style={{flex:1}}>
+            <Left style={{alignSelf:"center",justifyContent:"center"}}>
+                <Image
+                    source={require('./components/img/poomse1.png')}
+                    style={styles.iconMenu}
+                />
+            </Left>
+            </Body>
+        </Header>
+        <Content>
+            <DrawerItems {...props} />
+        </Content>
+
+    </Container>
+
+);
 const DrawerStack = DrawerNavigator({
     NewsFeed: { screen: StackNewsFeed },
     Calendar: { screen: StackCalendar},
@@ -151,7 +181,11 @@ const DrawerStack = DrawerNavigator({
     Pumse : {screen: StackPumse},
     Rules: { screen: StackRules},
     Refereeing: { screen: StackRefereeing},
-    Training: { screen: StackTraining }
+    Training: { screen: StackTraining },
+},
+{
+    drawerPosition: 'left',
+    contentComponent: CustomDrawerContentComponent,
 });
 
 const styles = StyleSheet.create({
@@ -161,13 +195,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
+    drawerHeader: {
+        height: 200,
+        backgroundColor: '#af4c3a'
+    },
+    drawerImage: {
+        height: 140,
+        width: 200,
+        alignItems:'center',
+    },
+    iconMenu: {
+       width:100,
+       height:100
+    }
 });
 
 export const MenuButton = (props) => {
     return (
         <Left>
             <Button transparent onPress={() => {props.navigation.navigate('DrawerOpen'); } }>
-                <Icon name='menu' />
+                <Icon name='menu' type="MaterialIcons"/>
             </Button>
         </Left>
     );

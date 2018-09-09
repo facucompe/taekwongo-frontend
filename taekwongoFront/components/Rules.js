@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 import {
+    StyleSheet,
     Text,
     View,
-    StyleSheet
+    Image
 } from 'react-native';
 
 import { Button } from 'native-base';
@@ -12,7 +13,14 @@ import RNFSPackage from 'react-native-fs';
 
 export default class Rules extends Component {
     static navigationOptions = {
-        title: 'Reglamento'
+        title: 'Reglamento',
+        drawerLabel: 'Reglamento',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('./img/reglamento.png')}
+                style={styles.icon}
+            />
+        ),
     }
 
     constructor(props) {
@@ -83,5 +91,10 @@ const styles = StyleSheet.create({
     margins: {
         marginLeft: 40,
         marginRight: 40
-    }
+    },
+    icon: {
+          width: 24,
+          height: 24,
+      }
+
 });

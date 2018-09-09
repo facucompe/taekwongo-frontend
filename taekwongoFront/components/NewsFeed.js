@@ -2,23 +2,31 @@ import React, { Component } from 'react';
 
 import {
     StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-    Image,
-    ScrollView
+    ActivityIndicator,
+    Image
 } from 'react-native';
+
+import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Spinner } from 'native-base';
+
 
 export default class NewsFeed extends Component {
 
     static navigationOptions = {
-        title: 'Novedades'
+        title: 'Novedades',
+        drawerLabel: 'Novedades',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('./img/news.png')}
+                style={styles.icon}
+            />
+        )
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            news: []
+            news: [],
+            isLoading: true
         };
     }
 
@@ -42,6 +50,7 @@ export default class NewsFeed extends Component {
 			.then(response => response.json())
             .then(response => this.checkStatus(response))
 			.then(response => {
+			    this.setState({isLoading:false});
 				this.setState({news: response});
 			})
 			.catch(error => {
@@ -52,27 +61,21 @@ export default class NewsFeed extends Component {
 
     renderItemNewsFeed = (item,i) => {
         return (
-            <View style={styles.itemContainer}>
-            <TouchableOpacity
-                key={i}
-                style={styles.item}
-                onPress={() => this.moveToItem(item)}>
-                <View style={styles.imageContainer}>
-                    <Image
-                        style={styles.image}
-                        source={{uri: item.picture_url}}
-                    />
-                </View>
-                <View style={styles.flexBox}>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.titleText}>{item.title}</Text>
-                    </View>
-                    <View style={styles.bodyContainer}>
-                        <Text style={styles.itemText} numberOfLines={2}> {item.body}</Text>
-                    </View>
-                </View>
-            </TouchableOpacity>
-            </View>)
+            <ListItem thumbnail onPress={() => this.moveToItem(item)}>
+                <Left>
+                    <Thumbnail source={{ uri: item.picture_url }} />
+                </Left>
+                <Body>
+                <Text numberOfLines={2}>{item.title}</Text>
+                <Text note numberOfLines={2}>{item.body}</Text>
+                </Body>
+                <Right>
+                    <Button transparent onPress={() => this.moveToItem(item)}>
+                        <Text>Ver Mas</Text>
+                    </Button>
+                </Right>
+            </ListItem>
+            )
     }
 
     moveToItem(item){
@@ -88,11 +91,17 @@ export default class NewsFeed extends Component {
 				show = this.state.news.map(this.renderItemNewsFeed);
 			}
 		return (
-		    <ScrollView>
-                <View style={styles.container}>
-                    {show}
-                </View>
-            </ScrollView>
+            <Container>
+            <Content>
+            <List>
+                {show}
+
+                {this.state.isLoading && (
+                    <Spinner color='blue' />
+                )}
+    </List>
+    </Content>
+    </Container>
 		)
 	}
 }
@@ -141,5 +150,9 @@ const styles = StyleSheet.create({
     image:{
         height:100,
         width:100
+    },
+    icon: {
+        width: 24,
+        height: 24,
     }
 })

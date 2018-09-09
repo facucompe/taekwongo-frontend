@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import {
     StyleSheet,
+    Image
 } from 'react-native';
 
 import {
@@ -18,7 +19,14 @@ import {
 
 export default class VideoMenu extends Component {
     static navigationOptions = {
-        title: 'Videos de Tecnica'
+        title: 'Videos de Tecnica',
+        drawerLabel: 'Videos de Tecnica',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('./img/video.png')}
+                style={styles.icon}
+            />
+        ),
     }
 
     constructor(props) {
@@ -165,5 +173,9 @@ const styles = StyleSheet.create({
     mb150t30: {
         marginBottom: 180,
         marginTop: 30
+    },
+    icon: {
+        width: 24,
+        height: 24,
     }
 });
