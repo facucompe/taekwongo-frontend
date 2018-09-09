@@ -47,7 +47,7 @@ function openRules() {
             if (doesFileExist) {
                 openRulesPDF();
             } else {
-                downloadRules(!doesFileExist).then(function() {
+                downloadRules().then(function() {
                     openRulesPDF();
                 });
             }
