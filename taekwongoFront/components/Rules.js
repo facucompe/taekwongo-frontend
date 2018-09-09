@@ -33,7 +33,7 @@ export default class Rules extends Component {
                 primary
                 block
                 style={styles.mbt30}
-                onPress={(downloadRules)}>
+                onPress={() => downloadRules(false)}>
                     <Text style={styles.textButton}>Descargar Reglamento</Text>
                 </Button>
             </View>
@@ -42,34 +42,41 @@ export default class Rules extends Component {
 }
 
 function openRules() {        
-    RNFSPackage.exists(RNFetchBlob.fs.dirs.DownloadDir + '/taekwondo_rules.pdf')
+    RNFSPackage.exists(path)
     .then(function(doesFileExist) {
             if (doesFileExist) {
-                // openRulesPDF();
+                openRulesPDF();
             } else {
-                downloadRules();
+                downloadRules(!doesFileExist);
             }
         }
     ) 
 } 
 
-function downloadRules() {
+function openRulesPDF() {
+    RNFetchBlob.android.actionViewIntent(path, 'application/pdf')
+}
+
+function downloadRules(shouldOpen) {
     const { config, fs } = RNFetchBlob;
-    const downloads = fs.dirs.DownloadDir;
     config({
       fileCache : true,
       addAndroidDownloads : {
         useDownloadManager : true,
         notification : true,
         mime : 'application/pdf',
-        path: downloads + '/taekwondo_rules.pdf',
+        path: path,
       }
     })
-    .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf');
+    .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf')
+    .then(function() {
+        if(shouldOpen) {
+            openRulesPDF()  
+        }
+    });
 }
 
-function openRulesPDF() {
-}
+const path = RNFetchBlob.fs.dirs.DownloadDir + '/taekwondo_rules.pdf'
 
 const styles = StyleSheet.create({
     textButton:{
