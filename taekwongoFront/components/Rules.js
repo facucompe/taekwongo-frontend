@@ -50,34 +50,38 @@ export default class Rules extends Component {
 }
 
 function openRules() {        
-    RNFSPackage.exists(RNFetchBlob.fs.dirs.DownloadDir + '/taekwondo_rules.pdf')
+    RNFSPackage.exists(taekwondoRulesDownloadPath)
     .then(function(doesFileExist) {
             if (doesFileExist) {
-                // openRulesPDF();
+                openRulesPDF();
             } else {
-                downloadRules();
+                downloadRules().then(function() {
+                    openRulesPDF();
+                });
             }
         }
     ) 
 } 
 
+function openRulesPDF() {
+    RNFetchBlob.android.actionViewIntent(taekwondoRulesDownloadPath, 'application/pdf')
+}
+
 function downloadRules() {
     const { config, fs } = RNFetchBlob;
-    const downloads = fs.dirs.DownloadDir;
-    config({
+    return config({
       fileCache : true,
       addAndroidDownloads : {
         useDownloadManager : true,
         notification : true,
         mime : 'application/pdf',
-        path: downloads + '/taekwondo_rules.pdf',
+        path: taekwondoRulesDownloadPath,
       }
     })
-    .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf');
+    .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf')
 }
 
-function openRulesPDF() {
-}
+const taekwondoRulesDownloadPath = RNFetchBlob.fs.dirs.DownloadDir + '/taekwondo_rules.pdf'
 
 const styles = StyleSheet.create({
     textButton:{
