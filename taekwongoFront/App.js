@@ -33,6 +33,8 @@ import {
 
 import { Container, Content, Icon, Header, Body, Left, Button, Text } from 'native-base'
 import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView } from 'react-navigation'
+import RNFetchBlob from 'rn-fetch-blob';
+import RNFSPackage from 'react-native-fs';
 
 type Props = {};
 
@@ -48,6 +50,9 @@ export default class App extends Component<Props> {
         AsyncStorage.getItem('access_token').then((token) => {
             this.setState({ hasToken: token !== null, isLoaded: true })
         });
+        getLastVersion().then(function(rules) {
+                checkRulesVersion(rules);
+            })
     }
 
   render() {
@@ -218,4 +223,24 @@ export const MenuButton = (props) => {
             </Button>
         </Left>
     );
+}
+
+function getLastVersion() {
+    return fetch('http://taekwongo.herokuapp.com/rulespdf', {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+}
+
+function checkRulesVersion(rulespdf){
+    RNFSPackage.exists(RNFetchBlob.fs.dirs.DownloadDir + '/taekwondo_rules_' + rulespdf.version + '.pdf')
+    .then(function(doesFileExist) {
+        if(!doesFileExist) {
+            alert('Nueva versión del reglamento disponible. Descargala desde la sección "Reglamento"')
+        }
+    })
 }
