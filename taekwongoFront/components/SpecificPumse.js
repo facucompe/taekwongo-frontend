@@ -65,6 +65,7 @@ export default class SpecificPumse extends Component {
                     indicatorColor="red"
                 >
                     {poomse.images.map(this.renderImages)}
+                    {poomse.videos.map(this.renderVideos)}
                 </Carousel>
             </View>
         );
