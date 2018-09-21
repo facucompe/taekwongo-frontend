@@ -71,7 +71,7 @@ function openRules() {
             return file1 < file2;
         })[0]
 
-        if (lastVersionDownloaded != undefined) {
+        if (lastVersionDownloaded !== undefined) {
             openRulesPDF(lastVersionDownloaded);
         } else {
             getLastVersion().then(function(rules){
