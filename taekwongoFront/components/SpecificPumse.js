@@ -26,18 +26,13 @@ export default class SpecificPumse extends Component {
 
     constructor(props) {
         super(props);
-
-
-        this.state = {
-            listItems : [1,2,3,4,5,6,7,8],
-            movements : []
-        };
     }
 
     renderVideos = (video,i) => {
         return (
             <View style={styles.myViewContainer}>
                 <Video
+                    style={styles.videoStyle}
                     url={video.link.url}/>
             </View>
         )
@@ -80,8 +75,7 @@ let styles = StyleSheet.create({
     },
     myViewContainer:{
         flex:1,
-        justifyContent: 'center',
-        backgroundColor:'#FFF'
+        backgroundColor:'#000'
     },
     backgroundVideo: {
         position: 'absolute',
@@ -114,6 +108,9 @@ let styles = StyleSheet.create({
     },
     image:{
         alignSelf:'stretch',
+        flex:1
+    },
+    videoStyle:{
         flex:1
     }
 

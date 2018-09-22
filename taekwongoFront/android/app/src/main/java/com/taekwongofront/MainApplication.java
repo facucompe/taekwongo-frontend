@@ -1,15 +1,16 @@
 package com.taekwongofront;
 
 import android.app.Application;
+
 import com.facebook.react.ReactApplication;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.rnfs.RNFSPackage;
-import com.horcrux.svg.SvgPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
 import com.github.yamill.orientation.OrientationPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.brentvatne.react.ReactVideoPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.horcrux.svg.SvgPackage;
+import com.rnfs.RNFSPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -30,14 +31,14 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNFetchBlobPackage(),
-            new RNFSPackage(),
-            new SvgPackage(),
-            new LinearGradientPackage(),
             new OrientationPackage(),
-            new VectorIconsPackage(),
             new KCKeepAwakePackage(),
-            new ReactVideoPackage()
+            new LinearGradientPackage(),
+            new RNFetchBlobPackage(),
+            new ReactVideoPackage(),
+            new VectorIconsPackage(),
+            new SvgPackage(),
+            new RNFSPackage()
       );
     }
 
