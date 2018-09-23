@@ -8,10 +8,13 @@
   },
   "dependencies": {
     "moment": "^2.22.2",
+    "@remobile/react-native-toast": "^1.0.7",
     "native-base": "^2.7.2",
     "react": "16.3.1",
     "react-devtools": "^3.2.3",
     "react-native": "0.55.2",
+    "react-native-bluetooth-serial": "^1.0.0-rc1",
+    "react-navigation": "^1.5.12",
     "react-native-af-video-player": "^0.2.1",
     "react-native-carousel-view": "^0.5.1",
     "react-native-datepicker": "^1.7.2",
@@ -22,7 +25,6 @@
     "react-native-svg-icon": "^0.8.1",
     "react-native-vector-icons": "^5.0.0",
     "react-native-video": "^3.1.0",
-    "react-navigation": "^1.5.12",
     "rn-fetch-blob": "^0.10.13"
   },
   "devDependencies": {

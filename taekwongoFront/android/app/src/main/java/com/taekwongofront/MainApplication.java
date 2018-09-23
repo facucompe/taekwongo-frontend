@@ -4,6 +4,8 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.rnfs.RNFSPackage;
+import com.rusel.RCTBluetoothSerial.RCTBluetoothSerialPackage;
+import com.remobile.toast.RCTToastPackage;
 import com.horcrux.svg.SvgPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.github.yamill.orientation.OrientationPackage;
@@ -30,6 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+			new RCTBluetoothSerialPackage(),
+			new RCTToastPackage(),
             new RNFetchBlobPackage(),
             new RNFSPackage(),
             new SvgPackage(),
