@@ -81,13 +81,38 @@ export default class CreateTraining extends Component {
     }
     onCreation() {
         if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
-            alert("Datos OK. Title: " + this.state.title + " Tipo de Entrenamiento: " + this.state.trainingType);
-            //To Do: Sacar el alert y hacer el POST al backend para registrar el entrenamiento
+            fetch('http://taekwongo.herokuapp.com/trainings', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.creationInfo()),
+            })
+                .then(response => response.json())
+                .then(response => this.checkStatus(response))
+                .then(response => {
+                    alert('Entrenamiento guardado OK.')
+                })
+                .catch(err => {
+                    alert('Ha habido un error. Pruebe más tarde');
+                    console.log('Error en el el fetch: ' + error.message);
+                });
         }
         else {
             alert("Corregir campos inválidos");
         }
     }
+
+    creationInfo() {
+        return {
+            training: {
+                title: this.state.title,
+                training_type: this.state.trainingType
+            }
+        }
+    }
+
     allFieldsCompleted(){
         return this.state.title !== undefined && this.state.trainingType !== undefined
     }

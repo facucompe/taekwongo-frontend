@@ -62,7 +62,8 @@ class BluetoothAndTraining extends Component {
     constructor(props) {
         super(props);
 
-        this.training = {id: 1, user_id: 2, title: "Patada Baja", trainingType: "F"};
+        this.training = this.props.navigation.getParam('selectedTraining','NO-TRAINING');
+        this.session_token = this.props.navigation.getParam('session_token','NO-TOKEN');
 
         this.state = {
             isEnabled: false,
@@ -71,7 +72,7 @@ class BluetoothAndTraining extends Component {
             unpairedDevices: [],
             connected: false,
             section: 0,
-            measurements: [],
+            measurementMagnitudes: [],
             trainingNow: false
         }
     }
@@ -375,7 +376,40 @@ class BluetoothAndTraining extends Component {
 
     saveMeasurements() {
         clearInterval(this.interval);
+        this.state.measurementMagnitudes.map(
+            (measurementMagnitude, i) => this.saveMeasurement(measurementMagnitude)
+
+        );
         alert("Mediciones guardadas OK.");
+    }
+
+    saveMeasurement(measurementMagnitude){
+        fetch('http://taekwongo.herokuapp.com/measurements', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.creationInfo(measurementMagnitude)),
+        })
+            .then(response => response.json())
+            .then(response => this.checkStatus(response))
+            .then(response => {
+                //alert('Medicion guardada OK.')
+            })
+            .catch(err => {
+                alert('Ha habido un error. Pruebe más tarde');
+                console.log('Error en el el fetch: ' + error.message);
+            });
+    }
+
+    creationInfo(measurementMagnitude) {
+        return {
+            measurement: {
+                magnitude: measurementMagnitude,
+                training: this.training
+            }
+        }
     }
 
     startMeasurementRegistration() {
@@ -386,6 +420,7 @@ class BluetoothAndTraining extends Component {
 
     registerMeasurement(data) {
         if(data && data.length >0){
+            this.state.measurementMagnitudes.push(data);
             Toast.showLongBottom('Recibido: ' + data)
         }
     }
@@ -479,4 +514,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default BluetoothAndTraining
+export default BluetoothAndTraining;

@@ -10,6 +10,8 @@ import {StyleSheet} from "react-native";
 
 import moment from "moment";
 
+import BluetoothAndTraining from "./BluetoothAndTraining";
+
 export default class Training extends Component {
 
     static navigationOptions = {
@@ -121,7 +123,7 @@ export default class Training extends Component {
     }
 
     continueTraining() {
-
+        this.props.navigation.navigate('BluetoothAndTraining', {session_token: this.session_token, selectedTraining: this.training })
     }
 
     openProgressGraph() {
