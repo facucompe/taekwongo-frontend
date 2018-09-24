@@ -1,23 +1,17 @@
-import React, { Component } from "react";
-import {
-    Button,
-    Container,
-    Content,
-    Form,
-    Icon,
-    Input,
-    Item,
-    Label,
-    Picker,
-    Text,
-} from "native-base";
+import React, {Component} from "react";
+import {Button, Container, Content, Form, Icon, Input, Item, Label, Picker, Text,} from "native-base";
 import {StyleSheet} from "react-native";
+import {checkStatus, isValidTitle} from "./Commons";
+
 export default class CreateTraining extends Component {
     static navigationOptions = {
         title: 'Crear Entrenamiento'
     };
     constructor(props) {
         super(props);
+
+        this.session_token = this.props.navigation.getParam('session_token','NO-TOKEN');
+
         this.state = {
             trainingType: 'F',
             title: undefined,
@@ -85,19 +79,22 @@ export default class CreateTraining extends Component {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    authorization: this.session_token
                 },
                 body: JSON.stringify(this.creationInfo()),
             })
                 .then(response => response.json())
-                .then(response => this.checkStatus(response))
+                .then(response => checkStatus(response))
                 .then(response => {
-                    alert('Entrenamiento guardado OK.')
-                })
+                    this.moveToCreatedTrainingView(response);
+                    //alert('Entrenamiento guardado OK.');
+        })
                 .catch(err => {
                     alert('Ha habido un error. Pruebe más tarde');
-                    console.log('Error en el el fetch: ' + error.message);
+                    console.log('Error en el el fetch: ' + err.message);
                 });
+
         }
         else {
             alert("Corregir campos inválidos");
@@ -113,18 +110,27 @@ export default class CreateTraining extends Component {
         }
     }
 
+    trainingFrom(response){
+        return  {
+                id: response["id"],
+                title: response["title"],
+                user_id: response["user_id"],
+                training_type: response["training_type"],
+                created_at: response["created_at"],
+                updated_at: response["updated_at"]
+            }
+    }
+
     allFieldsCompleted(){
         return this.state.title !== undefined && this.state.trainingType !== undefined
     }
     postOkFieldValidations(){
         return this.titleValidation()
     }
-}
-function isValidTitle(aString) {
-    return notEmptyAndFitsRegex(aString,/^[A-Za-z0-9\s]+$/);
-}
-function notEmptyAndFitsRegex(aString,aRegex){
-    return aString !== "" && aRegex.test(aString);
+
+    moveToCreatedTrainingView(response) {
+        this.props.navigation.navigate('Training', {session_token: this.session_token, selectedTraining: this.trainingFrom(response)})
+    }
 }
 const styles = StyleSheet.create({
     container:{

@@ -1,24 +1,12 @@
-import React, { Component } from "react";
-import {
-    Container,
-    Content,
-    Button,
-    Icon,
-    List,
-    ListItem,
-    Text,
-    Grid,
-    Col,
-    Row,
-    Right,
-    Footer
-} from "native-base";
+import React, {Component} from "react";
+import {Button, Col, Container, Content, Footer, Grid, Icon, List, ListItem, Right, Row, Text} from "native-base";
 
 import {StyleSheet} from "react-native";
 
 import Training from "./Training";
 
 import moment from "moment";
+import {iconNameFor} from "./Commons";
 
 export default class Trainings extends Component {
 
@@ -68,7 +56,7 @@ export default class Trainings extends Component {
                                 <Grid>
                                     <Row>
                                         <Col size={1}>
-                                            <Icon type={"MaterialCommunityIcons"} name={this.iconNameFor(training)}/>
+                                            <Icon type={"MaterialCommunityIcons"} name={iconNameFor(training)}/>
                                         </Col>
                                         <Col size={8}>
                                             <Text >
@@ -96,16 +84,12 @@ export default class Trainings extends Component {
         );
     }
 
-    moveTo(training){
-        this.props.navigation.navigate('Training', {session_token: this.session_token, selectedTraining: training })
-    }
-
-    iconNameFor(training) {
-        return training.training_type === "V" ? 'flash' : 'dumbbell';
+    moveTo(training) {
+        this.props.navigation.navigate('Training', {session_token: this.session_token, selectedTraining: training})
     }
 
     openCreateTrainingView() {
-        this.props.navigation.navigate('CreateTraining', {})
+        this.props.navigation.navigate('CreateTraining', {session_token: this.session_token})
     }
 }
 

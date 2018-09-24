@@ -18,6 +18,7 @@ import BluetoothSerial from 'react-native-bluetooth-serial'
 //Si no compila borrar @Override en metodo createJSModules()
 
 import { Buffer } from 'buffer'
+import {checkStatus} from "./Commons";
 global.Buffer = Buffer;
 const iconv = require('iconv-lite');
 
@@ -72,6 +73,7 @@ class BluetoothAndTraining extends Component {
             unpairedDevices: [],
             connected: false,
             section: 0,
+
             measurementMagnitudes: [],
             trainingNow: false
         }
@@ -376,26 +378,24 @@ class BluetoothAndTraining extends Component {
 
     saveMeasurements() {
         clearInterval(this.interval);
-        this.state.measurementMagnitudes.map(
-            (measurementMagnitude, i) => this.saveMeasurement(measurementMagnitude)
-
-        );
+        this.saveMeasurementsInDatabase(this.state.measurementMagnitudes);
         alert("Mediciones guardadas OK.");
     }
 
-    saveMeasurement(measurementMagnitude){
-        fetch('http://taekwongo.herokuapp.com/measurements', {
+    saveMeasurementsInDatabase(measurementMagnitudes){
+        fetch(`http://taekwongo.herokuapp.com/trainings/${this.training.id}/measurements/` , {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                authorization: this.session_token
             },
-            body: JSON.stringify(this.creationInfo(measurementMagnitude)),
+            body: JSON.stringify(this.creationInfo(measurementMagnitudes)),
         })
             .then(response => response.json())
-            .then(response => this.checkStatus(response))
+            .then(response => checkStatus(response))
             .then(response => {
-                //alert('Medicion guardada OK.')
+                //alert('Mediciones guardadas OK.')
             })
             .catch(err => {
                 alert('Ha habido un error. Pruebe más tarde');
@@ -403,13 +403,13 @@ class BluetoothAndTraining extends Component {
             });
     }
 
-    creationInfo(measurementMagnitude) {
+    creationInfo(measurementMagnitudes) {
         return {
-            measurement: {
-                magnitude: measurementMagnitude,
-                training: this.training
-            }
+            measurements:
+                measurementMagnitudes.map((measurementMagnitude, i) => ({magnitude: measurementMagnitude}))
+
         }
+
     }
 
     startMeasurementRegistration() {

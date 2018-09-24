@@ -1,9 +1,17 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
     Button,
     Col,
     Container,
-    Content, Footer, Grid, Icon, List, ListItem, Right, Left, Row,
+    Content,
+    Footer,
+    Grid,
+    Icon,
+    Left,
+    List,
+    ListItem,
+    Right,
+    Row,
     Text,
 } from "native-base";
 import {StyleSheet} from "react-native";
@@ -11,6 +19,7 @@ import {StyleSheet} from "react-native";
 import moment from "moment";
 
 import BluetoothAndTraining from "./BluetoothAndTraining";
+import {iconNameFor, unitForTraining} from "./Commons";
 
 export default class Training extends Component {
 
@@ -58,7 +67,7 @@ export default class Training extends Component {
                                 <Icon
                                     style={styles.icon}
                                     type={"MaterialCommunityIcons"}
-                                    name={this.iconNameFor(this.training)}
+                                    name={iconNameFor(this.training)}
                                 />
                             </Col>
                             <Col size={8}>
@@ -69,7 +78,7 @@ export default class Training extends Component {
                         </Row>
                         <Row>
                             <Text style={styles.title2}>
-                                Mediciones registradas
+                                {this.registeredMeasurementsTitle()}
                             </Text>
 
                         </Row>
@@ -94,10 +103,6 @@ export default class Training extends Component {
         );
     }
 
-    iconNameFor(training) {
-        return training.training_type === "V" ? 'flash' : 'dumbbell';
-    }
-
     renderMeasurementsTable() {
         return <List
             dataArray={this.state.measurements}
@@ -112,7 +117,7 @@ export default class Training extends Component {
                             </Col>
                             <Col size={5}>
                                 <Text >
-                                    {measurement.magnitude} {this.unitForTraining()}
+                                    {measurement.magnitude} {unitForTraining(this.training)}
                                 </Text>
                             </Col>
                         </Row>
@@ -130,8 +135,8 @@ export default class Training extends Component {
 
     }
 
-    unitForTraining() {
-        return this.training.type === 'V' ? 'ms' : 'm/s^2';
+    registeredMeasurementsTitle() {
+        return this.state.measurements.length > 0 ? "Mediciones registradas" : "Sin mediciones registradas";
     }
 }
 

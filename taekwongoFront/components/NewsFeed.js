@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Spinner } from 'native-base';
+import {checkStatus} from "./Commons";
 
 
 export default class NewsFeed extends Component {
@@ -30,16 +31,6 @@ export default class NewsFeed extends Component {
         };
     }
 
-    checkStatus(response) {
-        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
-            return response
-        } else {
-            let error = new Error(response.statusText);
-            error.response = response;
-            throw error
-        }
-    }
-
     componentDidMount() {
 		fetch('http://taekwongo.herokuapp.com/feeds', {
 			method: 'GET',
@@ -48,7 +39,7 @@ export default class NewsFeed extends Component {
 				'Content-Type': 'application/json'
 		}})
 			.then(response => response.json())
-            .then(response => this.checkStatus(response))
+            .then(response => checkStatus(response))
 			.then(response => {
 			    this.setState({isLoading:false});
 				this.setState({news: response});
@@ -76,7 +67,7 @@ export default class NewsFeed extends Component {
                 </Right>
             </ListItem>
             )
-    }
+    };
 
     moveToItem(item){
         this.props.navigation.navigate('ItemNewsFeed', { item: item })

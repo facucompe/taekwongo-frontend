@@ -21,6 +21,7 @@ import {
 
 import SignUp from "./SignUp";
 import RecoverPassword from "./RecoverPassword";
+import {checkStatus, isValidEmail} from "./Commons";
 
 export default class Login extends Component{
 
@@ -143,7 +144,7 @@ export default class Login extends Component{
     onLogin(){
         if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
             LoginConnector.callApi(this.buildInfo());
-            AsyncStorage.getItem("access_token").then((token) => {
+            AsyncStorage.getItem("access_token").then((token,i) => {
                     this.openTrainingsView(token);
                 }
             );
@@ -211,25 +212,6 @@ export default class Login extends Component{
                 alert('Error de conexión, intente nuevamente');
                 console.log('Error en el el fetch: ' + error.message);
             });
-    }
-}
-
-
-function isValidEmail(aString) {
-    return notEmptyAndFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-}
-
-function notEmptyAndFitsRegex(aString,aRegex){
-    return aString !== "" && aRegex.test(aString);
-}
-
-function checkStatus(response) {
-    if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
-        return response
-    } else {
-        let error = new Error(response.statusText);
-        error.response = response;
-        throw error
     }
 }
 

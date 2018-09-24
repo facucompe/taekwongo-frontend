@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 
 import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
+import {checkStatus} from "./Commons";
 
 export default class Refereeing extends Component {
     static navigationOptions = {
@@ -17,7 +18,7 @@ export default class Refereeing extends Component {
                 style={styles.icon}
             />
         ),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -29,16 +30,6 @@ export default class Refereeing extends Component {
         this.onPressButton = this.onPressButton.bind(this);
     }
 
-    checkStatus(response) {
-        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
-            return response
-        } else {
-            let error = new Error(response.statusText);
-            error.response = response;
-            throw error
-        }
-    }
-
     componentDidMount() {
         fetch('http://taekwongo.herokuapp.com/refereeing', {
             method: 'GET',
@@ -47,7 +38,7 @@ export default class Refereeing extends Component {
                 'Content-Type': 'application/json'
             }})
             .then(response => response.json())
-            .then(response => this.checkStatus(response))
+            .then(response => checkStatus(response))
             .then(response => {
                 this.setState({changes: response});
             })

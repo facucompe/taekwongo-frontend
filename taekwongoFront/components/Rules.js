@@ -21,7 +21,7 @@ export default class Rules extends Component {
                 style={styles.icon}
             />
         ),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -81,7 +81,7 @@ function downloadRules() {
     .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf')
 }
 
-const taekwondoRulesDownloadPath = RNFetchBlob.fs.dirs.DownloadDir + '/taekwondo_rules.pdf'
+const taekwondoRulesDownloadPath = RNFetchBlob.fs.dirs.DownloadDir + '/taekwondo_rules.pdf';
 
 const styles = StyleSheet.create({
     textButton:{

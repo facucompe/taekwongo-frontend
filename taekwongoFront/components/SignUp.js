@@ -1,32 +1,29 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+
+import {StyleSheet} from 'react-native';
 
 import {
-	StyleSheet
-} from 'react-native';
-
-import {
-	Button,
-	Col,
-	Container,
-	Content,
-	DatePicker,
-	Form,
-	Grid,
-	Icon,
-	Input,
-	Item,
-	Label,
-	Picker,
-	Text
+    Button,
+    Col,
+    Container,
+    Content,
+    DatePicker,
+    Form,
+    Grid,
+    Icon,
+    Input,
+    Item,
+    Label,
+    Picker,
+    Text
 } from 'native-base';
-
-import moment from 'moment';
+import {checkStatus, isValidBirthDate, isValidEmail, isValidName, isValidPassword, matchBetween} from "./Commons";
 
 export default class SignUp extends Component {
 
 	static navigationOptions = {
 		title: 'Registrarme'
-	}
+	};
 
 	constructor(props) {
 		super(props);
@@ -308,16 +305,6 @@ export default class SignUp extends Component {
 		return !this.state.validatingBirthDate || isValidBirthDate(this.state.birthDate);
 	}
 
-	checkStatus(response) {
-		if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
-			return response
-		} else {
-			let error = new Error(response.statusText);
-			error.response = response;
-			throw error
-		}
-	}
-
 	onRegister() {
 		if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
 			alert("Datos OK :)");
@@ -330,11 +317,11 @@ export default class SignUp extends Component {
 				body: JSON.stringify(this.creationInfo()),
 			})
 				.then(response => response.json())
-				.then(response => this.checkStatus(response))
+				.then(response => checkStatus(response))
 				.then(response => {
 				alert('Ya podes realizar tus entrenamientos')
 			})
-			.catch(err => {
+			.catch(error => {
 				alert('Ha habido un error. Pruebe más tarde');
 				console.log('Error en el el fetch: ' + error.message);
 			});
@@ -370,30 +357,6 @@ export default class SignUp extends Component {
 			}
 		}
 	}
-}
-
-function isValidName(aString) {
-	return notEmptyAndFitsRegex(aString,/^[A-Za-z\s\u0027\u2019]+$/);
-}
-
-function isValidBirthDate(aDate) {
-	return new Date() > aDate;
-}
-
-function isValidEmail(aString) {
-	return notEmptyAndFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-}
-
-function isValidPassword(aString) {
-	return aString !== undefined && aString.length > 8
-}
-
-function notEmptyAndFitsRegex(aString,aRegex){
-	return aString !== "" && aRegex.test(aString);
-}
-
-function matchBetween(aString,anotherString){
-	return aString === anotherString;
 }
 
 
