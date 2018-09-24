@@ -343,7 +343,7 @@ class RegisterMeasurements extends Component {
 
     topBarView() {
         return <View style={styles.topBar}>
-            {this.state.connected ? (<Text style={styles.heading}>Entrenando</Text>):<Text style={styles.heading}>Conectar con TaekwonGoBand</Text>}
+            <Text style={styles.heading}>{this.topBarTitle()}</Text>
             {Platform.OS === 'android'
                 ? (
                     <View style={styles.enableInfoWrapper}>
@@ -358,6 +358,10 @@ class RegisterMeasurements extends Component {
                     </View>
                 ) : null}
         </View>;
+    }
+
+    topBarTitle() {
+        return `${this.state.connected ? "Conectado" : "Conectar"} con TaekwonGo Band`
     }
 
     trainingButtonText() {
@@ -394,9 +398,9 @@ class RegisterMeasurements extends Component {
             .then(response => response.json())
             .then(response => checkStatus(response))
             .then(response => {
-                alert('Mediciones guardadas OK.')
+                alert("Enviado al Back: " + JSON.stringify(this.creationInfo(measurementMagnitudes)));
             })
-            .catch(err => {
+            .catch(error => {
                 alert('Ha habido un error. Pruebe más tarde');
                 console.log('Error en el el fetch: ' + error.message);
             });
