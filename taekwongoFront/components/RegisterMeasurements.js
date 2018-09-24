@@ -58,7 +58,7 @@ const DeviceList = ({ devices, connectedId, showConnectedIcon, onDevicePress }) 
         </View>
     </ScrollView>;
 
-class BluetoothAndTraining extends Component {
+class RegisterMeasurements extends Component {
 
     constructor(props) {
         super(props);
@@ -343,7 +343,7 @@ class BluetoothAndTraining extends Component {
 
     topBarView() {
         return <View style={styles.topBar}>
-            <Text style={styles.heading}>Conectar con TaekwonGoBand</Text>
+            {this.state.connected ? (<Text style={styles.heading}>Entrenando</Text>):<Text style={styles.heading}>Conectar con TaekwonGoBand</Text>}
             {Platform.OS === 'android'
                 ? (
                     <View style={styles.enableInfoWrapper}>
@@ -379,7 +379,6 @@ class BluetoothAndTraining extends Component {
     saveMeasurements() {
         clearInterval(this.interval);
         this.saveMeasurementsInDatabase(this.state.measurementMagnitudes);
-        alert("Mediciones guardadas OK.");
     }
 
     saveMeasurementsInDatabase(measurementMagnitudes){
@@ -395,7 +394,7 @@ class BluetoothAndTraining extends Component {
             .then(response => response.json())
             .then(response => checkStatus(response))
             .then(response => {
-                //alert('Mediciones guardadas OK.')
+                alert('Mediciones guardadas OK.')
             })
             .catch(err => {
                 alert('Ha habido un error. Pruebe más tarde');
@@ -514,4 +513,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default BluetoothAndTraining;
+export default RegisterMeasurements;

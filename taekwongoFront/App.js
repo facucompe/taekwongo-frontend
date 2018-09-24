@@ -23,7 +23,7 @@ import SpecificPumse from './components/SpecificPumse';
 import Trainings from './components/Trainings';
 import Training from './components/Training';
 import CreateTraining from './components/CreateTraining';
-import Bluetooth from './components/BluetoothAndTraining';
+import RegisterMeasurements from './components/RegisterMeasurements';
 
 import {
     StyleSheet,
@@ -75,6 +75,12 @@ export const StackTraining = StackNavigator({
     },
     Training:{
         screen: Training
+    },
+    RegisterMeasurements: {
+        screen: RegisterMeasurements,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+        })
     },
     CreateTraining:{
         screen: CreateTraining
@@ -154,17 +160,6 @@ export const StackRefereeing = StackNavigator({
     }
 });
 
-
-export const StackBluetooth = StackNavigator({
-    Bluetooth: {
-        screen: Bluetooth,
-        navigationOptions: ({ navigation }) => ({
-            headerLeft: <MenuButton navigation={navigation} />,
-        })
-    },
-});
-
-
 const CustomDrawerContentComponent = (props) => (
 
     <Container>
@@ -186,7 +181,6 @@ const CustomDrawerContentComponent = (props) => (
 
 );
 const DrawerStack = DrawerNavigator({
-    Bluetooth: {screen: StackBluetooth},
     NewsFeed: { screen: StackNewsFeed },
     Calendar: { screen: StackCalendar},
     Video: { screen: StackVideo},
