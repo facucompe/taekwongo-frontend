@@ -77,10 +77,7 @@ export const StackTraining = StackNavigator({
         screen: Training
     },
     RegisterMeasurements: {
-        screen: RegisterMeasurements,
-        navigationOptions: ({ navigation }) => ({
-            headerLeft: <MenuButton navigation={navigation} />,
-        })
+        screen: RegisterMeasurements
     },
     CreateTraining:{
         screen: CreateTraining

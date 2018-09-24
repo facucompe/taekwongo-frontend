@@ -89,12 +89,12 @@ export default class Training extends Component {
                 </Content>
                 <Footer style={styles.footer}>
                     <Left>
-                        <Button onPress={this.openProgressGraph()} style={styles.actionButton}>
+                        <Button onPress={() => this.openProgressGraph()} style={styles.actionButton}>
                             <Text> Ver Progreso </Text>
                         </Button>
                     </Left>
                     <Right>
-                        <Button onPress={this.continueTraining()} style={styles.actionButton}>
+                        <Button onPress={() => this.continueTraining()} style={styles.actionButton}>
                             <Text> Entrenar </Text>
                         </Button>
                     </Right>
