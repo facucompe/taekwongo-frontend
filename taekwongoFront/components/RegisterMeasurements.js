@@ -16,6 +16,7 @@ import {
 import Toast from '@remobile/react-native-toast'
 import BluetoothSerial from 'react-native-bluetooth-serial'
 //Si no compila borrar @Override en metodo createJSModules()
+//en taekwongoFront/node_modules/react-native-bluetooth-serial/android/src/main/java/com/rusel/RCTBluetoothSerial/RCTBluetoothSerialPackage.java
 
 import { Buffer } from 'buffer'
 import {checkStatus} from "./Commons";
