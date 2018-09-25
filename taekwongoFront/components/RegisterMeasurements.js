@@ -386,7 +386,7 @@ class RegisterMeasurements extends Component {
 
     saveMeasurements() {
         clearInterval(this.interval);
-        const measurementMagnitudes = this.state.dataReceivedBuffer.join("").split(";");
+        const measurementMagnitudes = this.state.dataReceivedBuffer.join("").split(";").filter( magnitude => magnitude.length > 0);
         this.saveMeasurementsInDatabase(measurementMagnitudes);
     }
 
