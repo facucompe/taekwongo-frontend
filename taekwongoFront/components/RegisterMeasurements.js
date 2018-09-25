@@ -75,7 +75,7 @@ class RegisterMeasurements extends Component {
             connected: false,
             section: 0,
 
-            measurementMagnitudes: [],
+            dataReceivedBuffer: [],
             trainingNow: false
         }
     }
@@ -376,35 +376,38 @@ class RegisterMeasurements extends Component {
         }
         else
         {
-            this.setState({trainingNow: true});
-            this.startMeasurementRegistration();
+            this.setState({trainingNow: true, dataReceivedBuffer: []})
+			.then( this.startMeasurementRegistration() )
         }
     }
 
     saveMeasurements() {
         clearInterval(this.interval);
-        this.saveMeasurementsInDatabase(this.state.measurementMagnitudes);
+        const measurementMagnitudes = this.state.dataReceivedBuffer.join("").split(";");
+        this.saveMeasurementsInDatabase(measurementMagnitudes);
     }
 
     saveMeasurementsInDatabase(measurementMagnitudes){
-        fetch(`http://taekwongo.herokuapp.com/trainings/${this.training.id}/measurements/` , {
+		alert("Enviado al Back: " + JSON.stringify(this.creationInfo(measurementMagnitudes)));
+		
+        /*fetch(`http://taekwongo.herokuapp.com/trainings/${this.training.id}/measurements/` , {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 authorization: this.session_token
             },
-            body: JSON.stringify(this.creationInfo(measurementMagnitudes)),
+            body: JSON.stringify(this.creationInfo(dataReceivedBuffer)),
         })
             .then(response => response.json())
             .then(response => checkStatus(response))
             .then(response => {
-                alert("Enviado al Back: " + JSON.stringify(this.creationInfo(measurementMagnitudes)));
+                //alert("Enviado al Back: " + JSON.stringify(this.creationInfo(dataReceivedBuffer)));
             })
             .catch(error => {
                 alert('Ha habido un error. Pruebe más tarde');
                 console.log('Error en el el fetch: ' + error.message);
-            });
+            });*/
     }
 
     creationInfo(measurementMagnitudes) {
@@ -419,12 +422,12 @@ class RegisterMeasurements extends Component {
     startMeasurementRegistration() {
         this.interval = setInterval(() => {
             BluetoothSerial.readFromDevice().then((data) => {this.registerMeasurement(data);});
-        }, 2000);
+        }, 10);
     }
 
     registerMeasurement(data) {
         if(data && data.length >0){
-            this.state.measurementMagnitudes.push(data);
+            this.state.dataReceivedBuffer.push(data);
             Toast.showLongBottom('Recibido: ' + data)
         }
     }
