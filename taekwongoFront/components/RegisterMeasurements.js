@@ -376,8 +376,11 @@ class RegisterMeasurements extends Component {
         }
         else
         {
-            this.setState({trainingNow: true, dataReceivedBuffer: []})
-			.then( this.startMeasurementRegistration() )
+
+            this.setState(
+                {trainingNow: true, dataReceivedBuffer: []},
+                () => {this.startMeasurementRegistration()}
+                );
         }
     }
 
