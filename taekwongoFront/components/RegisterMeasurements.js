@@ -206,7 +206,7 @@ class RegisterMeasurements extends Component {
             .then((res) => {
                 Toast.showShortBottom(`Connected to device ${device.name}`);
                 this.setState({device, connected: true, connecting: false});
-                this.writePackets("Conectado con TaekwonGo");
+                this.writePackets(this.trainingTypeCode());
             })
             .catch((err) => Toast.showShortBottom(err.message))
     }
@@ -386,6 +386,7 @@ class RegisterMeasurements extends Component {
 
     saveMeasurements() {
         clearInterval(this.interval);
+
         const measurementMagnitudes = this.state.dataReceivedBuffer.join("").split(";").filter( magnitude => magnitude.length > 0);
         this.saveMeasurementsInDatabase(measurementMagnitudes);
     }
@@ -437,6 +438,10 @@ class RegisterMeasurements extends Component {
 
     componentWillUnmount() {
         clearInterval(this.interval);
+    }
+
+    trainingTypeCode() {
+        return this.training.training_type === "F" ? "1" : "0";
     }
 }
 

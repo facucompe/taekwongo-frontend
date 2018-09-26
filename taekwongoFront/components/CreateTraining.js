@@ -13,7 +13,7 @@ export default class CreateTraining extends Component {
         this.session_token = this.props.navigation.getParam('session_token','NO-TOKEN');
 
         this.state = {
-            trainingType: 'F',
+            training_type: 'F',
             title: undefined,
             validatingTitle: false
         };
@@ -25,8 +25,8 @@ export default class CreateTraining extends Component {
     setTitle(title){
         this.setState({title, validatingTitle: true })
     }
-    onValueChangeTrainingType(trainingType){
-        this.setState({trainingType})
+    onValueChangeTrainingType(training_type){
+        this.setState({training_type: training_type})
     }
     render() {
         return (
@@ -48,7 +48,7 @@ export default class CreateTraining extends Component {
                             placeholder="Tipo de Entrenamiento"
                             placeholderStyle={{ color: "black" }}
                             placeholderIconColor="black"
-                            selectedValue={this.state.trainingType}
+                            selectedValue={this.state.training_type}
                             onValueChange={this.onValueChangeTrainingType.bind(this)}
                         >
                             <Picker.Item label="Fuerza" value="F" />
@@ -105,7 +105,7 @@ export default class CreateTraining extends Component {
         return {
             training: {
                 title: this.state.title,
-                training_type: this.state.trainingType
+                training_type: this.state.training_type
             }
         }
     }
@@ -122,7 +122,7 @@ export default class CreateTraining extends Component {
     }
 
     allFieldsCompleted(){
-        return this.state.title !== undefined && this.state.trainingType !== undefined
+        return this.state.title !== undefined && this.state.training_type !== undefined
     }
     postOkFieldValidations(){
         return this.titleValidation()
