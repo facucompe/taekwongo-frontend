@@ -19,6 +19,7 @@ import {StyleSheet} from "react-native";
 import moment from "moment";
 
 import RegisterMeasurements from "./RegisterMeasurements";
+import ProgressGraph from "./ProgressGraph";
 import {iconNameFor, unitForTraining} from "./Commons";
 
 export default class Training extends Component {
@@ -132,7 +133,12 @@ export default class Training extends Component {
     }
 
     openProgressGraph() {
-
+        this.props.navigation.navigate('ProgressGraph',
+            {
+                session_token: this.session_token,
+                magnitudes: this.state.measurements.map((measurement, i) => measurement.magnitude)
+            }
+        )
     }
 
     registeredMeasurementsTitle() {

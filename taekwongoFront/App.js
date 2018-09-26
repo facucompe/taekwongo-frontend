@@ -24,6 +24,7 @@ import Trainings from './components/Trainings';
 import Training from './components/Training';
 import CreateTraining from './components/CreateTraining';
 import RegisterMeasurements from './components/RegisterMeasurements';
+import ProgressGraph from "./components/ProgressGraph";
 
 import {
     StyleSheet,
@@ -81,6 +82,9 @@ export const StackTraining = StackNavigator({
     },
     CreateTraining:{
         screen: CreateTraining
+    },
+    ProgressGraph: {
+        screen: ProgressGraph
     }
 });
 
