@@ -8,7 +8,6 @@ import {
     TouchableOpacity,
     TouchableHighlight,
     View,
-    Modal,
     ActivityIndicator,
     Image
 } from 'react-native'
@@ -206,7 +205,6 @@ class RegisterMeasurements extends Component {
             .then((res) => {
                 Toast.showShortBottom(`Connected to device ${device.name}`);
                 this.setState({device, connected: true, connecting: false});
-                this.writePackets(this.trainingTypeCode());
             })
             .catch((err) => Toast.showShortBottom(err.message))
     }
@@ -371,16 +369,22 @@ class RegisterMeasurements extends Component {
 
     trainingButtonPressed() {
         if(this.state.trainingNow){
-            this.setState({trainingNow: false});
-            this.saveMeasurements();
+            this.setState(
+				{trainingNow: false},
+                () => {this.saveMeasurements()}
+			);
+            
         }
         else
         {
 
             this.setState(
                 {trainingNow: true, dataReceivedBuffer: []},
-                () => {this.startMeasurementRegistration()}
-                );
+                () => {
+                this.writePackets(this.trainingTypeCode());
+				this.startMeasurementRegistration();
+				}
+            );
         }
     }
 
