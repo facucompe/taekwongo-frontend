@@ -70,7 +70,10 @@ export const StackTraining = StackNavigator({
         screen: SignUp
     },
     Trainings:{
-        screen: Trainings
+        screen: Trainings,
+        navigationOptions: ({ navigation }) => ({
+            headerLeft: <MenuButton navigation={navigation} />,
+        })
     },
     Training:{
         screen: Training
