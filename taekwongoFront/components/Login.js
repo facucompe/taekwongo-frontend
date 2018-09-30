@@ -56,7 +56,11 @@ export default class Login extends Component{
     }
 
     componentWillMount(){
-        resetTokenAndRenewID()
+        // resetTokenAndRenewID()
+        var _this = this;
+        getToken().then(function(token, i) {
+            _this.openTrainingsView(token);
+        });
     }
 
     render() {
@@ -143,7 +147,7 @@ export default class Login extends Component{
         var _this = this;
         if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
             callLoginApi(this.buildInfo()).then(function() {
-                    AsyncStorage.getItem("access_token").then(function(token,i) {
+                    getToken().then(function(token, i) {
                         _this.openTrainingsView(token);
                     }
                 );
@@ -238,6 +242,10 @@ function resetTokenAndRenewID(){
     AsyncStorage.setItem("access_token", "");
     AsyncStorage.setItem("renew_id", "");
 
+}
+
+function getToken() {
+    return AsyncStorage.getItem("access_token");
 }
 
 const win = Dimensions.get('window');
