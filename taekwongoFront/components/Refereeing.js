@@ -40,7 +40,7 @@ export default class Refereeing extends Component {
     }
 
     componentDidMount() {
-        fetch('http://taekwongo.herokuapp.com/refereeing', {
+        fetch('http://taekwongo.herokuapp.com/feeds?category=refereeing', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -62,11 +62,11 @@ export default class Refereeing extends Component {
 
             <ListItem thumbnail onPress={() => this.moveToItem(item)}>
                 <Left>
-                    <Thumbnail source={{ uri: 'https://image.ibb.co/mqPwkK/TAEKWONGO.png' }} />
+                    <Thumbnail source={{ uri: item.picture_url }} />
                 </Left>
                 <Body>
-                <Text numberOfLines={2}>Cambio en Arbitraje</Text>
-                <Text note numberOfLines={2}>Descripcion del cambio en el arbitraje</Text>
+                <Text numberOfLines={2}>{item.title}</Text>
+                <Text note numberOfLines={2}>{item.body}</Text>
                 </Body>
                 <Right>
                     <Button transparent onPress={() => this.moveToItem(item)}>
@@ -102,7 +102,7 @@ export default class Refereeing extends Component {
     }
 
     moveToItem(item){
-        this.props.navigation.navigate('RefereeingItem')
+        this.props.navigation.navigate('RefereeingItem', {item:item})
     }
 
     onPressButton(){
