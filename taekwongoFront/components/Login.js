@@ -57,10 +57,7 @@ export default class Login extends Component{
 
     componentWillMount(){
         // resetTokenAndRenewID()
-        var _this = this;
-        getToken().then(function(token, i) {
-            _this.openTrainingsView(token);
-        });
+        this.openTrainingsView();
     }
 
     render() {
@@ -147,10 +144,7 @@ export default class Login extends Component{
         var _this = this;
         if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
             callLoginApi(this.buildInfo()).then(function() {
-                    getToken().then(function(token, i) {
-                        _this.openTrainingsView(token);
-                    }
-                );
+                _this.openTrainingsView();
             });
             
         }
@@ -175,10 +169,18 @@ export default class Login extends Component{
         this.props.navigation.navigate('RecoverPassword', {})
     }
 
-    openTrainingsView(token){
+    navigateToTrainingsView(token){
         if(token != undefined) {
             this.props.navigation.navigate('Trainings', {session_token: token})
         }
+    }
+
+    openTrainingsView() {
+        var _this = this;
+        
+        getToken().then(function(token, i) {
+            _this.navigateToTrainingsView(token);
+        });
     }
 
     buildInfo(){
