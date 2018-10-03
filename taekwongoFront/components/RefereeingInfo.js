@@ -98,8 +98,33 @@ export default class RefereeingInfo extends Component {
             </Container>
         );
     }
+
+    checkStatus(response) {
+        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
+            return response
+        } else {
+            let error = new Error(response.statusText);
+            error.response = response;
+            throw error
+        }
+    }
+
     onPressButton(category){
-        this.props.navigation.navigate('RefereeingCategory', { categoryName: category })
+        fetch('http://taekwongo.herokuapp.com/refeering?category='+category, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }})
+            .then(response => response.json())
+            .then(response => this.checkStatus(response))
+            .then(response => {
+                this.props.navigation.navigate('RefereeingCategory', { categoryName: category,images:response })
+            })
+            .catch(error => {
+                alert('Error de conexión, intente nuevamente');
+                console.log('Error en el el fetch: ' + error.message);
+            });
     }
 }
 

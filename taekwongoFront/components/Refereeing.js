@@ -5,7 +5,7 @@ import {
     Image
 } from 'react-native';
 
-import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
+import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button,Spinner } from 'native-base';
 
 export default class Refereeing extends Component {
     static navigationOptions = {
@@ -23,7 +23,8 @@ export default class Refereeing extends Component {
         super(props);
 
         this.state = {
-            changes : [0,1,2]
+            changes : [],
+            isLoading: true
         };
         //Logic method
         this.onPressButton = this.onPressButton.bind(this);
@@ -39,7 +40,7 @@ export default class Refereeing extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         fetch('http://taekwongo.herokuapp.com/feeds?category=refereeing', {
             method: 'GET',
             headers: {
@@ -49,6 +50,7 @@ export default class Refereeing extends Component {
             .then(response => response.json())
             .then(response => this.checkStatus(response))
             .then(response => {
+                this.setState({isLoading:false});
                 this.setState({changes: response});
             })
             .catch(error => {
@@ -79,6 +81,7 @@ export default class Refereeing extends Component {
     };
 
     render() {
+        let show = this.state.changes.map(this.renderChanges)
         return (
 
             <Container>
@@ -93,7 +96,10 @@ export default class Refereeing extends Component {
                     </Button>
 
                     <List>
-                        {this.state.changes.map(this.renderChanges)}
+                        {show}
+                        {this.state.isLoading && (
+                            <Spinner color='blue' />
+                        )}
                     </List>
                 </Content>
             </Container>

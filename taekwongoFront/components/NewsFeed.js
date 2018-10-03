@@ -40,7 +40,7 @@ export default class NewsFeed extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
 		fetch('http://taekwongo.herokuapp.com/feeds', {
 			method: 'GET',
 			headers: {

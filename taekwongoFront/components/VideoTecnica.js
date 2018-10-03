@@ -47,7 +47,7 @@ export default class VideoTecnica extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         fetch('http://taekwongo.herokuapp.com/video_techniques?category='+this.props.navigation.getParam('movementName', 'NO-ID'), {
             method: 'GET',
             headers: {

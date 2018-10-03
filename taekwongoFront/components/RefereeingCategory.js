@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 
 import {
-    Text,
     View,
     StyleSheet,
     Dimensions,
-    ScrollView,
     Image
 } from 'react-native';
 
-
-import Video from 'react-native-af-video-player'
 
 import Carousel from 'react-native-carousel-view';
 
@@ -35,51 +31,22 @@ export default class RefereeingCategory extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            images : []
-        };
-    }
-
-    checkStatus(response) {
-        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
-            return response
-        } else {
-            let error = new Error(response.statusText);
-            error.response = response;
-            throw error
-        }
-    }
-
-    componentDidMount() {
-        fetch('http://taekwongo.herokuapp.com/refeering?category='+this.props.navigation.getParam('categoryName', 'NO-ID'), {
-            method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            }})
-            .then(response => response.json())
-            .then(response => this.checkStatus(response))
-            .then(response => {
-                this.setState({images: response});
-            })
-            .catch(error => {
-                alert('Error de conexión, intente nuevamente');
-                console.log('Error en el el fetch: ' + error.message);
-            });
     }
 
     renderImages = (image,i) => {
+        console.log(image);
         return (
             <View style={styles.myViewContainer}>
                 <Image
                     style={styles.image}
-                    source={{uri: image.link.url}}
+                    source={{uri: image.link}}
                 />
             </View>
         )
     };
 
     render() {
+        const images = this.props.navigation.getParam('images', 'No-POSSIBLE');
         return (
             <View style={styles.container}>
                 <Carousel
@@ -88,14 +55,10 @@ export default class RefereeingCategory extends Component {
                     indicatorSize={20}
                     indicatorColor="red"
                 >
-                    {this.state.images.map(this.renderImages)}
+                    {images.map(this.renderImages)}
                 </Carousel>
             </View>
         );
-    }
-
-    onPressButton(){
-        this.props.navigation.navigate('RefereeingInfo')
     }
 }
 

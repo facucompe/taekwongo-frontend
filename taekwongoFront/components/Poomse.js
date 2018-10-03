@@ -45,7 +45,7 @@ export default class Poomse extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         fetch('http://taekwongo.herokuapp.com/poomses', {
             method: 'GET',
             headers: {
