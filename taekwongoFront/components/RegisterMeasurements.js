@@ -370,10 +370,10 @@ class RegisterMeasurements extends Component {
     trainingButtonPressed() {
         if(this.state.trainingNow){
             this.setState(
-				{trainingNow: false},
+                {trainingNow: false},
                 () => {this.saveMeasurements()}
-			);
-            
+            );
+
         }
         else
         {
@@ -381,9 +381,9 @@ class RegisterMeasurements extends Component {
             this.setState(
                 {trainingNow: true, dataReceivedBuffer: []},
                 () => {
-                this.writePackets(this.trainingTypeCode());
-				this.startMeasurementRegistration();
-				}
+                    this.writePackets(this.trainingTypeCode());
+                    this.startMeasurementRegistration();
+                }
             );
         }
     }
@@ -396,35 +396,34 @@ class RegisterMeasurements extends Component {
     }
 
     saveMeasurementsInDatabase(measurementMagnitudes){
-		alert("Enviado al Back: " + JSON.stringify(this.creationInfo(measurementMagnitudes)));
-		
-        /*fetch(`http://taekwongo.herokuapp.com/trainings/${this.training.id}/measurements/` , {
+        fetch(`http://taekwongo.herokuapp.com/trainings/${this.training.id}/measurements/` , {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
                 authorization: this.session_token
             },
-            body: JSON.stringify(this.creationInfo(dataReceivedBuffer)),
+            body: JSON.stringify(this.creationInfo(measurementMagnitudes)),
         })
             .then(response => response.json())
             .then(response => checkStatus(response))
-            .then(response => {
-                //alert("Enviado al Back: " + JSON.stringify(this.creationInfo(dataReceivedBuffer)));
-            })
             .catch(error => {
                 alert('Ha habido un error. Pruebe más tarde');
                 console.log('Error en el el fetch: ' + error.message);
-            });*/
+            });
     }
 
     creationInfo(measurementMagnitudes) {
         return {
             measurements:
-                measurementMagnitudes.map((measurementMagnitude, i) => ({magnitude: measurementMagnitude}))
+                measurementMagnitudes.map((measurementMagnitude, i) => ({magnitude: this.convertedMagnitude(measurementMagnitude)}))
 
         }
 
+    }
+
+    convertedMagnitude(measurementMagnitude){
+        return (parseFloat(measurementMagnitude) * this.conversionFactor()).toFixed(2).toString()
     }
 
     startMeasurementRegistration() {
@@ -438,6 +437,10 @@ class RegisterMeasurements extends Component {
             this.state.dataReceivedBuffer.push(data);
             Toast.showLongBottom('Recibido: ' + data)
         }
+    }
+
+    conversionFactor(){
+        return this.training.training_type === "F" ? (9.81 / 16384.0) : 1;
     }
 
     componentWillUnmount() {
