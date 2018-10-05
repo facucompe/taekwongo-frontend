@@ -1,9 +1,10 @@
 import React, {Component} from "react";
-import {Button, Col, Container, Content, Footer, Grid, Icon, List, ListItem, Right, Row, Text} from "native-base";
+import {Button, Col, Container, Content, Footer, Grid, Icon, List, ListItem, Left, Right, Row, Text} from "native-base";
 
-import {StyleSheet} from "react-native";
+import {AsyncStorage, StyleSheet} from "react-native";
 
 import Training from "./Training";
+import Login from "./Login";
 
 import moment from "moment";
 import {iconNameFor} from "./Commons";
@@ -25,6 +26,9 @@ export default class Trainings extends Component {
 
         this.openCreateTrainingView = this.openCreateTrainingView.bind(this);
         this.moveTo = this.moveTo.bind(this);
+        this.signOut = this.signOut.bind(this);
+        this.goBackToLogin = this.goBackToLogin.bind(this);
+
     };
 
     componentDidMount() {
@@ -74,6 +78,11 @@ export default class Trainings extends Component {
                     />
                 </Content>
                 <Footer style={styles.footer}>
+                    <Left>
+                        <Button onPress={this.signOut} rounded style={styles.plusButton}>
+                            <Text>Cerrar sesión</Text>
+                        </Button>
+                    </Left>
                     <Right>
                         <Button onPress={this.openCreateTrainingView} rounded style={styles.plusButton}>
                             <Icon name='add' />
@@ -91,6 +100,22 @@ export default class Trainings extends Component {
     openCreateTrainingView() {
         this.props.navigation.navigate('CreateTraining', {session_token: this.session_token})
     }
+
+    signOut(){
+        resetTokenAndRenewID();
+        this.goBackToLogin();
+    }
+
+    goBackToLogin() {
+        this.props.navigation.navigate('Login', {})
+    }
+}
+
+function resetTokenAndRenewID(){
+
+    AsyncStorage.setItem("access_token", "");
+    AsyncStorage.setItem("renew_id", "");
+
 }
 
 const styles = StyleSheet.create({

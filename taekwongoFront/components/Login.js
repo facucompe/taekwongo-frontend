@@ -57,7 +57,6 @@ export default class Login extends Component{
     }
 
     componentWillMount(){
-        // resetTokenAndRenewID()
         this.openTrainingsView();
     }
 
@@ -220,13 +219,6 @@ function callLoginApi(info) {
 				alert('Error de conexión, intente nuevamente');
 				console.log('Error en el el fetch: ' + error.message);
 			});
-}
-
-function resetTokenAndRenewID(){
-
-    AsyncStorage.setItem("access_token", "");
-    AsyncStorage.setItem("renew_id", "");
-
 }
 
 function getToken() {
