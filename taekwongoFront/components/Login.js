@@ -58,7 +58,8 @@ export default class Login extends Component{
     }
 
     componentWillMount(){
-        resetTokenAndRenewID()
+        // resetTokenAndRenewID()
+        this.openTrainingsView();
     }
 
     render() {
@@ -142,12 +143,11 @@ export default class Login extends Component{
     }
 
     onLogin(){
+        var _this = this;
         if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
-            LoginConnector.callApi(this.buildInfo());
-            AsyncStorage.getItem("access_token").then((token,i) => {
-                    this.openTrainingsView(token);
-                }
-            );
+            callLoginApi(this.buildInfo()).then(function() {
+                _this.openTrainingsView();
+            });
         }
         else{
             alert("Corregir campos inválidos");
@@ -170,11 +170,19 @@ export default class Login extends Component{
         this.props.navigation.navigate('RecoverPassword', {})
     }
 
-    openTrainingsView(token){
+    navigateToTrainingsView(token){
         if(token != undefined) {
             this.props.navigation.navigate('Trainings', {session_token: token})
         }
 
+    }
+
+    openTrainingsView() {
+        var _this = this;
+        
+        getToken().then(function(token, i) {
+            _this.navigateToTrainingsView(token);
+        });
     }
 
     buildInfo(){
@@ -215,9 +223,8 @@ export default class Login extends Component{
     }
 }
 
-let LoginConnector = function () {
-	function callApi(info) {
-		fetch('http://taekwongo.herokuapp.com/users/sessions', {
+function callLoginApi(info) {
+		return fetch('http://taekwongo.herokuapp.com/users/sessions', {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
@@ -244,18 +251,17 @@ let LoginConnector = function () {
 				alert('Error de conexión, intente nuevamente');
 				console.log('Error en el el fetch: ' + error.message);
 			});
-	}
-
-	return{
-		callApi: callApi
-	}
-}();
+}
 
 function resetTokenAndRenewID(){
 
     AsyncStorage.setItem("access_token", "");
     AsyncStorage.setItem("renew_id", "");
 
+}
+
+function getToken() {
+    return AsyncStorage.getItem("access_token");
 }
 
 const win = Dimensions.get('window');

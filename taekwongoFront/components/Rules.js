@@ -49,39 +49,68 @@ export default class Rules extends Component {
     }             
 }
 
-function openRules() {        
-    RNFSPackage.exists(taekwondoRulesDownloadPath)
-    .then(function(doesFileExist) {
-            if (doesFileExist) {
-                openRulesPDF();
-            } else {
-                downloadRules().then(function() {
-                    openRulesPDF();
-                });
-            }
+function getLastVersion() {
+    return fetch('http://taekwongo.herokuapp.com/rulespdf', {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
         }
-    ) 
+    })
+    .then(response => response.json())
+}
+
+function openRules() {
+    RNFetchBlob.fs.ls(RNFetchBlob.fs.dirs.DownloadDir)
+    .then(function(files){
+        var rules = files.filter(function(file) {
+            return file.includes("taekwondo_rules_");
+        })
+
+        var lastVersionDownloaded = rules.sort(function(file1, file2){
+            return file1 < file2;
+        })[0]
+
+        if (lastVersionDownloaded !== undefined) {
+            openRulesPDF(lastVersionDownloaded);
+        } else {
+            getLastVersion().then(function(rules){
+                downloadRulesPDF(rules).then(function() {
+                    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf' 
+                    openRulesPDF(lastVersionFileName);
+                })
+            });
+        }
+    }); 
 } 
 
-function openRulesPDF() {
-    RNFetchBlob.android.actionViewIntent(taekwondoRulesDownloadPath, 'application/pdf')
+function openRulesPDF(rulesName) {
+    var rulesPath = taekwondoRulesDownloadPath + rulesName;
+    RNFetchBlob.android.actionViewIntent(rulesPath, 'application/pdf')
 }
 
 function downloadRules() {
-    const { config, fs } = RNFetchBlob;
-    return config({
-      fileCache : true,
-      addAndroidDownloads : {
-        useDownloadManager : true,
-        notification : true,
-        mime : 'application/pdf',
-        path: taekwondoRulesDownloadPath,
-      }
+    getLastVersion().then(function(rules){
+        downloadRulesPDF(rules)
     })
-    .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf')
 }
 
-const taekwondoRulesDownloadPath = RNFetchBlob.fs.dirs.DownloadDir + '/taekwondo_rules.pdf';
+function downloadRulesPDF(rules) {
+    const { config, fs } = RNFetchBlob;    
+    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf'
+    return config({
+            fileCache : true,
+            addAndroidDownloads : {
+              useDownloadManager : true,
+              notification : true,
+              mime : 'application/pdf',
+              path: taekwondoRulesDownloadPath + lastVersionFileName,
+            }
+          })
+    .fetch('GET', rules.pdf_url)
+}
+
+const taekwondoRulesDownloadPath = RNFetchBlob.fs.dirs.DownloadDir + '/';
 
 const styles = StyleSheet.create({
     textButton:{
