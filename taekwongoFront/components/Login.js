@@ -190,6 +190,7 @@ export default class Login extends Component{
             password: this.state.passwordText
         }
     }
+}
 
 function callLoginApi(info) {
 		return fetch('http://taekwongo.herokuapp.com/users/sessions', {
