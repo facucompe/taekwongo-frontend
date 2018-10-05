@@ -4,7 +4,7 @@ import { Image } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Item } from 'native-base';
 
 
-export default class ItemNewsFeed extends Component {
+export default class RefereeingItem extends Component {
 
     static navigationOptions = ({ navigation }) => ({
         title: `Item`,
