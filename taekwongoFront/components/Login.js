@@ -52,7 +52,6 @@ export default class Login extends Component{
         this.emailValidation = this.emailValidation.bind(this);
         this.setEmail = this.setEmail.bind(this);
         this.renderEmailError = this.renderEmailError.bind(this);
-        this.callLoginApi = this.callLoginApi.bind(this);
 
         this.setPassword = this.setPassword.bind(this);
     }
@@ -191,37 +190,6 @@ export default class Login extends Component{
             password: this.state.passwordText
         }
     }
-
-    callLoginApi(info) {
-        fetch('http://192.168.0.43:3000/users/sessions', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(info),
-        })
-            .then(response => response.json())
-            .then(response => {
-                if (response['error']) {
-                    alert(response['error'])
-                }
-                else if (response['access_token'] && response['renew_id']) {
-                    AsyncStorage.setItem("access_token", response['access_token']);
-                    AsyncStorage.setItem("renew_id", response['renew_id']);
-                    this.setState({session_token: response['access_token']});
-                }
-                else {
-                    console.log('No se comprendió el mensaje del servidor');
-                    console.log(response);
-                }
-            })
-            .catch(error => {
-                alert('Error de conexión, intente nuevamente');
-                console.log('Error en el el fetch: ' + error.message);
-            });
-    }
-}
 
 function callLoginApi(info) {
 		return fetch('http://taekwongo.herokuapp.com/users/sessions', {
