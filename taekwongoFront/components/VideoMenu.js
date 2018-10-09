@@ -27,7 +27,7 @@ export default class VideoMenu extends Component {
                 style={styles.icon}
             />
         ),
-    }
+    };
 
     constructor(props) {
         super(props);

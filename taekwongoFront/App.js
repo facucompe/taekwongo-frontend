@@ -23,6 +23,8 @@ import SpecificPumse from './components/SpecificPumse';
 import Trainings from './components/Trainings';
 import Training from './components/Training';
 import CreateTraining from './components/CreateTraining';
+import RegisterMeasurements from './components/RegisterMeasurements';
+import ProgressGraph from "./components/ProgressGraph";
 
 import {
     StyleSheet,
@@ -66,7 +68,7 @@ export const StackTraining = StackNavigator({
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
           })
-        
+
     },
     RecoverPassword: {
         screen: RecoverPassword
@@ -83,8 +85,14 @@ export const StackTraining = StackNavigator({
     Training:{
         screen: Training
     },
+    RegisterMeasurements: {
+        screen: RegisterMeasurements
+    },
     CreateTraining:{
         screen: CreateTraining
+    },
+    ProgressGraph: {
+        screen: ProgressGraph
     }
 });
 
@@ -93,7 +101,7 @@ export const StackNewsFeed = StackNavigator({
         screen:NewsFeed,
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
-          })       
+          })
     },
     ItemNewsFeed:{
         screen:ItemNewsFeed
@@ -160,7 +168,6 @@ export const StackRefereeing = StackNavigator({
 	    screen:RefereeingItem
     }
 });
-
 
 const CustomDrawerContentComponent = (props) => (
 

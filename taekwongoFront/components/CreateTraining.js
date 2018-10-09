@@ -1,25 +1,19 @@
-import React, { Component } from "react";
-import {
-    Button,
-    Container,
-    Content,
-    Form,
-    Icon,
-    Input,
-    Item,
-    Label,
-    Picker,
-    Text,
-} from "native-base";
+import React, {Component} from "react";
+import {Button, Container, Content, Form, Icon, Input, Item, Label, Picker, Text,} from "native-base";
 import {StyleSheet} from "react-native";
+import {checkStatus, isValidTitle} from "./Commons";
+
 export default class CreateTraining extends Component {
     static navigationOptions = {
         title: 'Crear Entrenamiento'
     };
     constructor(props) {
         super(props);
+
+        this.session_token = this.props.navigation.getParam('session_token','NO-TOKEN');
+
         this.state = {
-            trainingType: 'F',
+            training_type: 'F',
             title: undefined,
             validatingTitle: false
         };
@@ -31,8 +25,8 @@ export default class CreateTraining extends Component {
     setTitle(title){
         this.setState({title, validatingTitle: true })
     }
-    onValueChangeTrainingType(trainingType){
-        this.setState({trainingType})
+    onValueChangeTrainingType(training_type){
+        this.setState({training_type: training_type})
     }
     render() {
         return (
@@ -54,7 +48,7 @@ export default class CreateTraining extends Component {
                             placeholder="Tipo de Entrenamiento"
                             placeholderStyle={{ color: "black" }}
                             placeholderIconColor="black"
-                            selectedValue={this.state.trainingType}
+                            selectedValue={this.state.training_type}
                             onValueChange={this.onValueChangeTrainingType.bind(this)}
                         >
                             <Picker.Item label="Fuerza" value="F" />
@@ -81,25 +75,62 @@ export default class CreateTraining extends Component {
     }
     onCreation() {
         if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
-            alert("Datos OK. Title: " + this.state.title + " Tipo de Entrenamiento: " + this.state.trainingType);
-            //To Do: Sacar el alert y hacer el POST al backend para registrar el entrenamiento
+            fetch('http://taekwongo.herokuapp.com/trainings', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    authorization: this.session_token
+                },
+                body: JSON.stringify(this.creationInfo()),
+            })
+                .then(response => response.json())
+                .then(response => checkStatus(response))
+                .then(response => {
+                    this.moveToCreatedTrainingView(response);
+                    //alert('Entrenamiento guardado OK.');
+        })
+                .catch(err => {
+                    alert('Ha habido un error. Pruebe más tarde');
+                    console.log('Error en el el fetch: ' + err.message);
+                });
+
         }
         else {
             alert("Corregir campos inválidos");
         }
     }
+
+    creationInfo() {
+        return {
+            training: {
+                title: this.state.title,
+                training_type: this.state.training_type
+            }
+        }
+    }
+
+    trainingFrom(response){
+        return  {
+                id: response["id"],
+                title: response["title"],
+                user_id: response["user_id"],
+                training_type: response["training_type"],
+                created_at: response["created_at"],
+                updated_at: response["updated_at"]
+            }
+    }
+
     allFieldsCompleted(){
-        return this.state.title !== undefined && this.state.trainingType !== undefined
+        return this.state.title !== undefined && this.state.training_type !== undefined
     }
     postOkFieldValidations(){
         return this.titleValidation()
     }
-}
-function isValidTitle(aString) {
-    return notEmptyAndFitsRegex(aString,/^[A-Za-z0-9\s]+$/);
-}
-function notEmptyAndFitsRegex(aString,aRegex){
-    return aString !== "" && aRegex.test(aString);
+
+    moveToCreatedTrainingView(response) {
+        this.props.navigation.navigate('Training', {session_token: this.session_token, selectedTraining: this.trainingFrom(response)})
+    }
 }
 const styles = StyleSheet.create({
     container:{

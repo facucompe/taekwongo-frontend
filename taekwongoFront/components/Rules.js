@@ -21,7 +21,7 @@ export default class Rules extends Component {
                 style={styles.icon}
             />
         ),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -110,7 +110,7 @@ function downloadRulesPDF(rules) {
     .fetch('GET', rules.pdf_url)
 }
 
-const taekwondoRulesDownloadPath = RNFetchBlob.fs.dirs.DownloadDir + '/'
+const taekwondoRulesDownloadPath = RNFetchBlob.fs.dirs.DownloadDir + '/';
 
 const styles = StyleSheet.create({
     textButton:{

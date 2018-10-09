@@ -21,6 +21,7 @@ import {
 
 import SignUp from "./SignUp";
 import RecoverPassword from "./RecoverPassword";
+import {checkStatus, isValidEmail} from "./Commons";
 
 export default class Login extends Component{
 
@@ -56,7 +57,6 @@ export default class Login extends Component{
     }
 
     componentWillMount(){
-        // resetTokenAndRenewID()
         this.openTrainingsView();
     }
 
@@ -146,7 +146,6 @@ export default class Login extends Component{
             callLoginApi(this.buildInfo()).then(function() {
                 _this.openTrainingsView();
             });
-            
         }
         else{
             alert("Corregir campos inválidos");
@@ -173,6 +172,7 @@ export default class Login extends Component{
         if(token != undefined) {
             this.props.navigation.navigate('Trainings', {session_token: token})
         }
+
     }
 
     openTrainingsView() {
@@ -188,24 +188,6 @@ export default class Login extends Component{
             email:  this.state.emailText,
             password: this.state.passwordText
         }
-    }
-}
-
-function isValidEmail(aString) {
-    return notEmptyAndFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-}
-
-function notEmptyAndFitsRegex(aString,aRegex){
-    return aString !== "" && aRegex.test(aString);
-}
-
-function checkStatus(response) {
-    if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
-        return response
-    } else {
-        let error = new Error(response.statusText);
-        error.response = response;
-        throw error
     }
 }
 
@@ -237,13 +219,6 @@ function callLoginApi(info) {
 				alert('Error de conexión, intente nuevamente');
 				console.log('Error en el el fetch: ' + error.message);
 			});
-}
-
-function resetTokenAndRenewID(){
-
-    AsyncStorage.setItem("access_token", "");
-    AsyncStorage.setItem("renew_id", "");
-
 }
 
 function getToken() {
