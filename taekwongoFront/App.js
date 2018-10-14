@@ -37,6 +37,7 @@ import { Container, Content, Icon, Header, Body, Left, Button, Text } from 'nati
 import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView } from 'react-navigation'
 import RNFetchBlob from 'rn-fetch-blob';
 import RNFSPackage from 'react-native-fs';
+import RegisterMeasurementsNew from "./components/RegisterMeasurementsNew";
 
 type Props = {};
 
@@ -86,7 +87,7 @@ export const StackTraining = StackNavigator({
         screen: Training
     },
     RegisterMeasurements: {
-        screen: RegisterMeasurements
+        screen: RegisterMeasurementsNew
     },
     CreateTraining:{
         screen: CreateTraining
