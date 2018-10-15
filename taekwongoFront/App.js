@@ -176,7 +176,7 @@ const CustomDrawerContentComponent = (props) => (
             <Body style={{flex:1}}>
             <Left style={{alignSelf:"center",justifyContent:"center"}}>
                 <Image
-                    source={require('./components/img/poomse1.png')}
+                    source={require('./components/img/WTF.jpg')}
                     style={styles.iconMenu}
                 />
             </Left>
@@ -220,8 +220,8 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     iconMenu: {
-       width:100,
-       height:100
+       width:300,
+       height:200
     }
 });
 

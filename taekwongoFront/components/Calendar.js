@@ -84,6 +84,7 @@ export default class Calendar extends Component {
 
     renderCompetition = (item) => {
         const start_date = this.formatDate(item.start_date);
+        const end_date = this.formatDate(item.end_date);
         return (
             <ListItem avatar key={item.id}>
                 <Left>
