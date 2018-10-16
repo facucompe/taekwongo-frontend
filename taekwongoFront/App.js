@@ -176,7 +176,7 @@ const CustomDrawerContentComponent = (props) => (
             <Body style={{flex:1}}>
             <Left style={{alignSelf:"center",justifyContent:"center"}}>
                 <Image
-                    source={require('./components/img/WTF.jpg')}
+                    source={require('./components/img/menu-icon2.png')}
                     style={styles.iconMenu}
                 />
             </Left>
