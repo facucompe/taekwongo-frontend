@@ -16,7 +16,9 @@ import { Buffer } from 'buffer';
 global.Buffer = Buffer;
 const iconv = require('iconv-lite');
 
-export default class RegisterMeasurementsNew extends Component {
+import MeasurementsConfirmation from "./MeasurementsConfirmation";
+
+export default class MeasurementsRegistration extends Component {
     static navigationOptions = {
         title: 'Entrenando'
     };
@@ -42,6 +44,7 @@ export default class RegisterMeasurementsNew extends Component {
         this.buttonForConnecting = this.buttonForConnecting.bind(this);
         this.connectToTaekwonGoBand = this.connectToTaekwonGoBand.bind(this);
         this.taekwonGoBandDevice = this.taekwonGoBandDevice.bind(this);
+        this.trainingButtonPressed = this.trainingButtonPressed.bind(this);
     }
 
     componentWillMount() {
@@ -137,7 +140,7 @@ export default class RegisterMeasurementsNew extends Component {
         if(this.state.trainingNow){
             this.setState(
                 {trainingNow: false},
-                () => {this.saveMeasurements()}
+                () => {this.finishMeasurementRegistration()}
             );
 
         }
@@ -154,42 +157,11 @@ export default class RegisterMeasurementsNew extends Component {
         }
     }
 
-    saveMeasurements() {
+    finishMeasurementRegistration() {
         clearInterval(this.interval);
 
         const measurementMagnitudes = this.state.dataReceivedBuffer.join("").split(";").filter( magnitude => magnitude.length > 0);
-        this.saveMeasurementsInDatabase(measurementMagnitudes);
-    }
-
-    saveMeasurementsInDatabase(measurementMagnitudes){
-        fetch(`http://taekwongo.herokuapp.com/trainings/${this.training.id}/measurements/` , {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                authorization: this.session_token
-            },
-            body: JSON.stringify(this.creationInfo(measurementMagnitudes)),
-        })
-            .then(response => response.json())
-            .then(response => checkStatus(response))
-            .catch(error => {
-                alert('Ha habido un error. Pruebe más tarde');
-                console.log('Error en el el fetch: ' + error.message);
-            });
-    }
-
-    creationInfo(measurementMagnitudes) {
-        return {
-            measurements:
-                measurementMagnitudes.map((measurementMagnitude, i) => ({magnitude: this.convertedMagnitude(measurementMagnitude)}))
-
-        }
-
-    }
-
-    convertedMagnitude(measurementMagnitude){
-        return (parseFloat(measurementMagnitude) * this.conversionFactor()).toFixed(2).toString()
+        this.moveToMeasurementsConfirmation(measurementMagnitudes);
     }
 
     startMeasurementRegistration() {
@@ -203,10 +175,6 @@ export default class RegisterMeasurementsNew extends Component {
             this.state.dataReceivedBuffer.push(data);
             Toast.showLongBottom('Recibido: ' + data)
         }
-    }
-
-    conversionFactor(){
-        return this.training.training_type === "F" ? (9.81 / 16384.0) : 1;
     }
 
     componentWillUnmount() {
@@ -249,9 +217,23 @@ export default class RegisterMeasurementsNew extends Component {
     }
 
 
+    moveToMeasurementsConfirmation(measurementMagnitudes) {
+        this.props.navigation.navigate('MeasurementsConfirmation',
+            {
+                session_token: this.session_token,
+                selectedTraining: this.training,
+                magnitudes: measurementMagnitudes
+            }
+        );
+    }
 };
 
 const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        flexDirection:'column',
+        backgroundColor: '#F5FCFF'
+    },
     textButton: {
         color: 'white',
         fontSize: 20
@@ -259,14 +241,5 @@ const styles = StyleSheet.create({
     mbt30: {
         marginBottom: 10,
         marginTop: 10
-    },
-    margins: {
-        marginLeft: 40,
-        marginRight: 40
-    },
-    icon: {
-        width: 24,
-        height: 24,
     }
-
 });

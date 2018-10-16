@@ -23,8 +23,8 @@ import SpecificPumse from './components/SpecificPumse';
 import Trainings from './components/Trainings';
 import Training from './components/Training';
 import CreateTraining from './components/CreateTraining';
-import RegisterMeasurementsNew from './components/RegisterMeasurementsNew';
-import MeasurementsPreview from './components/MeasurementsPreview';
+import MeasurementsRegistration from './components/MeasurementsRegistration';
+import MeasurementsConfirmation from './components/MeasurementsConfirmation';
 import ProgressGraph from "./components/ProgressGraph";
 
 import {
@@ -86,10 +86,10 @@ export const StackTraining = StackNavigator({
         screen: Training
     },
     RegisterMeasurementsNew: {
-        screen: RegisterMeasurementsNew
+        screen: MeasurementsRegistration
     },
     MeasurementsPreview: {
-        screen: MeasurementsPreview
+        screen: MeasurementsConfirmation
     },
     CreateTraining:{
         screen: CreateTraining
