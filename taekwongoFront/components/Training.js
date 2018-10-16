@@ -18,7 +18,6 @@ import {StyleSheet} from "react-native";
 
 import moment from "moment";
 
-import RegisterMeasurements from "./RegisterMeasurements";
 import RegisterMeasurementsNew from "./RegisterMeasurementsNew";
 import ProgressGraph from "./ProgressGraph";
 import {iconNameFor, unitForTraining} from "./Commons";

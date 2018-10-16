@@ -37,7 +37,11 @@ export default class RegisterMeasurementsNew extends Component {
 
             dataReceivedBuffer: [],
             trainingNow: false
-        }
+        };
+
+        this.buttonForConnecting = this.buttonForConnecting.bind(this);
+        this.connectToTaekwonGoBand = this.connectToTaekwonGoBand.bind(this);
+        this.taekwonGoBandDevice = this.taekwonGoBandDevice.bind(this);
     }
 
     componentWillMount() {
@@ -70,32 +74,43 @@ export default class RegisterMeasurementsNew extends Component {
                     {this.state.connected
                         ? (
                             <Button
-                                title={this.trainingButtonText()}
-                                onPress={() => this.trainingButtonPressed()}/>
+                                primary
+                                block
+                                style={styles.mbt30}
+                                onPress={() => this.trainingButtonPressed()}>
+                                <Text style={styles.textButton}>{this.trainingButtonText()}</Text>
+                            </Button>
                         ) : null}
                 </Content>
+
             </Container>
         );
     }
 
     textForConnectingOrPairing() {
-        if (this.pairedToTaekwonGoBand())
-            return <Text> Conectate a la TaekwonGo Band</Text>;
-        else
-            return <Text> Asegurate de haber emparejado con la TaekwonGo Band desde las opciones de Bluetooth</Text>;
+        if (this.state.connected) {
+            return <Text> Ya podes comenzar a entrenar!</Text>
+        }
+        else {
+            if (this.pairedToTaekwonGoBand())
+                return <Text> Conectate a la TaekwonGo Band</Text>;
+            else
+                return <Text> Asegurate de haber emparejado con la TaekwonGo Band desde las opciones de
+                    Bluetooth</Text>;
+        }
     }
 
     buttonForConnecting() {
-        if (this.pairedToTaekwonGoBand())
+        if (!this.state.connected && this.pairedToTaekwonGoBand())
             return <Button
-            primary
-            block
-            style={styles.mbt30}
-            onPress={this.connectToTaekwonGoBand()}>
-            <Text style={styles.textButton}>Conectar</Text>
-        </Button>;
-    else
-        return null;
+                primary
+                block
+                style={styles.mbt30}
+                onPress={() => this.connectToTaekwonGoBand()}>
+                <Text style={styles.textButton}>Conectar</Text>
+            </Button>;
+        else
+            return null;
     }
 
     pairedToTaekwonGoBand() {
@@ -201,6 +216,39 @@ export default class RegisterMeasurementsNew extends Component {
     trainingTypeCode() {
         return this.training.training_type === "F" ? "1" : "0";
     }
+
+    /**
+     * Connect to bluetooth device by id
+     * @param  {Object} device
+     */
+    connect(device) {
+        this.setState({connecting: true});
+        BluetoothSerial.connect(device.id)
+            .then((res) => {
+                Toast.showShortBottom(`Connected to device ${device.name}`);
+                this.setState({device, connected: true, connecting: false});
+            })
+            .catch((err) => Toast.showShortBottom(err.message))
+    }
+
+    writePackets(message, packetSize = 64) {
+        const toWrite = iconv.encode(message, 'cp852');
+        const writePromises = [];
+        const packetCount = Math.ceil(toWrite.length / packetSize);
+
+        for (var i = 0; i < packetCount; i++) {
+            const packet = new Buffer(packetSize);
+            packet.fill(' ');
+            toWrite.copy(packet, 0, i * packetSize, (i + 1) * packetSize);
+            writePromises.push(BluetoothSerial.write(packet))
+        }
+
+        Promise.all(writePromises)
+            .then((result) => {
+            })
+    }
+
+
 };
 
 const styles = StyleSheet.create({
