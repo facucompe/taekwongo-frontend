@@ -5,7 +5,12 @@ import {
     Image
 } from 'react-native';
 
+<<<<<<< HEAD
 import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button,Spinner } from 'native-base';
+=======
+import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
+import {checkStatus} from "./Commons";
+>>>>>>> cdd923381e0deae9947a4616c2f6481259a8610e
 
 export default class Refereeing extends Component {
     static navigationOptions = {
@@ -17,7 +22,7 @@ export default class Refereeing extends Component {
                 style={styles.icon}
             />
         ),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -30,6 +35,7 @@ export default class Refereeing extends Component {
         this.onPressButton = this.onPressButton.bind(this);
     }
 
+<<<<<<< HEAD
     checkStatus(response) {
         if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
             return response
@@ -42,13 +48,17 @@ export default class Refereeing extends Component {
 
     componentWillMount() {
         fetch('http://taekwongo.herokuapp.com/feeds?category=refereeing', {
+=======
+    componentDidMount() {
+        fetch('http://taekwongo.herokuapp.com/refereeing', {
+>>>>>>> cdd923381e0deae9947a4616c2f6481259a8610e
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
             }})
             .then(response => response.json())
-            .then(response => this.checkStatus(response))
+            .then(response => checkStatus(response))
             .then(response => {
                 this.setState({isLoading:false});
                 this.setState({changes: response});

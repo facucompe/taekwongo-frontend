@@ -10,6 +10,7 @@ import {
 
 
 import Video from 'react-native-af-video-player'
+import {checkStatus} from "./Commons";
 
 const movimientosEnum={
     "attack":"Ataque",
@@ -37,6 +38,7 @@ export default class VideoTecnica extends Component {
         };
     }
 
+<<<<<<< HEAD
     checkStatus(response) {
         if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
             return response
@@ -48,6 +50,9 @@ export default class VideoTecnica extends Component {
     }
 
     componentWillMount() {
+=======
+    componentDidMount() {
+>>>>>>> cdd923381e0deae9947a4616c2f6481259a8610e
         fetch('http://taekwongo.herokuapp.com/video_techniques?category='+this.props.navigation.getParam('movementName', 'NO-ID'), {
             method: 'GET',
             headers: {
@@ -55,7 +60,7 @@ export default class VideoTecnica extends Component {
                 'Content-Type': 'application/json'
             }})
             .then(response => response.json())
-            .then(response => this.checkStatus(response))
+            .then(response => checkStatus(response))
             .then(response => {
                 this.setState({movements: response});
             })
@@ -79,7 +84,7 @@ export default class VideoTecnica extends Component {
                 </View>
             </View>
             )
-    }
+    };
 
     render() {
         const movementName = this.props.navigation.getParam('movementName', 'No-POSSIBLE');
@@ -94,7 +99,7 @@ export default class VideoTecnica extends Component {
 }
 
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container:{
         flex: 1,
         justifyContent: 'center',

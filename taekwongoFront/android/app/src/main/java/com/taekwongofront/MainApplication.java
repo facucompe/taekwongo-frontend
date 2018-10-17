@@ -3,6 +3,15 @@ package com.taekwongofront;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+<<<<<<< HEAD
+=======
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.rnfs.RNFSPackage;
+import com.rusel.RCTBluetoothSerial.RCTBluetoothSerialPackage;
+import com.remobile.toast.RCTToastPackage;
+import com.horcrux.svg.SvgPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+>>>>>>> cdd923381e0deae9947a4616c2f6481259a8610e
 import com.github.yamill.orientation.OrientationPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -31,6 +40,15 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+<<<<<<< HEAD
+=======
+			new RCTBluetoothSerialPackage(),
+			new RCTToastPackage(),
+            new RNFetchBlobPackage(),
+            new RNFSPackage(),
+            new SvgPackage(),
+            new LinearGradientPackage(),
+>>>>>>> cdd923381e0deae9947a4616c2f6481259a8610e
             new OrientationPackage(),
             new KCKeepAwakePackage(),
             new LinearGradientPackage(),

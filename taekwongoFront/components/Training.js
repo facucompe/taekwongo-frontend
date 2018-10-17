@@ -1,14 +1,26 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
     Button,
     Col,
     Container,
-    Content, Footer, Grid, Icon, List, ListItem, Right, Left, Row,
+    Content,
+    Footer,
+    Grid,
+    Icon,
+    Left,
+    List,
+    ListItem,
+    Right,
+    Row,
     Text,
 } from "native-base";
 import {StyleSheet} from "react-native";
 
 import moment from "moment";
+
+import RegisterMeasurements from "./RegisterMeasurements";
+import ProgressGraph from "./ProgressGraph";
+import {iconNameFor, unitForTraining} from "./Commons";
 
 export default class Training extends Component {
 
@@ -46,6 +58,16 @@ export default class Training extends Component {
     }
 
     render() {
+	    var progressStyle;
+	    var isDisabled;
+        if (this.state.measurements.length === 0 || this.state.measurements.length === undefined) {
+	        progressStyle = styles.disabledStyle;
+	        isDisabled = true;
+        }
+        else {
+	        progressStyle = styles.actionButton;
+	        isDisabled = false;
+        }
 
         return (
             <Container style={styles.container}>
@@ -56,7 +78,7 @@ export default class Training extends Component {
                                 <Icon
                                     style={styles.icon}
                                     type={"MaterialCommunityIcons"}
-                                    name={this.iconNameFor(this.training)}
+                                    name={iconNameFor(this.training)}
                                 />
                             </Col>
                             <Col size={8}>
@@ -67,7 +89,7 @@ export default class Training extends Component {
                         </Row>
                         <Row>
                             <Text style={styles.title2}>
-                                Mediciones registradas
+                                {this.registeredMeasurementsTitle()}
                             </Text>
 
                         </Row>
@@ -78,22 +100,18 @@ export default class Training extends Component {
                 </Content>
                 <Footer style={styles.footer}>
                     <Left>
-                        <Button onPress={this.openProgressGraph()} style={styles.actionButton}>
+                        <Button disabled={isDisabled} onPress={() => this.openProgressGraph()} style={progressStyle}>
                             <Text> Ver Progreso </Text>
                         </Button>
                     </Left>
                     <Right>
-                        <Button onPress={this.continueTraining()} style={styles.actionButton}>
+                        <Button onPress={() => this.continueTraining()} style={styles.actionButton}>
                             <Text> Entrenar </Text>
                         </Button>
                     </Right>
                 </Footer>
             </Container>
         );
-    }
-
-    iconNameFor(training) {
-        return training.training_type === "V" ? 'flash' : 'dumbbell';
     }
 
     renderMeasurementsTable() {
@@ -110,7 +128,7 @@ export default class Training extends Component {
                             </Col>
                             <Col size={5}>
                                 <Text >
-                                    {measurement.magnitude} {this.unitForTraining()}
+                                    {measurement.magnitude} {unitForTraining(this.training)}
                                 </Text>
                             </Col>
                         </Row>
@@ -121,15 +139,20 @@ export default class Training extends Component {
     }
 
     continueTraining() {
-
+        this.props.navigation.navigate('RegisterMeasurements', {session_token: this.session_token, selectedTraining: this.training })
     }
 
     openProgressGraph() {
-
+        this.props.navigation.navigate('ProgressGraph',
+            {
+                session_token: this.session_token,
+                magnitudes: this.state.measurements.map((measurement, i) => measurement.magnitude)
+            }
+        )
     }
 
-    unitForTraining() {
-        return this.training.type === 'V' ? 'ms' : 'm/s^2';
+    registeredMeasurementsTitle() {
+        return this.state.measurements.length > 0 ? "Mediciones registradas" : "Sin mediciones registradas";
     }
 }
 

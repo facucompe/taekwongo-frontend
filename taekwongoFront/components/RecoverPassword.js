@@ -15,12 +15,13 @@ import {
     Label,
     Text
 } from 'native-base';
+import {isValidEmail} from "./Commons";
 
 export default class SignUp extends Component {
 
     static navigationOptions = {
         title: 'Recuperar Contraseña'
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -97,14 +98,6 @@ export default class SignUp extends Component {
     postOkFieldValidations(){
         return this.userValidation();
     }
-}
-
-function isValidEmail(aString) {
-    return notEmptyAndFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-}
-
-function notEmptyAndFitsRegex(aString,aRegex){
-    return aString !== "" && aRegex.test(aString);
 }
 
 const styles = StyleSheet.create({

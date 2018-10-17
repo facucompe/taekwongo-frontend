@@ -7,7 +7,7 @@ import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Ic
 export default class ItemNewsFeed extends Component {
 
     static navigationOptions = ({ navigation }) => ({
-        title: `Item`,
+        title: ``,
         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
         headerStyle:{
             backgroundColor:'white',
