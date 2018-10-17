@@ -58,6 +58,16 @@ export default class Training extends Component {
     }
 
     render() {
+	    var progressStyle;
+	    var isDisabled;
+        if (this.state.measurements.length === 0 || this.state.measurements.length === undefined) {
+	        progressStyle = styles.disabledStyle;
+	        isDisabled = true;
+        }
+        else {
+	        progressStyle = styles.actionButton;
+	        isDisabled = false;
+        }
 
         return (
             <Container style={styles.container}>
@@ -90,7 +100,7 @@ export default class Training extends Component {
                 </Content>
                 <Footer style={styles.footer}>
                     <Left>
-                        <Button onPress={() => this.openProgressGraph()} style={styles.actionButton}>
+                        <Button disabled={isDisabled} onPress={() => this.openProgressGraph()} style={progressStyle}>
                             <Text> Ver Progreso </Text>
                         </Button>
                     </Left>
