@@ -1,0 +1,558 @@
+[
+    {
+        "outputFile": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sq-rAL/values-sq-rAL.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 113,
+                    "endOffset": 164
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 284,
+                        "endColumn": 113,
+                        "endOffset": 393
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 169,
+                    "endColumn": 107,
+                    "endOffset": 272
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 398,
+                        "endColumn": 107,
+                        "endOffset": 501
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 277,
+                    "endColumn": 122,
+                    "endOffset": 395
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 506,
+                        "endColumn": 122,
+                        "endOffset": 624
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 400,
+                    "endColumn": 99,
+                    "endOffset": 495
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 629,
+                        "endColumn": 99,
+                        "endOffset": 724
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 500,
+                    "endColumn": 111,
+                    "endOffset": 607
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 729,
+                        "endColumn": 111,
+                        "endOffset": 836
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 612,
+                    "endColumn": 86,
+                    "endOffset": 694
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 841,
+                        "endColumn": 86,
+                        "endOffset": 923
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 699,
+                    "endColumn": 109,
+                    "endOffset": 804
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 928,
+                        "endColumn": 109,
+                        "endOffset": 1033
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 809,
+                    "endColumn": 122,
+                    "endOffset": 927
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 1038,
+                        "endColumn": 122,
+                        "endOffset": 1156
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 932,
+                    "endColumn": 82,
+                    "endOffset": 1010
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 1161,
+                        "endColumn": 82,
+                        "endOffset": 1239
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 1015,
+                    "endColumn": 105,
+                    "endOffset": 1116
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 1244,
+                        "endColumn": 105,
+                        "endOffset": 1345
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 1121,
+                    "endColumn": 104,
+                    "endOffset": 1221
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 1350,
+                        "endColumn": 104,
+                        "endOffset": 1450
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 1226,
+                    "endColumn": 97,
+                    "endOffset": 1319
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 1455,
+                        "endColumn": 97,
+                        "endOffset": 1548
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 1324,
+                    "endColumn": 105,
+                    "endOffset": 1425
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 1553,
+                        "endColumn": 105,
+                        "endOffset": 1654
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 1430,
+                    "endColumn": 102,
+                    "endOffset": 1528
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 1659,
+                        "endColumn": 102,
+                        "endOffset": 1757
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 1533,
+                    "endColumn": 115,
+                    "endOffset": 1644
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1762,
+                        "endColumn": 115,
+                        "endOffset": 1873
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 1649,
+                    "endColumn": 130,
+                    "endOffset": 1775
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 1878,
+                        "endColumn": 130,
+                        "endOffset": 2004
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 18,
+                    "startColumn": 4,
+                    "startOffset": 1780,
+                    "endColumn": 98,
+                    "endOffset": 1874
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 20,
+                        "startColumn": 4,
+                        "startOffset": 2009,
+                        "endColumn": 98,
+                        "endOffset": 2103
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 19,
+                    "startColumn": 4,
+                    "startOffset": 1879,
+                    "endColumn": 87,
+                    "endOffset": 1962
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer-ui/2.7.3/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 87,
+                        "endOffset": 138
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 1967,
+                    "endColumn": 72,
+                    "endOffset": 2035
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer-ui/2.7.3/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 143,
+                        "endColumn": 72,
+                        "endOffset": 211
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 21,
+                    "startColumn": 4,
+                    "startOffset": 2040,
+                    "endColumn": 66,
+                    "endOffset": 2102
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer-ui/2.7.3/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 216,
+                        "endColumn": 66,
+                        "endOffset": 278
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 2107,
+                    "endColumn": 64,
+                    "endOffset": 2167
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer-ui/2.7.3/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 283,
+                        "endColumn": 64,
+                        "endOffset": 343
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 2172,
+                    "endColumn": 81,
+                    "endOffset": 2249
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer-ui/2.7.3/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 348,
+                        "endColumn": 81,
+                        "endOffset": 425
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 2254,
+                    "endColumn": 84,
+                    "endOffset": 2334
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer-ui/2.7.3/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 430,
+                        "endColumn": 84,
+                        "endOffset": 510
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 25,
+                    "startColumn": 4,
+                    "startOffset": 2339,
+                    "endColumn": 82,
+                    "endOffset": 2417
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer-ui/2.7.3/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 515,
+                        "endColumn": 82,
+                        "endOffset": 593
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 26,
+                    "startColumn": 4,
+                    "startOffset": 2422,
+                    "endColumn": 80,
+                    "endOffset": 2498
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer-ui/2.7.3/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 598,
+                        "endColumn": 80,
+                        "endOffset": 674
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 27,
+                    "startColumn": 4,
+                    "startOffset": 2503,
+                    "endColumn": 72,
+                    "endOffset": 2571
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer-ui/2.7.3/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 679,
+                        "endColumn": 72,
+                        "endOffset": 747
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 28,
+                    "startColumn": 4,
+                    "startOffset": 2576,
+                    "endColumn": 70,
+                    "endOffset": 2642
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer-ui/2.7.3/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 752,
+                        "endColumn": 70,
+                        "endOffset": 818
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 29,
+                    "startColumn": 4,
+                    "startOffset": 2647,
+                    "endColumn": 65,
+                    "endOffset": 2708
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.google.android.exoplayer/exoplayer-ui/2.7.3/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 823,
+                        "endColumn": 65,
+                        "endOffset": 884
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 30,
+                    "startColumn": 4,
+                    "startOffset": 2713,
+                    "endColumn": 100,
+                    "endOffset": 2809
+                },
+                "from": {
+                    "file": "/home/felire/Taekwongo/taekwongo-frontend/taekwongoFront/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values-sq-rAL/values-sq-rAL.xml",
+                    "position": {
+                        "startLine": 21,
+                        "startColumn": 4,
+                        "startOffset": 2108,
+                        "endColumn": 100,
+                        "endOffset": 2204
+                    }
+                }
+            }
+        ]
+    }
+]
