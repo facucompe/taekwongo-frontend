@@ -23,18 +23,18 @@ import SpecificPumse from './components/SpecificPumse';
 import Trainings from './components/Trainings';
 import Training from './components/Training';
 import CreateTraining from './components/CreateTraining';
-import RegisterMeasurements from './components/RegisterMeasurements';
+import MeasurementsRegistration from './components/MeasurementsRegistration';
+import MeasurementsConfirmation from './components/MeasurementsConfirmation';
 import ProgressGraph from "./components/ProgressGraph";
 
 import {
     StyleSheet,
     AsyncStorage,
-    Image,
-    ScrollView
+    Image
 } from 'react-native';
 
-import { Container, Content, Icon, Header, Body, Left, Button, Text } from 'native-base'
-import { DrawerNavigator, StackNavigator, DrawerItems, SafeAreaView } from 'react-navigation'
+import { Container, Content, Icon, Header, Body, Left, Button } from 'native-base'
+import { DrawerNavigator, StackNavigator, DrawerItems } from 'react-navigation'
 import RNFetchBlob from 'rn-fetch-blob';
 import RNFSPackage from 'react-native-fs';
 
@@ -85,8 +85,11 @@ export const StackTraining = StackNavigator({
     Training:{
         screen: Training
     },
-    RegisterMeasurements: {
-        screen: RegisterMeasurements
+    MeasurementsRegistration: {
+        screen: MeasurementsRegistration
+    },
+    MeasurementsConfirmation: {
+        screen: MeasurementsConfirmation
     },
     CreateTraining:{
         screen: CreateTraining
