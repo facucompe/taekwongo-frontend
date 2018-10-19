@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Button, Col, Container, Content, Footer, Grid, Icon, List, ListItem, Left, Right, Row, Text} from "native-base";
 
-import {AsyncStorage, StyleSheet} from "react-native";
+import {AsyncStorage, StyleSheet, ScrollView, RefreshControl } from "react-native";
 
 import Training from "./Training";
 import Login from "./Login";
@@ -21,6 +21,7 @@ export default class Trainings extends Component {
         this.session_token = this.props.navigation.getParam('session_token','NO-TOKEN');
 
         this.state = {
+            refreshing: false,
             trainings: []
         };
 
@@ -32,51 +33,71 @@ export default class Trainings extends Component {
     };
 
     componentDidMount() {
-        fetch('http://taekwongo.herokuapp.com/trainings',
-            {
-                method: 'GET',
-                headers: {
-                    authorization: this.session_token
-                }
-            })
-            .then(response => response.json())
-            .then(response => {
-                this.setState({trainings: response});
-            })
-            .catch(error => {
-                alert('Error de conexión, intente nuevamente');
-                console.log('Error en el el fetch: ' + error.message);
-            });
+        this.fetchData();
     }
+
+    fetchData() {
+        return fetch('http://taekwongo.herokuapp.com/trainings',
+        {
+            method: 'GET',
+            headers: {
+                authorization: this.session_token
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            this.setState({trainings: response});
+        })
+        .catch(error => {
+            alert('Error de conexión, intente nuevamente');
+            console.log('Error en el el fetch: ' + error.message);
+        });
+    }
+
+    onTrainingRefresh = () => {
+        this.setState({refreshing: true});
+        this.fetchData().then(() => {
+          this.setState({refreshing: false});
+        });
+      }
 
     render() {
         return (
             <Container style={styles.container}>
+                <ScrollView
+                        refreshControl={
+                          <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.onTrainingRefresh}
+                            colors ={['#dfb200','#d90134', '#0057ef']} 
+                          />
+                        }>
                 <Content>
-                    <List
-                        dataArray={this.state.trainings}
-                        renderRow={training =>
-                            <ListItem button onPress={() => {this.moveTo(training)}}>
-                                <Grid>
-                                    <Row>
-                                        <Col size={1}>
-                                            <Icon type={"MaterialCommunityIcons"} name={iconNameFor(training)}/>
-                                        </Col>
-                                        <Col size={8}>
-                                            <Text >
-                                                {training.title}
-                                            </Text>
-                                        </Col>
-                                        <Col size={4}>
-                                            <Text>
-                                                {moment(training.created_at).format("DD/MM/YYYY")}
-                                            </Text>
-                                        </Col>
-                                    </Row>
-                                </Grid>
-                            </ListItem>}
-                    />
+                        <List
+                            dataArray={this.state.trainings}
+                            renderRow={training =>
+                                <ListItem button onPress={() => {this.moveTo(training)}}>
+                                    <Grid>
+                                        <Row>
+                                            <Col size={1}>
+                                                <Icon type={"MaterialCommunityIcons"} name={iconNameFor(training)}/>
+                                            </Col>
+                                            <Col size={8}>
+                                                <Text >
+                                                    {training.title}
+                                                </Text>
+                                            </Col>
+                                            <Col size={4}>
+                                                <Text>
+                                                    {moment(training.created_at).format("DD/MM/YYYY")}
+                                                </Text>
+                                            </Col>
+                                        </Row>
+                                    </Grid>
+                                </ListItem>}
+                        />
                 </Content>
+                </ScrollView>                
                 <Footer style={styles.footer}>
                     <Left>
                         <Button onPress={this.signOut} rounded style={styles.plusButton}>
