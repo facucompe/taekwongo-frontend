@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Image } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Item } from 'native-base';
 
 
@@ -34,7 +34,7 @@ export default class ItemNewsFeed extends Component {
                         </CardItem>
                         <CardItem>
                             <Body>
-                            <Image source={{uri: item.picture_url}} style={{height: 200, width: '100%', flex: 1}}/>
+                            <Image source={{uri: item.picture_url}} style={{height:200, width: '100%', flex: 1, resizeMode: 'contain'}}/>
                             </Body>
                         </CardItem>
                         <CardItem style={{marginTop:0}}>
@@ -50,5 +50,3 @@ export default class ItemNewsFeed extends Component {
         );
     }
 }
-
-

@@ -7,7 +7,7 @@ import {
     Image
 } from 'react-native';
 
-import { Button } from 'native-base';
+import { Button, Container } from 'native-base';
 import RNFetchBlob from 'rn-fetch-blob';
 import RNFSPackage from 'react-native-fs';
 
@@ -29,22 +29,24 @@ export default class Rules extends Component {
 
     render() {        
         return (
-            <View style={styles.margins}>
+            <Container style={styles.container}>
+            <View style={styles.view}>
                 <Button 
-                primary
+                primary               
                 block
-                style={styles.mbt30}
+                style={styles.button}
                 onPress={(openRules)}>
                     <Text style={styles.textButton}>Abrir Reglamento</Text>
                 </Button>
                 <Button 
                 primary
                 block
-                style={styles.mbt30}
+                style={styles.button}
                 onPress={(downloadRules)}>
                     <Text style={styles.textButton}>Descargar Reglamento</Text>
                 </Button>
             </View>
+            </Container>
         );
     }             
 }
@@ -115,19 +117,22 @@ const taekwondoRulesDownloadPath = RNFetchBlob.fs.dirs.DownloadDir + '/';
 const styles = StyleSheet.create({
     textButton:{
         color:'white',
-        fontSize: 20
+        fontSize: 20,
     },
-    mbt30: {
-        marginBottom: 10,
-        marginTop: 10
+    button: {
+        marginTop: 30
     },
-    margins: {
+    view: {
         marginLeft: 40,
         marginRight: 40
     },
     icon: {
           width: 24,
           height: 24,
-      }
+      },
+      container: {
+        flex: 1,
+        backgroundColor:'white'
+    },
 
 });
