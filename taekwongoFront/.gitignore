@@ -1,7 +1,5 @@
 # OSX
 #
-android/app/src/main/assets/
-android/app/src/main/res/*
 .DS_Store
 
 # Xcode
@@ -56,6 +54,3 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
-
-# Paquetes personales
-package-lock.json
