@@ -85,10 +85,10 @@ export const StackTraining = StackNavigator({
     Training:{
         screen: Training
     },
-    RegisterMeasurementsNew: {
+    MeasurementsRegistration: {
         screen: MeasurementsRegistration
     },
-    MeasurementsPreview: {
+    MeasurementsConfirmation: {
         screen: MeasurementsConfirmation
     },
     CreateTraining:{
