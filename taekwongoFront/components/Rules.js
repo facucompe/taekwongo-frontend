@@ -7,7 +7,7 @@ import {
     Image
 } from 'react-native';
 
-import { Button } from 'native-base';
+import { Button, Container } from 'native-base';
 import RNFetchBlob from 'rn-fetch-blob';
 import RNFSPackage from 'react-native-fs';
 
@@ -21,7 +21,7 @@ export default class Rules extends Component {
                 style={styles.icon}
             />
         ),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -29,76 +29,110 @@ export default class Rules extends Component {
 
     render() {        
         return (
-            <View style={styles.margins}>
+            <Container style={styles.container}>
+            <View style={styles.view}>
                 <Button 
-                primary
+                primary               
                 block
-                style={styles.mbt30}
+                style={styles.button}
                 onPress={(openRules)}>
                     <Text style={styles.textButton}>Abrir Reglamento</Text>
                 </Button>
                 <Button 
                 primary
                 block
-                style={styles.mbt30}
+                style={styles.button}
                 onPress={(downloadRules)}>
                     <Text style={styles.textButton}>Descargar Reglamento</Text>
                 </Button>
             </View>
+            </Container>
         );
     }             
 }
 
-function openRules() {        
-    RNFSPackage.exists(taekwondoRulesDownloadPath)
-    .then(function(doesFileExist) {
-            if (doesFileExist) {
-                openRulesPDF();
-            } else {
-                downloadRules().then(function() {
-                    openRulesPDF();
-                });
-            }
+function getLastVersion() {
+    return fetch('http://taekwongo.herokuapp.com/rulespdf', {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
         }
-    ) 
+    })
+    .then(response => response.json())
+}
+
+function openRules() {
+    RNFetchBlob.fs.ls(RNFetchBlob.fs.dirs.DownloadDir)
+    .then(function(files){
+        var rules = files.filter(function(file) {
+            return file.includes("taekwondo_rules_");
+        })
+
+        var lastVersionDownloaded = rules.sort(function(file1, file2){
+            return file1 < file2;
+        })[0]
+
+        if (lastVersionDownloaded !== undefined) {
+            openRulesPDF(lastVersionDownloaded);
+        } else {
+            getLastVersion().then(function(rules){
+                downloadRulesPDF(rules).then(function() {
+                    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf' 
+                    openRulesPDF(lastVersionFileName);
+                })
+            });
+        }
+    }); 
 } 
 
-function openRulesPDF() {
-    RNFetchBlob.android.actionViewIntent(taekwondoRulesDownloadPath, 'application/pdf')
+function openRulesPDF(rulesName) {
+    var rulesPath = taekwondoRulesDownloadPath + rulesName;
+    RNFetchBlob.android.actionViewIntent(rulesPath, 'application/pdf')
 }
 
 function downloadRules() {
-    const { config, fs } = RNFetchBlob;
-    return config({
-      fileCache : true,
-      addAndroidDownloads : {
-        useDownloadManager : true,
-        notification : true,
-        mime : 'application/pdf',
-        path: taekwondoRulesDownloadPath,
-      }
+    getLastVersion().then(function(rules){
+        downloadRulesPDF(rules)
     })
-    .fetch('GET', 'http://www.worldtaekwondo.org/wp-content/uploads/2018/06/Revision-WT-Competition-Rules-Interpretation-Hammamet-040520181.pdf')
 }
 
-const taekwondoRulesDownloadPath = RNFetchBlob.fs.dirs.DownloadDir + '/taekwondo_rules.pdf'
+function downloadRulesPDF(rules) {
+    const { config, fs } = RNFetchBlob;    
+    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf'
+    return config({
+            fileCache : true,
+            addAndroidDownloads : {
+              useDownloadManager : true,
+              notification : true,
+              mime : 'application/pdf',
+              path: taekwondoRulesDownloadPath + lastVersionFileName,
+            }
+          })
+    .fetch('GET', rules.pdf_url)
+}
+
+const taekwondoRulesDownloadPath = RNFetchBlob.fs.dirs.DownloadDir + '/';
 
 const styles = StyleSheet.create({
     textButton:{
         color:'white',
-        fontSize: 20
+        fontSize: 20,
     },
-    mbt30: {
-        marginBottom: 10,
-        marginTop: 10
+    button: {
+        marginTop: 30
     },
-    margins: {
+    view: {
         marginLeft: 40,
         marginRight: 40
     },
     icon: {
           width: 24,
           height: 24,
-      }
+      },
+      container: {
+        flex: 1,
+        backgroundColor:'white'
+    },
 
 });

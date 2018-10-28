@@ -12,6 +12,7 @@ import {
     Form,
     Text
 } from 'native-base';
+import {checkStatus} from "./Commons";
 
 export default class Poomse extends Component {
     static navigationOptions = {
@@ -35,16 +36,6 @@ export default class Poomse extends Component {
         this.onPressButton = this.onPressButton.bind(this);
     }
 
-    checkStatus(response) {
-        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
-            return response
-        } else {
-            let error = new Error(response.statusText);
-            error.response = response;
-            throw error
-        }
-    }
-
     componentWillMount() {
         fetch('http://taekwongo.herokuapp.com/poomses', {
             method: 'GET',
@@ -53,7 +44,7 @@ export default class Poomse extends Component {
                 'Content-Type': 'application/json'
             }})
             .then(response => response.json())
-            .then(response => this.checkStatus(response))
+            .then(response => checkStatus(response))
             .then(response => {
                 this.setState({poomses: response});
             })

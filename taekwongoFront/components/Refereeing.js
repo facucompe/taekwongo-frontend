@@ -5,7 +5,12 @@ import {
     Image
 } from 'react-native';
 
+<<<<<<< HEAD
 import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button,Spinner } from 'native-base';
+=======
+import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
+import {checkStatus} from "./Commons";
+>>>>>>> refs/remotes/origin/master
 
 export default class Refereeing extends Component {
     static navigationOptions = {
@@ -17,7 +22,7 @@ export default class Refereeing extends Component {
                 style={styles.icon}
             />
         ),
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -30,16 +35,6 @@ export default class Refereeing extends Component {
         this.onPressButton = this.onPressButton.bind(this);
     }
 
-    checkStatus(response) {
-        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
-            return response
-        } else {
-            let error = new Error(response.statusText);
-            error.response = response;
-            throw error
-        }
-    }
-
     componentWillMount() {
         fetch('http://taekwongo.herokuapp.com/feeds?category=refereeing', {
             method: 'GET',
@@ -48,7 +43,7 @@ export default class Refereeing extends Component {
                 'Content-Type': 'application/json'
             }})
             .then(response => response.json())
-            .then(response => this.checkStatus(response))
+            .then(response => checkStatus(response))
             .then(response => {
                 this.setState({isLoading:false});
                 this.setState({changes: response});

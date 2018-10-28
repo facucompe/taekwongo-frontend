@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 
-import {
-    StyleSheet,
-    ActivityIndicator,
-    Image
-} from 'react-native';
+import {StyleSheet, ActivityIndicator, Image, ScrollView, RefreshControl } from 'react-native';
 
 import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button, Spinner } from 'native-base';
+import {checkStatus} from "./Commons";
 
 
 export default class NewsFeed extends Component {
@@ -25,19 +22,10 @@ export default class NewsFeed extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            refreshing: false,
             news: [],
             isLoading: true
         };
-    }
-
-    checkStatus(response) {
-        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
-            return response
-        } else {
-            let error = new Error(response.statusText);
-            error.response = response;
-            throw error
-        }
     }
 
     componentWillMount() {
@@ -48,7 +36,7 @@ export default class NewsFeed extends Component {
 				'Content-Type': 'application/json'
 		}})
 			.then(response => response.json())
-            .then(response => this.checkStatus(response))
+            .then(response => checkStatus(response))
 			.then(response => {
 			    this.setState({isLoading:false});
 				this.setState({news: response});
@@ -57,7 +45,7 @@ export default class NewsFeed extends Component {
 				alert('Error de conexión, intente nuevamente');
 				console.log('Error en el el fetch: ' + error.message);
 			});
-	}
+    }
 
     renderItemNewsFeed = (item,i) => {
         return (
@@ -76,11 +64,18 @@ export default class NewsFeed extends Component {
                 </Right>
             </ListItem>
             )
-    }
+    };
 
     moveToItem(item){
         this.props.navigation.navigate('ItemNewsFeed', { item: item })
     }
+
+    onNewsFeedRefresh = () => {
+        this.setState({refreshing: true});
+        this.fetchData().then(() => {
+          this.setState({refreshing: false});
+        });
+      }
 
     render () {
 			let show;
@@ -92,16 +87,25 @@ export default class NewsFeed extends Component {
 			}
 		return (
             <Container>
-            <Content>
-            <List>
-                {show}
-
-                {this.state.isLoading && (
-                    <Spinner color='blue' />
-                )}
-    </List>
-    </Content>
-    </Container>
+                <ScrollView
+                          refreshControl={
+                            <RefreshControl
+                              refreshing={this.state.refreshing}
+                              onRefresh={this.onNewsFeedRefresh}
+                              colors ={['#dfb200','#d90134', '#0057ef']} 
+                            />
+                          }>
+                    <Content>
+                          <List>
+                            {show}
+                      
+                            {this.state.isLoading && (
+                                <Spinner color='#0057ef' />
+                            )}
+                        </List>
+                    </Content>
+                </ScrollView>                
+            </Container>
 		)
 	}
 }

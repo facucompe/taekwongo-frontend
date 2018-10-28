@@ -4,6 +4,7 @@ import {StyleSheet, Image} from 'react-native';
 
 import { Col, Grid, Row, Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text, Picker } from 'native-base';
 import moment from "moment";
+import {checkStatus} from "./Commons";
 
 export default class Calendar extends Component {
 
@@ -36,16 +37,6 @@ export default class Calendar extends Component {
         this.setState({category: aCategoryValue});
     }
 
-    checkStatus(response) {
-        if (response.status === undefined || (response.status >= 200 && response.status < 300)) {
-            return response
-        } else {
-            let error = new Error(response.statusText);
-            error.response = response;
-            throw error
-        }
-    }
-
     componentDidMount() {
 		fetch('http://taekwongo.herokuapp.com/competitions', {
 			method: 'GET',
@@ -54,7 +45,7 @@ export default class Calendar extends Component {
 				'Content-Type': 'application/json'
 		}})
 			.then(response => response.json())
-            .then(response => this.checkStatus(response))
+            .then(response => checkStatus(response))
 			.then(response => {
 				this.setState({allCompetitions: response});        
 			})
