@@ -5,12 +5,8 @@ import {
     Image
 } from 'react-native';
 
-<<<<<<< HEAD
 import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button,Spinner } from 'native-base';
-=======
-import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button } from 'native-base';
 import {checkStatus} from "./Commons";
->>>>>>> refs/remotes/origin/master
 
 export default class Refereeing extends Component {
     static navigationOptions = {
