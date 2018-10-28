@@ -3,6 +3,8 @@ package com.taekwongofront;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rusel.RCTBluetoothSerial.RCTBluetoothSerialPackage;
+import com.remobile.toast.RCTToastPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 
 import com.brentvatne.react.ReactVideoPackage;
@@ -35,7 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-			new RCTBluetoothSerialPackage(),
+            new RCTBluetoothSerialPackage(),
 			new RCTToastPackage(),
             new RNFetchBlobPackage(),
             new ReactVideoPackage(),
