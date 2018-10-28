@@ -3,10 +3,7 @@ package com.taekwongofront;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.rusel.RCTBluetoothSerial.RCTBluetoothSerialPackage;
-import com.remobile.toast.RCTToastPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-
 import com.brentvatne.react.ReactVideoPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.rnfs.RNFSPackage;
@@ -16,7 +13,6 @@ import com.horcrux.svg.SvgPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
-import com.rnfs.RNFSPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
