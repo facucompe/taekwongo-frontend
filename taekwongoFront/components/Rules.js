@@ -4,7 +4,8 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    PermissionsAndroid
 } from 'react-native';
 
 import { Button, Container } from 'native-base';
@@ -27,8 +28,9 @@ export default class Rules extends Component {
         super(props);
     }
 
-    render() {        
+    render() {
         return (
+            
             <Container style={styles.container}>
             <View style={styles.view}>
                 <Button 
@@ -49,6 +51,12 @@ export default class Rules extends Component {
             </Container>
         );
     }             
+}
+
+function checkPermissions(){
+    return PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      )
 }
 
 function getLastVersion() {
@@ -92,9 +100,15 @@ function openRulesPDF(rulesName) {
 }
 
 function downloadRules() {
-    getLastVersion().then(function(rules){
-        downloadRulesPDF(rules)
-    })
+    checkPermissions().then(function(granted){
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            getLastVersion().then(function(rules){
+                downloadRulesPDF(rules)
+            })
+          } else {
+            console.log("Write permission denied")
+          }
+      })
 }
 
 function downloadRulesPDF(rules) {

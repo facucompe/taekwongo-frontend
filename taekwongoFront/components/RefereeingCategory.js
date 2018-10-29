@@ -51,7 +51,7 @@ export default class RefereeingCategory extends Component {
             <View style={styles.container}>
                 <Carousel
                     animate={false}
-                    height={Dimensions.get('window').height/2}
+                    height={Dimensions.get('window').height/1.5}
                     indicatorSize={20}
                     indicatorColor="red"
                 >
