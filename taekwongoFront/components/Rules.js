@@ -71,27 +71,32 @@ function getLastVersion() {
 }
 
 function openRules() {
-    RNFetchBlob.fs.ls(RNFetchBlob.fs.dirs.DownloadDir)
-    .then(function(files){
-        var rules = files.filter(function(file) {
-            return file.includes("taekwondo_rules_");
-        })
-
-        var lastVersionDownloaded = rules.sort(function(file1, file2){
-            return file1 < file2;
-        })[0]
-
-        if (lastVersionDownloaded !== undefined) {
-            openRulesPDF(lastVersionDownloaded);
-        } else {
-            getLastVersion().then(function(rules){
-                downloadRulesPDF(rules).then(function() {
-                    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf' 
-                    openRulesPDF(lastVersionFileName);
+    checkPermissions().then(function(granted){
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            RNFetchBlob.fs.ls(RNFetchBlob.fs.dirs.DownloadDir)
+            .then(function(files){
+                var rules = files.filter(function(file) {
+                    return file.includes("taekwondo_rules_");
                 })
-            });
-        }
-    }); 
+        
+                var lastVersionDownloaded = rules.sort(function(file1, file2){
+                    return file1 < file2;
+                })[0]
+        
+                if (lastVersionDownloaded !== undefined) {
+                    openRulesPDF(lastVersionDownloaded);
+                } else {
+                    
+                    getLastVersion().then(function(rules){
+                        downloadRulesPDF(rules).then(function() {
+                            var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf' 
+                            openRulesPDF(lastVersionFileName);
+                        })
+                    });
+                }
+            }); 
+    }});
+    
 } 
 
 function openRulesPDF(rulesName) {
