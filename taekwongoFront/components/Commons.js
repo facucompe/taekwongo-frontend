@@ -7,7 +7,7 @@ export function isValidTitle(aString) {
 }
 
 function notEmptyAndFitsRegex(aString, aRegex) {
-    return aString !== "" && aRegex.test(aString);
+    return aString !== "" && fitsRegex(aString, aRegex);
 }
 
 export function checkStatus(response) {
@@ -28,8 +28,12 @@ export function isValidBirthDate(aDate) {
     return new Date() > aDate;
 }
 
+function fitsRegex(aString, aRegex) {
+    return aRegex.test(aString);
+}
+
 export function isValidEmail(aString) {
-    return notEmptyAndFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    return fitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 }
 
 export function isValidPassword(aString) {
