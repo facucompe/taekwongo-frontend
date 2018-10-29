@@ -2,12 +2,12 @@ export function iconNameFor(training) {
     return training.training_type === "V" ? 'flash' : 'dumbbell';
 }
 
-export function isValidTitle(aString) {
-    return notEmptyAndFitsRegex(aString, /^[A-Za-z0-9ñ\s]+$/);
+function isEmptyOrFitsRegex(aString, aRegex) {
+    return aString === undefined || aString === "" || fitsRegex(aString, aRegex)
 }
 
-function notEmptyAndFitsRegex(aString, aRegex) {
-    return aString !== "" && fitsRegex(aString, aRegex);
+export function isValidTitle(aString) {
+    return isEmptyOrFitsRegex(aString, /^[A-Za-z0-9ñ\s]+$/);
 }
 
 export function checkStatus(response) {
@@ -21,7 +21,7 @@ export function checkStatus(response) {
 }
 
 export function isValidName(aString) {
-    return notEmptyAndFitsRegex(aString, /^[A-Za-z\s\u0027\u2019]+$/);
+    return isEmptyOrFitsRegex(aString, /^[A-Za-z\s\u0027\u2019]+$/);
 }
 
 export function isValidBirthDate(aDate) {
@@ -33,11 +33,11 @@ function fitsRegex(aString, aRegex) {
 }
 
 export function isValidEmail(aString) {
-    return fitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    return isEmptyOrFitsRegex(aString, /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 }
 
 export function isValidPassword(aString) {
-    return aString !== undefined && aString.length > 8
+    return aString === undefined || aString ==="" || aString.length > 8
 }
 
 export function matchBetween(aString, anotherString) {
