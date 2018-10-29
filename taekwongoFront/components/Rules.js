@@ -9,7 +9,7 @@ import {
 
 import { Button, Container } from 'native-base';
 import RNFetchBlob from 'rn-fetch-blob';
-import RNFSPackage from 'react-native-fs';
+import Toast from '@remobile/react-native-toast';
 
 export default class Rules extends Component {
     static navigationOptions = {
@@ -67,18 +67,18 @@ function openRules() {
     .then(function(files){
         var rules = files.filter(function(file) {
             return file.includes("taekwondo_rules_");
-        })
+        });
 
         var lastVersionDownloaded = rules.sort(function(file1, file2){
             return file1 < file2;
-        })[0]
+        })[0];
 
         if (lastVersionDownloaded !== undefined) {
             openRulesPDF(lastVersionDownloaded);
         } else {
             getLastVersion().then(function(rules){
                 downloadRulesPDF(rules).then(function() {
-                    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf' 
+                    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf';
                     openRulesPDF(lastVersionFileName);
                 })
             });
@@ -99,7 +99,8 @@ function downloadRules() {
 
 function downloadRulesPDF(rules) {
     const { config, fs } = RNFetchBlob;    
-    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf'
+    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf';
+    Toast.showShortBottom('Descargando...');
     return config({
             fileCache : true,
             addAndroidDownloads : {
