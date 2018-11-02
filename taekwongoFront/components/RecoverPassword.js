@@ -15,7 +15,7 @@ import {
     Label,
     Text
 } from 'native-base';
-import {isValidEmail} from "./Commons";
+import {checkStatus, isValidEmail} from "./Commons";
 
 export default class SignUp extends Component {
 
@@ -26,19 +26,18 @@ export default class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: undefined,
-            validatingUser: false,
+            email: undefined
         };
 
         this.onRecoverPassword = this.onRecoverPassword.bind(this);
 
-        this.renderUserError = this.renderUserError.bind(this);
-        this.setUser = this.setUser.bind(this);
-        this.userValidation = this.userValidation.bind(this);
+        this.renderEmailError = this.renderEmailError.bind(this);
+        this.setEmail = this.setEmail.bind(this);
+        this.emailValidation = this.emailValidation.bind(this);
     }
 
-    setUser(user){
-        this.setState({user, validatingUser:true})
+    setEmail(email){
+        this.setState({email})
     }
 
     render() {
@@ -47,14 +46,14 @@ export default class SignUp extends Component {
                 <Content padder>
                     <Form>
                         <Form style={styles.container}>
-                            <Item floatingLabel error={!this.userValidation()}>
+                            <Item floatingLabel error={!this.emailValidation()}>
                                 <Label>Correo electrónico</Label>
                                 <Input
-                                    onChangeText={this.setUser}
-                                    value={this.state.user}
+                                    onChangeText={this.setEmail}
+                                    value={this.state.email}
                                     maxLength={30}
                                 />
-                                {this.renderUserError()}
+                                {this.renderEmailError()}
                             </Item>
                             <Button
                                 primary
@@ -72,32 +71,63 @@ export default class SignUp extends Component {
     }
 
 
-    renderUserError(){
-        return this.userValidation() ? null : <Icon name='close-circle'/>;
+    renderEmailError(){
+        return this.emailValidation() ? null : <Icon name='close-circle'/>;
     }
 
-    userValidation() {
-        return !this.state.validatingUser || isValidEmail(this.state.user);
+    emailValidation() {
+        return isValidEmail(this.state.email);
     }
 
     onRecoverPassword() {
 
         if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
-            alert("Datos OK :)");
-            //To Do: Sacar el alert y hacer el POST al backend para recuperar la contraseña
+            this.executePasswordRecoveryRequest().then(
+                () => {
+                    alert("Revise su casilla de email para reestablecer su contraseña.");
+                    this.moveToLoginScreen()
+                });
         }
         else {
-            alert("Corregir campos inválidos");
+            alert("Ingrese un email válido.");
         }
     }
 
     allFieldsCompleted(){
-        return this.state.user !== undefined;
+        return this.state.email !== undefined && this.state.email !== "";
     }
 
     postOkFieldValidations(){
-        return this.userValidation();
+        return this.emailValidation();
     }
+
+    moveToLoginScreen() {
+        this.props.navigation.navigate('Login', {})
+    }
+
+    executePasswordRecoveryRequest() {
+        return fetch('http://taekwongo.herokuapp.com/users/sessions/reset_password', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.creationInfo()),
+        })
+            .then(response => response.json())
+            .then(response => checkStatus(response))
+            .catch(error => {
+                alert('Ha habido un error. Pruebe más tarde');
+                console.log('Error en el el fetch: ' + error.message);
+            })
+    }
+
+    creationInfo(){
+        return {
+            email: this.state.email
+        }
+    }
+
 }
 
 const styles = StyleSheet.create({
