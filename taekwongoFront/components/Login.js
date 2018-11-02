@@ -11,6 +11,7 @@ import {
     Button,
     Container,
     Content,
+    Footer,
     Form,
     Icon,
     Input,
@@ -105,18 +106,18 @@ export default class Login extends Component{
                                 </Text>
                             </Text>
                         </Form>
-                        <Form style={styles.registerView}>
-                            <Text style={styles.registerText}>
-                                ¿No tienes una cuenta?
-
-                                <Text style={styles.registerPress} onPress={this.signUp}>
-                                    {'\t'}Registrate
-                                </Text>
-
-                            </Text>
-                        </Form>
                     </Form>
                 </Content>
+                <Footer style ={styles.registerView}>
+                    <Text style={styles.registerText}>
+                        ¿No tienes una cuenta?
+
+                        <Text style={styles.registerPress} onPress={this.signUp}>
+                            {'\t'}Registrate
+                        </Text>
+
+                    </Text>
+                </Footer>
             </Container>
         );
     }
@@ -278,6 +279,7 @@ const styles = StyleSheet.create({
         borderTopWidth:1,
         borderColor:'#a1a4a3',
         padding:15,
+        backgroundColor: '#F5FCFF'
     },
     registerText:{
         textAlign:'center'
