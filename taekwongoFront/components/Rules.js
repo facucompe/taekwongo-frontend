@@ -54,6 +54,12 @@ export default class Rules extends Component {
 }
 
 function checkPermissions(){
+    return PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      )
+}
+
+function requestPermissions(){
     return PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
       )
@@ -73,31 +79,41 @@ function getLastVersion() {
 function openRules() {
     checkPermissions().then(function(granted){
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            RNFetchBlob.fs.ls(RNFetchBlob.fs.dirs.DownloadDir)
-            .then(function(files){
-                var rules = files.filter(function(file) {
-                    return file.includes("taekwondo_rules_");
-                })
-        
-                var lastVersionDownloaded = rules.sort(function(file1, file2){
-                    return file1 < file2;
-                })[0]
-        
-                if (lastVersionDownloaded !== undefined) {
-                    openRulesPDF(lastVersionDownloaded);
-                } else {
-                    
-                    getLastVersion().then(function(rules){
-                        downloadRulesPDF(rules).then(function() {
-                            var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf' 
-                            openRulesPDF(lastVersionFileName);
-                        })
-                    });
-                }
-            }); 
-    }});
-    
+             open();
+        }
+        else {
+            requestPermissions().then(function (granted){
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    open();
+               }
+            })
+        }
+    });
 } 
+
+function open() {
+    return RNFetchBlob.fs.ls(RNFetchBlob.fs.dirs.DownloadDir)
+    .then(function(files){
+        var rules = files.filter(function(file) {
+            return file.includes("taekwondo_rules_");
+        })
+
+        var lastVersionDownloaded = rules.sort(function(file1, file2){
+            return file1 < file2;
+        })[0]
+
+        if (lastVersionDownloaded !== undefined) {
+            openRulesPDF(lastVersionDownloaded);
+        } else {
+            getLastVersion().then(function(rules){
+                downloadRulesPDF(rules).then(function() {
+                    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf'
+                    openRulesPDF(lastVersionFileName);
+                })
+            });
+        }
+    });
+}
 
 function openRulesPDF(rulesName) {
     var rulesPath = taekwondoRulesDownloadPath + rulesName;
@@ -107,13 +123,21 @@ function openRulesPDF(rulesName) {
 function downloadRules() {
     checkPermissions().then(function(granted){
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            getLastVersion().then(function(rules){
-                downloadRulesPDF(rules)
-            })
+            download();
           } else {
-            console.log("Write permission denied")
+            requestPermissions().then(function(granted) {
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    download();
+                  }
+            })
           }
       })
+}
+
+function download() {
+    return getLastVersion().then(function(rules){
+        downloadRulesPDF(rules)
+    });
 }
 
 function downloadRulesPDF(rules) {
