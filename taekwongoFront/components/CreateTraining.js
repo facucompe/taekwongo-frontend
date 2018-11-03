@@ -14,8 +14,7 @@ export default class CreateTraining extends Component {
 
         this.state = {
             training_type: 'F',
-            title: undefined,
-            validatingTitle: false
+            title: undefined
         };
         this.onCreation = this.onCreation.bind(this);
         this.titleValidation = this.titleValidation.bind(this);
@@ -68,7 +67,7 @@ export default class CreateTraining extends Component {
         );
     }
     titleValidation() {
-        return !this.state.validatingTitle || isValidTitle(this.state.title);
+        return isValidTitle(this.state.title);
     }
     renderTitleError() {
         return this.titleValidation() ? null :  <Icon name='close-circle' />;
@@ -88,7 +87,6 @@ export default class CreateTraining extends Component {
                 .then(response => checkStatus(response))
                 .then(response => {
                     this.moveToCreatedTrainingView(response);
-                    //alert('Entrenamiento guardado OK.');
         })
                 .catch(err => {
                     alert('Ha habido un error. Pruebe más tarde');
@@ -97,7 +95,7 @@ export default class CreateTraining extends Component {
 
         }
         else {
-            alert("Corregir campos inválidos");
+            alert("Completar todos los campos correctamente para crear el entrenamiento");
         }
     }
 
@@ -122,7 +120,7 @@ export default class CreateTraining extends Component {
     }
 
     allFieldsCompleted(){
-        return this.state.title !== undefined && this.state.training_type !== undefined
+        return this.state.title !== undefined && this.state.training_type !== undefined && this.state.title !== "" && this.state.training_type !== ""
     }
     postOkFieldValidations(){
         return this.titleValidation()

@@ -10,7 +10,7 @@ import {
 
 import { Button, Container } from 'native-base';
 import RNFetchBlob from 'rn-fetch-blob';
-import RNFSPackage from 'react-native-fs';
+import Toast from '@remobile/react-native-toast';
 
 export default class Rules extends Component {
     static navigationOptions = {
@@ -30,7 +30,7 @@ export default class Rules extends Component {
 
     render() {
         return (
-            
+
             <Container style={styles.container}>
             <View style={styles.view}>
                 <Button 
@@ -142,7 +142,8 @@ function download() {
 
 function downloadRulesPDF(rules) {
     const { config, fs } = RNFetchBlob;    
-    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf'
+    var lastVersionFileName = "taekwondo_rules_" + rules.version + '.pdf';
+    Toast.showShortBottom('Descargando...');
     return config({
             fileCache : true,
             addAndroidDownloads : {
