@@ -15,7 +15,7 @@ import {
     Label,
     Text
 } from 'native-base';
-import {checkStatus, isValidEmail} from "./Commons";
+import {isValidEmail, checkStatus} from "./Commons";
 
 export default class SignUp extends Component {
 
@@ -82,10 +82,26 @@ export default class SignUp extends Component {
     onRecoverPassword() {
 
         if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
-            this.executePasswordRecoveryRequest().then(
-                () => {
-                    alert("Revise su casilla de email para reestablecer su contraseña.");
-                    this.moveToLoginScreen()
+            fetch('https://taekwongo.herokuapp.com/users/sessions/reset_password', {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.recoverPasswordInfo()),
+            })
+            //La respuesta viene con error aunque anda, lo tuve que hacer asi para que por lo menos chequee 
+            //y tire error si la respuesta es incorrecta.
+                .then(response => {
+                    var status = checkStatus(response);
+                    if (status) {
+                        alert('Se ha enviado un mail a su casilla para que pueda recuperar su contraseña');
+                        this.moveToLoginScreen();
+                    }
+                })
+                .catch(error => {
+                    alert('Ha habido un error. Pruebe más tarde');
+                    console.log('Error en el fetch: ' + error.message);
                 });
         }
         else {
@@ -105,29 +121,11 @@ export default class SignUp extends Component {
         this.props.navigation.navigate('Login', {})
     }
 
-    executePasswordRecoveryRequest() {
-        return fetch('http://taekwongo.herokuapp.com/users/sessions/reset_password', {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.creationInfo()),
-        })
-            .then(response => response.json())
-            .then(response => checkStatus(response))
-            .catch(error => {
-                alert('Ha habido un error. Pruebe más tarde');
-                console.log('Error en el el fetch: ' + error.message);
-            })
-    }
-
-    creationInfo(){
+    recoverPasswordInfo() {
         return {
             email: this.state.email
-        }
+        };
     }
-
 }
 
 const styles = StyleSheet.create({
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection:'column',
         justifyContent:'space-between',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#FFFFFF',
     },
     buttonText:{
         color:'white'

@@ -28,8 +28,12 @@ export default class NewsFeed extends Component {
         };
     }
 
-    componentWillMount() {
-		fetch('http://taekwongo.herokuapp.com/feeds', {
+    componentDidMount() {
+		this.fetchData();
+    }
+    
+    fetchData() {
+        return fetch('http://taekwongo.herokuapp.com/feeds', {
 			method: 'GET',
 			headers: {
 				Accept: 'application/json',
