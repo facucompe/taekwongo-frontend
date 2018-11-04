@@ -26,19 +26,18 @@ export default class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: undefined,
-            validatingUser: false,
+            email: undefined
         };
 
         this.onRecoverPassword = this.onRecoverPassword.bind(this);
 
-        this.renderUserError = this.renderUserError.bind(this);
-        this.setUser = this.setUser.bind(this);
-        this.userValidation = this.userValidation.bind(this);
+        this.renderEmailError = this.renderEmailError.bind(this);
+        this.setEmail = this.setEmail.bind(this);
+        this.emailValidation = this.emailValidation.bind(this);
     }
 
-    setUser(user){
-        this.setState({user, validatingUser:true})
+    setEmail(email){
+        this.setState({email})
     }
 
     render() {
@@ -47,14 +46,14 @@ export default class SignUp extends Component {
                 <Content padder>
                     <Form>
                         <Form style={styles.container}>
-                            <Item floatingLabel error={!this.userValidation()}>
+                            <Item floatingLabel error={!this.emailValidation()}>
                                 <Label>Correo electrónico</Label>
                                 <Input
-                                    onChangeText={this.setUser}
-                                    value={this.state.user}
+                                    onChangeText={this.setEmail}
+                                    value={this.state.email}
                                     maxLength={30}
                                 />
-                                {this.renderUserError()}
+                                {this.renderEmailError()}
                             </Item>
                             <Button
                                 primary
@@ -72,12 +71,12 @@ export default class SignUp extends Component {
     }
 
 
-    renderUserError(){
-        return this.userValidation() ? null : <Icon name='close-circle'/>;
+    renderEmailError(){
+        return this.emailValidation() ? null : <Icon name='close-circle'/>;
     }
 
-    userValidation() {
-        return !this.state.validatingUser || isValidEmail(this.state.user);
+    emailValidation() {
+        return isValidEmail(this.state.email);
     }
 
     onRecoverPassword() {
@@ -106,16 +105,16 @@ export default class SignUp extends Component {
                 });
         }
         else {
-            alert("Corregir campos inválidos");
+            alert("Ingrese un email válido.");
         }
     }
 
     allFieldsCompleted(){
-        return this.state.user !== undefined;
+        return this.state.email !== undefined && this.state.email !== "";
     }
 
     postOkFieldValidations(){
-        return this.userValidation();
+        return this.emailValidation();
     }
 
     moveToLoginScreen() {
@@ -124,7 +123,7 @@ export default class SignUp extends Component {
 
     recoverPasswordInfo() {
         return {
-            email: this.state.user
+            email: this.state.email
         };
     }
 }
