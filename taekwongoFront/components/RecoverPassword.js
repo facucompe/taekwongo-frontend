@@ -15,7 +15,7 @@ import {
     Label,
     Text
 } from 'native-base';
-import {isValidEmail} from "./Commons";
+import {isValidEmail, checkStatus} from "./Commons";
 
 export default class SignUp extends Component {
 
@@ -83,8 +83,27 @@ export default class SignUp extends Component {
     onRecoverPassword() {
 
         if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
-            alert("Datos OK :)");
-            //To Do: Sacar el alert y hacer el POST al backend para recuperar la contraseña
+            fetch('https://taekwongo.herokuapp.com/users/sessions/reset_password', {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.recoverPasswordInfo()),
+            })
+            //La respuesta viene con error aunque anda, lo tuve que hacer asi para que por lo menos chequee 
+            //y tire error si la respuesta es incorrecta.
+                .then(response => {
+                    var status = checkStatus(response);
+                    if (status) {
+                        alert('Se ha enviado un mail a su casilla para que pueda recuperar su contraseña');
+                        this.moveToLoginScreen();
+                    }
+                })
+                .catch(error => {
+                    alert('Ha habido un error. Pruebe más tarde');
+                    console.log('Error en el fetch: ' + error.message);
+                });
         }
         else {
             alert("Corregir campos inválidos");
@@ -98,6 +117,16 @@ export default class SignUp extends Component {
     postOkFieldValidations(){
         return this.userValidation();
     }
+
+    moveToLoginScreen() {
+        this.props.navigation.navigate('Login', {})
+    }
+
+    recoverPasswordInfo() {
+        return {
+            email: this.state.user
+        };
+    }
 }
 
 const styles = StyleSheet.create({
@@ -105,7 +134,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection:'column',
         justifyContent:'space-between',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#FFFFFF',
     },
     buttonText:{
         color:'white'
