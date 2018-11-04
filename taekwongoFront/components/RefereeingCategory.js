@@ -7,7 +7,7 @@ import {
     Image
 } from 'react-native';
 
-
+import ImageZoom from 'react-native-image-pan-zoom';
 import Carousel from 'react-native-carousel-view';
 
 const categoryEnum={
@@ -103,7 +103,10 @@ let styles = StyleSheet.create({
     },
     image:{
         alignSelf:'stretch',
-        flex:1
+        flex:1,
+        width:undefined,
+        height:undefined,
+        resizeMode:'contain'
     },
     videoStyle:{
         flex:1

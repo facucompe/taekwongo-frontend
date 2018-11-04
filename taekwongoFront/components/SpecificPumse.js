@@ -9,7 +9,7 @@ import {
     Image
 } from 'react-native';
 
-
+import ImageZoom from 'react-native-image-pan-zoom';
 import Video from 'react-native-af-video-player'
 
 import Carousel from 'react-native-carousel-view';
@@ -55,7 +55,7 @@ export default class SpecificPumse extends Component {
             <View style={styles.container}>
                 <Carousel
                     animate={false}
-                    height={Dimensions.get('window').height/2}
+                    height={Dimensions.get('window').height/1.5}
                     indicatorSize={20}
                     indicatorColor="red"
                 >
@@ -76,13 +76,6 @@ let styles = StyleSheet.create({
     myViewContainer:{
         flex:1,
         backgroundColor:'#000'
-    },
-    backgroundVideo: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
     },
     borderVideo:{
         borderBottomWidth: 1,
@@ -108,7 +101,10 @@ let styles = StyleSheet.create({
     },
     image:{
         alignSelf:'stretch',
-        flex:1
+        flex:1,
+        width:undefined,
+        height:undefined,
+        resizeMode:'contain'
     },
     videoStyle:{
         flex:1
