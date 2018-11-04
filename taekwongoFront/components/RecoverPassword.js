@@ -15,7 +15,7 @@ import {
     Label,
     Text
 } from 'native-base';
-import {isValidEmail} from "./Commons";
+import {isValidEmail, checkStatus} from "./Commons";
 
 export default class SignUp extends Component {
 
@@ -26,19 +26,18 @@ export default class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: undefined,
-            validatingUser: false,
+            email: undefined
         };
 
         this.onRecoverPassword = this.onRecoverPassword.bind(this);
 
-        this.renderUserError = this.renderUserError.bind(this);
-        this.setUser = this.setUser.bind(this);
-        this.userValidation = this.userValidation.bind(this);
+        this.renderEmailError = this.renderEmailError.bind(this);
+        this.setEmail = this.setEmail.bind(this);
+        this.emailValidation = this.emailValidation.bind(this);
     }
 
-    setUser(user){
-        this.setState({user, validatingUser:true})
+    setEmail(email){
+        this.setState({email})
     }
 
     render() {
@@ -47,14 +46,14 @@ export default class SignUp extends Component {
                 <Content padder>
                     <Form>
                         <Form style={styles.container}>
-                            <Item floatingLabel error={!this.userValidation()}>
+                            <Item floatingLabel error={!this.emailValidation()}>
                                 <Label>Correo electrónico</Label>
                                 <Input
-                                    onChangeText={this.setUser}
-                                    value={this.state.user}
+                                    onChangeText={this.setEmail}
+                                    value={this.state.email}
                                     maxLength={30}
                                 />
-                                {this.renderUserError()}
+                                {this.renderEmailError()}
                             </Item>
                             <Button
                                 primary
@@ -72,31 +71,60 @@ export default class SignUp extends Component {
     }
 
 
-    renderUserError(){
-        return this.userValidation() ? null : <Icon name='close-circle'/>;
+    renderEmailError(){
+        return this.emailValidation() ? null : <Icon name='close-circle'/>;
     }
 
-    userValidation() {
-        return !this.state.validatingUser || isValidEmail(this.state.user);
+    emailValidation() {
+        return isValidEmail(this.state.email);
     }
 
     onRecoverPassword() {
 
         if (this.allFieldsCompleted() && this.postOkFieldValidations()) {
-            alert("Datos OK :)");
-            //To Do: Sacar el alert y hacer el POST al backend para recuperar la contraseña
+            fetch('https://taekwongo.herokuapp.com/users/sessions/reset_password', {
+                method: 'PUT',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(this.recoverPasswordInfo()),
+            })
+            //La respuesta viene con error aunque anda, lo tuve que hacer asi para que por lo menos chequee 
+            //y tire error si la respuesta es incorrecta.
+                .then(response => {
+                    var status = checkStatus(response);
+                    if (status) {
+                        alert('Se ha enviado un mail a su casilla para que pueda recuperar su contraseña');
+                        this.moveToLoginScreen();
+                    }
+                })
+                .catch(error => {
+                    alert('Ha habido un error. Pruebe más tarde');
+                    console.log('Error en el fetch: ' + error.message);
+                });
         }
         else {
-            alert("Corregir campos inválidos");
+            alert("Ingrese un email válido.");
         }
     }
 
     allFieldsCompleted(){
-        return this.state.user !== undefined;
+        return this.state.email !== undefined && this.state.email !== "";
     }
 
     postOkFieldValidations(){
-        return this.userValidation();
+        return this.emailValidation();
+    }
+
+    moveToLoginScreen() {
+        this.props.navigation.navigate('Login', {})
+    }
+
+    recoverPasswordInfo() {
+        return {
+            email: this.state.email
+        };
     }
 }
 
@@ -105,7 +133,7 @@ const styles = StyleSheet.create({
         flex:1,
         flexDirection:'column',
         justifyContent:'space-between',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#FFFFFF',
     },
     buttonText:{
         color:'white'
