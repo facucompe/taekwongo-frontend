@@ -45,7 +45,7 @@ export default class ProgressGraph extends Component {
         const verticalContentInset = { top: 10, bottom: 10 };
         const xAxisHeight = Math.ceil((Math.max.apply(null, magnitudes) - Math.min.apply(null, magnitudes)) / 10);
         return (
-            <View style={{ height: 200, padding: 20, flexDirection: 'row' }}>
+            <View style={{ height: 200, padding: 20, flexDirection: 'row', backgroundColor: '#FFFFFF' }}>
                 <YAxis
                     data={magnitudes}
                     style={{ marginBottom: xAxisHeight }}

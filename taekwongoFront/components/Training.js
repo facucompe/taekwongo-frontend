@@ -91,7 +91,6 @@ export default class Training extends Component {
                             <Text style={styles.title2}>
                                 {this.registeredMeasurementsTitle()}
                             </Text>
-
                         </Row>
                         <Row>
                             {this.renderMeasurementsTable()}
@@ -160,7 +159,7 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         flexDirection:'column',
-        backgroundColor: '#F5FCFF'
+        backgroundColor: '#FFFFFF'
     },
     icon:{
         fontSize: 40
@@ -178,7 +177,7 @@ const styles = StyleSheet.create({
         padding: 5
     },
     footer:{
-        backgroundColor: '#F5FCFF'
+        backgroundColor: '#FFFFFF'
     },
     actionButton:{
         backgroundColor: '#2666ff',

@@ -7,7 +7,6 @@ import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Ic
 export default class RefereeingItem extends Component {
 
     static navigationOptions = ({ navigation }) => ({
-        title: `Item`,
         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
         headerStyle:{
             backgroundColor:'white',

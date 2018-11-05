@@ -116,7 +116,7 @@ export default class NewsFeed extends Component {
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: '#F5FCFF'
+        backgroundColor: '#FFFFFF'
     },
     flexBox:{
         flex:1,
