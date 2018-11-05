@@ -91,7 +91,6 @@ export default class Training extends Component {
                             <Text style={styles.title2}>
                                 {this.registeredMeasurementsTitle()}
                             </Text>
-
                         </Row>
                         <Row>
                             {this.renderMeasurementsTable()}
