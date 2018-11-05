@@ -30,10 +30,11 @@ import ProgressGraph from "./components/ProgressGraph";
 import {
     StyleSheet,
     AsyncStorage,
-    Image
+    Image,
+    Linking
 } from 'react-native';
 
-import { Container, Content, Icon, Header, Body, Left, Button } from 'native-base'
+import { Container, Content, Icon, Header, Body, Left, Button, Footer, Text } from 'native-base'
 import { DrawerNavigator, StackNavigator, DrawerItems } from 'react-navigation'
 import RNFetchBlob from 'rn-fetch-blob';
 import RNFSPackage from 'react-native-fs';
@@ -188,7 +189,11 @@ const CustomDrawerContentComponent = (props) => (
         <Content>
             <DrawerItems {...props} />
         </Content>
-
+        <Footer style={styles.footer}>
+            <Button transparent onPress={() => Linking.openURL('https://facucompe.github.io/taekwongo.github.io/')}>
+                <Text>¿Necesitás ayuda?</Text>
+            </Button>
+        </Footer>
     </Container>
 
 );
@@ -211,7 +216,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#FFFFFF',
     },
     drawerHeader: {
         height: 200,
@@ -225,6 +230,10 @@ const styles = StyleSheet.create({
     iconMenu: {
        width:300,
        height:200
+    },
+    footer: {
+        backgroundColor:'#FFFFFF',
+        color: 'black'
     }
 });
 

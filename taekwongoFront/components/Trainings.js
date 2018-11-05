@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         flexDirection:'column',
-        backgroundColor: '#F5FCFF'
+        backgroundColor: '#FFFFFF'
     },
     text:{
         color:'black'
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold'
     },
     footer:{
-        backgroundColor: '#F5FCFF'
+        backgroundColor: '#FFFFFF'
     },
     plusButton:{
         backgroundColor: '#2666ff',

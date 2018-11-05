@@ -4,7 +4,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import {Button, Container, Content, Footer, Text} from 'native-base'
+import {Button, Container, Content, Footer, Text, Title} from 'native-base'
 import {checkStatus} from "./Commons";
 
 import Toast from '@remobile/react-native-toast'
@@ -98,8 +98,27 @@ export default class MeasurementsRegistration extends Component {
             if (this.pairedToTaekwonGoBand())
                 return <Text> Conectate a la TaekwonGo Band</Text>;
             else
-                return <Text> Asegurate de haber emparejado con la TaekwonGo Band desde las opciones de
-                    Bluetooth</Text>;
+                return <Container>
+                <Text style={styles.title}> 
+                    Asegurate de haber emparejado con la TaekwonGo Band desde las opciones de
+                    Bluetooth:
+                </Text>
+                <Text>
+                    1) Ingresá al menú de Bluetooth de tu dispositivo
+                </Text>
+                <Text>
+                    2) Encendé el Bluetooth
+                </Text>
+                <Text>
+                    3) Buscá los dispositivos más cercanos
+                </Text>
+                <Text>
+                    4) Debería aparecer "TaekwonGo Band", hacé click para emparejar
+                </Text>
+                <Text>
+                    5) Listo, reiniciá la aplicación para entrenar con TaekwonGo Band
+                </Text>
+                </Container>;
         }
     }
 
@@ -232,7 +251,7 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         flexDirection:'column',
-        backgroundColor: '#F5FCFF'
+        backgroundColor: '#FFFFFF'
     },
     textButton: {
         color: 'white',
@@ -241,5 +260,11 @@ const styles = StyleSheet.create({
     mbt30: {
         marginBottom: 10,
         marginTop: 10
+    },
+    title:{
+        textAlign: 'justify',
+        color: 'black',
+        textAlignVertical: 'center',
+        fontWeight: 'bold'
     }
 });
