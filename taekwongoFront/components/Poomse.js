@@ -16,8 +16,8 @@ import {checkStatus} from "./Commons";
 
 export default class Poomse extends Component {
     static navigationOptions = {
-        title: 'Pumses',
-        drawerLabel: 'Pumses',
+        title: "Pumses",
+        drawerLabel: "Pumses",
         drawerIcon: ({ tintColor }) => (
             <Image
                 source={require('./img/poomse.png')}
