@@ -41,8 +41,7 @@ export default class Login extends Component{
         super(props);
         this.state = {
             emailText: undefined,
-            passwordText: undefined,
-            validatingEmail: false
+            passwordText: undefined
         };
 
         //Logic methods
@@ -123,7 +122,7 @@ export default class Login extends Component{
     }
 
     setEmail(emailText){
-        this.setState({emailText, validatingEmail:true})
+        this.setState({emailText})
     }
 
     setPassword(passwordText){
@@ -138,7 +137,7 @@ export default class Login extends Component{
     }
 
     emailValidation() {
-        return !this.state.validatingEmail || isValidEmail(this.state.emailText);
+        return isValidEmail(this.state.emailText);
     }
 
     onLogin(){
@@ -149,12 +148,12 @@ export default class Login extends Component{
             });
         }
         else{
-            alert("Corregir campos inválidos");
+            alert("Completar usuario y contraseña correctamente");
         }
     }
 
     allFieldsCompleted(){
-        return this.state.emailText != undefined && this.state.passwordText != undefined
+        return this.state.emailText != undefined && this.state.passwordText != undefined && this.state.emailText != "" && this.state.passwordText != ""
     }
 
     postOkFieldValidations(){
