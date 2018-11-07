@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 
 import {
+    StyleSheet,
     View
 } from 'react-native';
 
-import {
-    Grid,
-    LineChart,
-    XAxis,
-    YAxis
-} from 'react-native-svg-charts'
-
-import { Circle } from 'react-native-svg'
+import { MultiLineChart } from 'react-native-d3multiline-chart'
 
 export default class ProgressGraph extends Component {
 
@@ -26,7 +20,7 @@ export default class ProgressGraph extends Component {
         this.session_token = this.props.navigation.getParam('session_token','NO-TOKEN');
     }
 
-    render () {
+    /*render () {
         const magnitudes = this.magnitudes;
 
         const Decorator = ({ x, y, data }) => {
@@ -72,5 +66,79 @@ export default class ProgressGraph extends Component {
                 </View>
             </View>
         )
+    }*/
+
+    render() {
+        //default data is available
+        let data =[ [{
+            "y": "202",
+            "x": 2000
+        }, {
+            "y": "215",
+            "x": 2001
+        }, {
+            "y": "179",
+            "x": 2002
+        }, {
+            "y": "199",
+            "x": 2003
+        }, {
+            "y": "134",
+            "x": 2003
+        }, {
+            "y": "176",
+            "x": 2010
+        }],
+            [{
+                "y": "152",
+                "x": 2000
+            }, {
+                "y": "189",
+                "x": 2002
+            }, {
+                "y": "179",
+                "x": 2004
+            }, {
+                "y": "199",
+                "x": 2006
+            }, {
+                "y": "134",
+                "x": 2008
+            }, {
+                "y": "176",
+                "x": 2010
+            }]
+        ];
+//default data is available
+        let leftAxisData = [
+            134,144,154,164,174,184,194,204,215
+        ];
+//default data is available
+        let bottomAxisData = [
+            2000,2002,2004,2006,2008,2010
+        ];
+        let legendColor = ['#00b7d4','red'];
+        let legendText = ['sales','year'];
+        let minX= 2000, maxX= 2010;
+        let minY= 134, maxY= 215;
+
+//since there are only two lines
+        var Color = ['#00b7d4','red'];
+
+        return (
+            <View style={styles.container}>
+                <MultiLineChart data= {data} leftAxisData= {leftAxisData} bottomAxisData= {bottomAxisData} legendColor= {legendColor}
+                                legendText= {legendText} minX= {minX} maxX= {maxX} minY= {minY} maxY= {maxY} scatterPlotEnable= {false}   dataPointsVisible= {true} Color= {Color} />
+            </View>
+        );
     }
 }
+
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        flexDirection:'column',
+        justifyContent:'space-between',
+        backgroundColor: '#FFFFFF',
+    }
+});

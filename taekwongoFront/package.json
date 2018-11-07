@@ -17,6 +17,7 @@
     "react-native-af-video-player": "^0.2.1",
     "react-native-bluetooth-serial": "^1.0.0-rc1",
     "react-native-carousel-view": "^0.5.1",
+    "react-native-d3multiline-chart": "^1.0.18",
     "react-native-datepicker": "^1.7.2",
     "react-native-fs": "^2.11.15",
     "react-native-image-pan-zoom": "^2.1.11",
