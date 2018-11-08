@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Button, Col, Container, Content, Footer, Grid, Icon, List, ListItem, Left, Right, Row, Text} from "native-base";
 
-import {AsyncStorage, StyleSheet, ScrollView, RefreshControl } from "react-native";
+import {AsyncStorage, StyleSheet, ScrollView, RefreshControl,Image } from "react-native";
 
 import Training from "./Training";
 import Login from "./Login";
@@ -12,7 +12,14 @@ import {iconNameFor} from "./Commons";
 export default class Trainings extends Component {
 
     static navigationOptions = {
-        title: 'Entrenamientos'
+        title: 'Entrenamientos',
+        drawerLabel: 'Entrenamiento',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('./img/entrenamiento.png')}
+                style={styles.icon}
+            />
+        ),
     };
 
     constructor(props){
@@ -180,5 +187,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#2666ff',
         marginRight: 10,
         marginBottom: 10
+    },
+    icon: {
+        width: 24,
+        height: 24,
     }
 });
