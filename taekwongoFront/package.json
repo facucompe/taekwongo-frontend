@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@remobile/react-native-toast": "^1.0.7",
+    "d3-scale": "^2.1.2",
     "metro-react-native-babel-preset": "^0.48.1",
     "moment": "^2.22.2",
     "native-base": "^2.7.2",
@@ -28,14 +29,13 @@
     "react-native-router-flux": "^4.0.0-beta.31",
     "react-native-slider": "https://github.com/abbasfreestyle/react-native-slider.git",
     "react-native-smart-carousel": "^1.1.0",
-    "react-native-svg": "^6.5.2",
-    "react-native-svg-charts": "^5.2.0",
-    "react-native-svg-icon": "^0.8.1",
+    "react-native-svg": "^5.2.0",
     "react-native-update-gradle": "^1.0.2",
     "react-native-vector-icons": "^5.0.0",
     "react-native-video": "^3.1.0",
     "react-navigation": "^1.5.12",
-    "rn-fetch-blob": "^0.10.13"
+    "rn-fetch-blob": "^0.10.13",
+    "svg-path-properties": "^0.4.5"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

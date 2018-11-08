@@ -45,5 +45,5 @@ export function matchBetween(aString, anotherString) {
 }
 
 export function unitForTraining(training) {
-    return training.training_type === 'V' ? 'ms' : 'm/s^2';
+    return training.training_type === 'V' ? 'ms' : 'm/s²';
 }
