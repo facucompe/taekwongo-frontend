@@ -45,5 +45,10 @@ export function matchBetween(aString, anotherString) {
 }
 
 export function unitForTraining(training) {
-    return training.training_type === 'V' ? 'ms' : 'm/s^2';
+    return training.training_type === 'V' ? 'ms' : 'm/s²';
+}
+
+export function roundWithAmountOfDecimals(aNumber, anAmountOfDecimals) {
+    const conversionFactor = Math.pow(10, anAmountOfDecimals);
+    return Math.round(conversionFactor * aNumber) / conversionFactor;
 }
