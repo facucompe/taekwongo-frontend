@@ -35,7 +35,8 @@ export default class SignUp extends Component {
             email: undefined,
             password: undefined,
             confirmedPassword: undefined,
-            validatingConfirmedPassword: false
+            validatingConfirmedPassword: false,
+            submittedInvalidInput: false
         };
 
         this.onRegister = this.onRegister.bind(this);
@@ -161,7 +162,7 @@ export default class SignUp extends Component {
                             placeHolderTextStyle={{ color: "black" }}
                             onDateChange={this.setBirthDate}
                         />
-                        <Item floatingLabel error={!this.emailValidation()}>
+                        <Item floatingLabel error={this.shouldRenderEmailError()}>
                             <Label style={{color: 'black'}}>Correo electrónico</Label>
                             <Input
                                 onChangeText={this.setEmail}
@@ -181,7 +182,7 @@ export default class SignUp extends Component {
                             {this.renderPasswordError()}
                         </Item>
                         {this.renderPasswordErrorText()}
-                        <Item floatingLabel error={!this.confirmedPasswordValidation()}>
+                        <Item floatingLabel error={this.shouldRenderConfirmedPasswordError()}>
                             <Label style={{color: 'black'}}>Confirmar contraseña</Label>
                             <Input
                                 onChangeText={this.setConfirmedPassword}
@@ -216,6 +217,14 @@ export default class SignUp extends Component {
         );
     }
 
+    shouldRenderConfirmedPasswordError() {
+        return this.state.submittedInvalidInput && !this.confirmedPasswordValidation();
+    }
+
+    shouldRenderEmailError() {
+        return this.state.submittedInvalidInput && !this.emailValidation();
+    }
+
     renderFirstNameError() {
         return this.firstNameValidation() ? null :  <Icon name='close-circle' />;
     }
@@ -233,7 +242,7 @@ export default class SignUp extends Component {
     }
 
     renderEmailError(){
-        return this.emailValidation() ? null : <Icon name='close-circle'/>;
+        return this.shouldRenderEmailError() ? <Icon name='close-circle'/> :  null;
     }
 
     emailValidation() {
@@ -254,23 +263,22 @@ export default class SignUp extends Component {
     }
 
     renderConfirmedPasswordCheck(){
-        if (this.confirmedPasswordValidation()) {
-            if (this.state.confirmedPassword !== undefined && this.state.confirmedPassword.length > 0) {
+        if (this.shouldRenderConfirmedPasswordError()) {
+            return <Icon name='close-circle'/>;
+        }
+
+        else {
+            if (this.state.confirmedPassword !== undefined && this.state.password !== undefined && matchBetween(this.state.password, this.state.confirmedPassword) ) {
                 return <Icon name='checkmark-circle'/>;
             }
             else
                 return null;
         }
 
-        else
-            return <Icon name='close-circle' color='green'/>;
-
     }
 
     renderConfirmedPasswordErrorText(){
-        return this.confirmedPasswordValidation() ? null :
-            <Text style={styles.errorText}>Las contraseñas ingresadas no coinciden.</Text>;
-
+        return this.shouldRenderConfirmedPasswordError() ? <Text style={styles.errorText}>Las contraseñas ingresadas no coinciden.</Text> : null;
     }
 
     confirmedPasswordValidation() {
@@ -309,7 +317,7 @@ export default class SignUp extends Component {
 
     allFieldsCompleted(){
         return this.state.firstName !== undefined &&  this.state.lastName !== undefined && this.state.birthDate !== undefined && this.state.gender !== undefined && this.state.nationality !== undefined && this.state.email !== undefined && this.state.password !== undefined && this.state.confirmedPassword !== undefined
-        && this.state.firstName !== "" &&  this.state.lastName !== "" && this.state.birthDate !== "" && this.state.gender !== "" && this.state.nationality !== "" && this.state.email !== "" && this.state.password !== "" && this.state.confirmedPassword !== "";
+            && this.state.firstName !== "" &&  this.state.lastName !== "" && this.state.birthDate !== "" && this.state.gender !== "" && this.state.nationality !== "" && this.state.email !== "" && this.state.password !== "" && this.state.confirmedPassword !== "";
     }
 
     postOkFieldValidations(){

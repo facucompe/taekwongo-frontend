@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     signOutButton:{
-        backgroundColor: '#7cccc9',
+        backgroundColor: '#2666ff',
         marginLeft: 10,
         marginBottom: 10
     }

@@ -26,7 +26,8 @@ export default class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: undefined
+            email: undefined,
+            submittedInvalidInput: false
         };
 
         this.onRecoverPassword = this.onRecoverPassword.bind(this);
@@ -46,7 +47,7 @@ export default class SignUp extends Component {
                 <Content padder>
                     <Form>
                         <Form style={styles.container}>
-                            <Item floatingLabel error={!this.emailValidation()}>
+                            <Item floatingLabel error={this.shouldRenderEmailError()}>
                                 <Label>Correo electrónico</Label>
                                 <Input
                                     onChangeText={this.setEmail}
@@ -72,7 +73,11 @@ export default class SignUp extends Component {
 
 
     renderEmailError(){
-        return this.emailValidation() ? null : <Icon name='close-circle'/>;
+        return this.shouldRenderEmailError() ? <Icon name='close-circle'/> : null;
+    }
+
+    shouldRenderEmailError() {
+        return this.state.submittedInvalidInput && !this.emailValidation();
     }
 
     emailValidation() {
@@ -105,6 +110,7 @@ export default class SignUp extends Component {
                 });
         }
         else {
+            this.setState({submittedInvalidInput: true});
             alert("Ingrese un email válido.");
         }
     }

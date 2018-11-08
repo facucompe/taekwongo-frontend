@@ -131,10 +131,7 @@ export default class Login extends Component{
     }
 
     renderEmailError(){
-        if (this.shouldRenderEmailError()) {
-            return <Icon name='close-circle' />;
-        }
-        return null;
+        return this.shouldRenderEmailError() ? <Icon name='close-circle'/> : null;
     }
 
     shouldRenderEmailError() {
