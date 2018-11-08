@@ -271,7 +271,7 @@ export default class SignUp extends Component {
         }
 
         else {
-            if (this.state.confirmedPassword !== undefined && this.state.password !== undefined && matchBetween(this.state.password, this.state.confirmedPassword) ) {
+            if (this.passwordFieldsAreComplete() && this.confirmedPasswordValidation()) {
                 return <Icon name='checkmark-circle'/>;
             }
             else
