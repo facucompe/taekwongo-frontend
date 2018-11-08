@@ -20,6 +20,7 @@ import {
     Text
 } from 'native-base';
 
+import {NavigationActions} from 'react-navigation'
 import SignUp from "./SignUp";
 import RecoverPassword from "./RecoverPassword";
 import {checkStatus, isValidEmail} from "./Commons";
@@ -170,8 +171,15 @@ export default class Login extends Component{
     }
 
     navigateToTrainingsView(token){
+        var action = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'Trainings', params:{
+                session_token: token
+            }})]
+          });
+          
         if(token != undefined) {
-            this.props.navigation.navigate('Trainings', {session_token: token})
+            this.props.navigation.dispatch(action);
         }
 
     }
