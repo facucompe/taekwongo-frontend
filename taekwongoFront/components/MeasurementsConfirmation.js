@@ -20,7 +20,7 @@ export default class MeasurementsConfirmation extends Component {
         const allMeasurementMagnitudes = this.props.navigation.getParam('magnitudes','NO-MAGNITUDES');
 
         this.state = {
-            magnitudes: allMeasurementMagnitudes
+            magnitudes: allMeasurementMagnitudes.map(magnitude => this.convertedMagnitude(magnitude))
         };
 
         this.removeFromMagnitudes =  this.removeFromMagnitudes.bind(this);
@@ -94,7 +94,7 @@ export default class MeasurementsConfirmation extends Component {
     creationInfo(measurementMagnitudes) {
         return {
             measurements:
-                measurementMagnitudes.map((measurementMagnitude, i) => ({magnitude: this.convertedMagnitude(measurementMagnitude)}))
+                measurementMagnitudes.map(measurementMagnitude => ({magnitude: measurementMagnitude}))
 
         }
 

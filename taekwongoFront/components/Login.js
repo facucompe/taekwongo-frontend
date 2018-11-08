@@ -42,7 +42,7 @@ export default class Login extends Component{
         this.state = {
             emailText: undefined,
             passwordText: undefined,
-            validatingEmail: false
+            submittedInvalidInput: false
         };
 
         //Logic methods
@@ -70,12 +70,13 @@ export default class Login extends Component{
                             <Form style={styles.titlePosition}>
                                 <Text style={styles.title}>TaekwonGo!</Text>
                             </Form>
-                            <Item floatingLabel error={!this.emailValidation()}>
+                            <Item floatingLabel error={this.shouldRenderEmailError()}>
                                 <Label>Correo electrónico</Label>
                                 <Input
                                     onChangeText={this.setEmail}
                                     value={this.state.emailText}
                                     maxLength={40}
+                                    autoCapitalize={"none"}
                                 />
                                 {this.renderEmailError()}
                             </Item>
@@ -86,6 +87,7 @@ export default class Login extends Component{
                                     value={this.state.passwordText}
                                     maxLength={100}
                                     secureTextEntry={true}
+                                    autoCapitalize={"none"}
                                 />
                             </Item>
                             <Button
@@ -123,7 +125,7 @@ export default class Login extends Component{
     }
 
     setEmail(emailText){
-        this.setState({emailText, validatingEmail:true})
+        this.setState({emailText})
     }
 
     setPassword(passwordText){
@@ -131,14 +133,15 @@ export default class Login extends Component{
     }
 
     renderEmailError(){
-        if (!this.emailValidation()) {
-            return <Icon name='close-circle' />;
-        }
-        return null;
+        return this.shouldRenderEmailError() ? <Icon name='close-circle'/> : null;
+    }
+
+    shouldRenderEmailError() {
+        return this.state.submittedInvalidInput && !this.emailValidation();
     }
 
     emailValidation() {
-        return !this.state.validatingEmail || isValidEmail(this.state.emailText);
+        return isValidEmail(this.state.emailText);
     }
 
     onLogin(){
@@ -149,12 +152,13 @@ export default class Login extends Component{
             });
         }
         else{
-            alert("Corregir campos inválidos");
+            this.setState({submittedInvalidInput: true});
+            alert("Completar usuario y contraseña correctamente");
         }
     }
 
     allFieldsCompleted(){
-        return this.state.emailText != undefined && this.state.passwordText != undefined
+        return this.state.emailText !== undefined && this.state.passwordText !== undefined && this.state.emailText !== "" && this.state.passwordText !== ""
     }
 
     postOkFieldValidations(){
@@ -178,7 +182,7 @@ export default class Login extends Component{
 
     openTrainingsView() {
         var _this = this;
-        
+
         getToken().then(function(token, i) {
             _this.navigateToTrainingsView(token);
         });
@@ -193,33 +197,36 @@ export default class Login extends Component{
 }
 
 function callLoginApi(info) {
-		return fetch('http://taekwongo.herokuapp.com/users/sessions', {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(info),
-		})
-			.then(response => response.json())
-            .then(response => checkStatus(response))
-			.then(response => {
-				if (response['error']) {
-					alert(response['error'])
-				}
-				else if (response['access_token'] && response['renew_id']) {
-					AsyncStorage.setItem("access_token", response['access_token']);
-					AsyncStorage.setItem("renew_id", response['renew_id']);
-				}
-				else {
-					console.log('No se comprendió el mensaje del servidor');
-					console.log(response);
-				}
-			})
-			.catch(error => {
-				alert('Error de conexión, intente nuevamente');
-				console.log('Error en el el fetch: ' + error.message);
-			});
+    return fetch('http://taekwongo.herokuapp.com/users/sessions', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(info),
+    })
+        .then(response => response.json())
+        .then(response => checkStatus(response))
+        .then(response => {
+            if (response['error']) {
+                if(response['error']=== "Invalid email or password")
+                    alert("Usuario o contraseña incorrectos");
+                else
+                    alert(response['error'])
+            }
+            else if (response['access_token'] && response['renew_id']) {
+                AsyncStorage.setItem("access_token", response['access_token']);
+                AsyncStorage.setItem("renew_id", response['renew_id']);
+            }
+            else {
+                console.log('No se comprendió el mensaje del servidor');
+                console.log(response);
+            }
+        })
+        .catch(error => {
+            alert('Error de conexión, intente nuevamente');
+            console.log('Error en el el fetch: ' + error.message);
+        });
 }
 
 function getToken() {
