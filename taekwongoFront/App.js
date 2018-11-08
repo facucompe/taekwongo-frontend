@@ -198,7 +198,7 @@ export const StackProfile = StackNavigator({
         screen: SignUp
     },
     
-})
+});
 
 const CustomDrawerContentComponent = (props) => (
 
@@ -273,7 +273,7 @@ export const MenuButton = (props) => {
             </Button>
         </Left>
     );
-}
+};
 
 function getVisibleProps(props) {
     return props;

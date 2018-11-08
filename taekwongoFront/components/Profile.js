@@ -50,49 +50,41 @@ export default class Profile extends Component {
         this.setBirthDate = this.setBirthDate.bind(this);
         this.setEmail = this.setEmail.bind(this);
         this.moveToChangeData = this.moveToChangeData.bind(this);
-        this.state.needsUpdate = true;
     }
 
     componentWillMount(){
         var _this = this;
         AsyncStorage.getItem("access_token").then(function (token){
             if (token) {
-                    fetch('http://taekwongo.herokuapp.com/users/me',
-                {
-                    method: 'GET',
-                    headers: {
-                        authorization: token
-                    }
-                })
-                .then(response => response.json())
-                .then(response => {
-                    console.log(response);
-                    _this.setFirstName(response.first_name);
-                    _this.setLastName(response.last_name);
-                    _this.setBirthDate(new Date(response.birth_date));
-                    _this.onValueChangeGender(response.gender);
-                    _this.onValueChangeNationality(response.country.toLowerCase());
-                    _this.setEmail(response.email);
-                })
-                .catch(error => {
-                    alert('Error de conexión, intente nuevamente');
-                    console.log('Error en el el fetch: ' + error.message);
-                });
+                fetch('http://taekwongo.herokuapp.com/users/me',
+                    {
+                        method: 'GET',
+                        headers: {
+                            authorization: token
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(response => {
+                        console.log(response);
+                        _this.setFirstName(response.first_name);
+                        _this.setLastName(response.last_name);
+                        _this.setBirthDate(new Date(response.birth_date));
+                        _this.onValueChangeGender(response.gender);
+                        _this.onValueChangeNationality(response.country.toLowerCase());
+                        _this.setEmail(response.email);
+                    })
+                    .catch(error => {
+                        alert('Error de conexión, intente nuevamente');
+                        console.log('Error en el el fetch: ' + error.message);
+                    });
                 _this.session_token = token;
             }
             else {
                 _this.moveToLoginScreen();
             }
-            
-        }) 
-        
-    }
 
-    componentWillUpdate() {
-        if (this.state.needsUpdate){
-            this.componentWillMount();
-            this.state.needsUpdate = false;            
-        }
+        })
+
     }
 
     setFirstName(firstName){
@@ -217,9 +209,6 @@ export default class Profile extends Component {
     }
 }
 
-const backAction = NavigationActions.back({
-    key:null
-});
 const styles = StyleSheet.create({
     container:{
         flex:1,

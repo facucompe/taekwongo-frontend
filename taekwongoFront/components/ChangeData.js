@@ -59,27 +59,27 @@ export default class ChangeData extends Component {
 
     componentWillMount(){
         var _this = this;
-         fetch('http://taekwongo.herokuapp.com/users/me',
-         {
-             method: 'GET',
-             headers: {
-                 authorization: _this.session_token
-             }
-         })
-         .then(response => response.json())
-         .then(response => {
-             console.log(response);
-             this.setFirstName(response.first_name);
-             this.setLastName(response.last_name);
-             this.setBirthDate(new Date(response.birth_date));
-             this.onValueChangeGender(response.gender);
-             this.onValueChangeNationality(response.country.toLowerCase());
-             this.setEmail(response.email);
-         })
-         .catch(error => {
-             alert('Error de conexión, intente nuevamente');
-             console.log('Error en el el fetch: ' + error.message);
-         });
+        fetch('http://taekwongo.herokuapp.com/users/me',
+            {
+                method: 'GET',
+                headers: {
+                    authorization: _this.session_token
+                }
+            })
+            .then(response => response.json())
+            .then(response => {
+                console.log(response);
+                this.setFirstName(response.first_name);
+                this.setLastName(response.last_name);
+                this.setBirthDate(new Date(response.birth_date));
+                this.onValueChangeGender(response.gender);
+                this.onValueChangeNationality(response.country.toLowerCase());
+                this.setEmail(response.email);
+            })
+            .catch(error => {
+                alert('Error de conexión, intente nuevamente');
+                console.log('Error en el el fetch: ' + error.message);
+            });
     }
 
     setFirstName(firstName){
@@ -253,7 +253,7 @@ export default class ChangeData extends Component {
 
     allFieldsCompleted(){
         return this.state.firstName !== undefined &&  this.state.lastName !== undefined && this.state.birthDate !== undefined && this.state.gender !== undefined && this.state.nationality !== undefined && this.state.email !== undefined
-        && this.state.firstName !== "" &&  this.state.lastName !== "" && this.state.birthDate !== "" && this.state.gender !== "" && this.state.nationality !== "" && this.state.email !== "";
+            && this.state.firstName !== "" &&  this.state.lastName !== "" && this.state.birthDate !== "" && this.state.gender !== "" && this.state.nationality !== "" && this.state.email !== "";
     }
 
     postOkFieldValidations(){
@@ -277,13 +277,17 @@ export default class ChangeData extends Component {
     }
 
     moveToProfileScreen() {
-        this.props.navigation.dispatch(backAction);
+        this.props
+            .navigation
+            .dispatch(NavigationActions.reset(
+                {
+                    index: 0,
+                    actions: [
+                        NavigationActions.navigate({ routeName: 'Profile'})
+                    ]
+                }));
     }
 }
-
-const backAction = NavigationActions.back({
-    key:'Profile'
-});
 
 const styles = StyleSheet.create({
     container:{
