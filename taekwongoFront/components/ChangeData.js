@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {StyleSheet} from 'react-native';
+import {StyleSheet, AsyncStorage, Image} from 'react-native';
 
 import {
     Button,
@@ -17,7 +17,7 @@ import {
     Text
 } from 'native-base';
 
-import {NavigationActions} from 'react-navigation'
+import {NavigationActions, Hidden} from 'react-navigation'
 import {checkStatus, isValidBirthDate, isValidEmail, isValidName, matchBetween} from "./Commons";
 
 export default class ChangeData extends Component {
@@ -58,27 +58,28 @@ export default class ChangeData extends Component {
 
 
     componentWillMount(){
-        fetch('http://taekwongo.herokuapp.com/users/me',
-        {
-            method: 'GET',
-            headers: {
-                authorization: this.session_token
-            }
-        })
-        .then(response => response.json())
-        .then(response => {
-            console.log(response);
-            this.setFirstName(response.first_name);
-            this.setLastName(response.last_name);
-            this.setBirthDate(new Date(response.birth_date));
-            this.onValueChangeGender(response.gender);
-            this.onValueChangeNationality(response.country.toLowerCase());
-            this.setEmail(response.email);
-        })
-        .catch(error => {
-            alert('Error de conexión, intente nuevamente');
-            console.log('Error en el el fetch: ' + error.message);
-        });
+        var _this = this;
+         fetch('http://taekwongo.herokuapp.com/users/me',
+         {
+             method: 'GET',
+             headers: {
+                 authorization: _this.session_token
+             }
+         })
+         .then(response => response.json())
+         .then(response => {
+             console.log(response);
+             this.setFirstName(response.first_name);
+             this.setLastName(response.last_name);
+             this.setBirthDate(new Date(response.birth_date));
+             this.onValueChangeGender(response.gender);
+             this.onValueChangeNationality(response.country.toLowerCase());
+             this.setEmail(response.email);
+         })
+         .catch(error => {
+             alert('Error de conexión, intente nuevamente');
+             console.log('Error en el el fetch: ' + error.message);
+         });
     }
 
     setFirstName(firstName){
@@ -158,7 +159,6 @@ export default class ChangeData extends Component {
                             <Picker.Item label="  Otro" value="other" />
                         </Picker>
                         <DatePicker
-
                             defaultDate={new Date(1995, 10, 30)}
                             minimumDate={new Date(1900, 1, 1)}
                             maximumDate={new Date()}
@@ -239,7 +239,7 @@ export default class ChangeData extends Component {
                 .then(response => checkStatus(response))
                 .then(response => {
                     alert('Datos modificados correctamente');
-                    this.moveToLoginScreen();
+                    this.moveToProfileScreen();
                 })
                 .catch(error => {
                     alert('Ha habido un error. Pruebe más tarde');
@@ -276,14 +276,15 @@ export default class ChangeData extends Component {
         }
     }
 
-    moveToLoginScreen() {
+    moveToProfileScreen() {
         this.props.navigation.dispatch(backAction);
     }
 }
 
 const backAction = NavigationActions.back({
-    key:null
+    key:'Profile'
 });
+
 const styles = StyleSheet.create({
     container:{
         flex:1,
@@ -312,5 +313,9 @@ const styles = StyleSheet.create({
     mbt30: {
         marginBottom: 30,
         marginTop: 30
+    },
+    icon: {
+        width: 24,
+        height: 24,
     }
 });
