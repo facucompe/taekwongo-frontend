@@ -168,6 +168,7 @@ export default class SignUp extends Component {
                                 onChangeText={this.setEmail}
                                 value={this.state.email}
                                 maxLength={40}
+                                autoCapitalize={"none"}
                             />
                             {this.renderEmailError()}
                         </Item>
@@ -178,6 +179,7 @@ export default class SignUp extends Component {
                                 value={this.state.password}
                                 maxLength={100}
                                 secureTextEntry={true}
+                                autoCapitalize={"none"}
                             />
                             {this.renderPasswordError()}
                         </Item>
@@ -189,6 +191,7 @@ export default class SignUp extends Component {
                                 value={this.state.confirmedPassword}
                                 maxLength={100}
                                 secureTextEntry={true}
+                                autoCapitalize={"none"}
                             />
                             {this.renderConfirmedPasswordCheck()}
                         </Item>
@@ -311,13 +314,32 @@ export default class SignUp extends Component {
                 });
         }
         else {
+            this.setState({submittedInvalidInput: true});
             alert("Complete todos los campos correctamente para registrarse");
         }
     }
 
     allFieldsCompleted(){
-        return this.state.firstName !== undefined &&  this.state.lastName !== undefined && this.state.birthDate !== undefined && this.state.gender !== undefined && this.state.nationality !== undefined && this.state.email !== undefined && this.state.password !== undefined && this.state.confirmedPassword !== undefined
-            && this.state.firstName !== "" &&  this.state.lastName !== "" && this.state.birthDate !== "" && this.state.gender !== "" && this.state.nationality !== "" && this.state.email !== "" && this.state.password !== "" && this.state.confirmedPassword !== "";
+        return this.state.firstName !== undefined
+            && this.state.firstName !== ""
+            && this.state.lastName !== undefined
+            && this.state.lastName !== ""
+            && this.state.birthDate !== undefined
+            && this.state.birthDate !== ""
+            && this.state.gender !== undefined
+            && this.state.gender !== ""
+            && this.state.nationality !== undefined
+            && this.state.nationality !== ""
+            && this.state.email !== undefined
+            && this.state.email !== ""
+            && this.passwordFieldsAreComplete();
+    }
+
+    passwordFieldsAreComplete() {
+        return this.state.password !== undefined
+            && this.state.password !== ""
+            && this.state.confirmedPassword !== undefined
+            && this.state.confirmedPassword !== "";
     }
 
     postOkFieldValidations(){

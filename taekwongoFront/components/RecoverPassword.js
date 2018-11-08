@@ -53,6 +53,7 @@ export default class SignUp extends Component {
                                     onChangeText={this.setEmail}
                                     value={this.state.email}
                                     maxLength={30}
+                                    autoCapitalize={"none"}
                                 />
                                 {this.renderEmailError()}
                             </Item>

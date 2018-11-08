@@ -76,6 +76,7 @@ export default class Login extends Component{
                                     onChangeText={this.setEmail}
                                     value={this.state.emailText}
                                     maxLength={40}
+                                    autoCapitalize={"none"}
                                 />
                                 {this.renderEmailError()}
                             </Item>
@@ -86,6 +87,7 @@ export default class Login extends Component{
                                     value={this.state.passwordText}
                                     maxLength={100}
                                     secureTextEntry={true}
+                                    autoCapitalize={"none"}
                                 />
                             </Item>
                             <Button
