@@ -255,10 +255,6 @@ export const MenuButton = (props) => {
     );
 };
 
-function getVisibleProps(props) {
-    return props;
-}
-
 function getLastVersion() {
     return fetch('http://taekwongo.herokuapp.com/rulespdf', {
         method: 'GET',
