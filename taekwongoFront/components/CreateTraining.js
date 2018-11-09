@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Button, Container, Content, Form, Icon, Input, Item, Label, Picker, Text,} from "native-base";
 import {StyleSheet} from "react-native";
 import {checkStatus, isValidTitle} from "./Commons";
+import {NavigationActions} from 'react-navigation'
 
 export default class CreateTraining extends Component {
     static navigationOptions = {
@@ -127,9 +128,18 @@ export default class CreateTraining extends Component {
     }
 
     moveToCreatedTrainingView(response) {
-        this.props.navigation.navigate('Training', {session_token: this.session_token, selectedTraining: this.trainingFrom(response)})
+        var action = NavigationActions.reset({
+            index: 1,
+            actions: [NavigationActions.navigate({routeName: 'Trainings', params:{
+                session_token: this.session_token
+            }}),
+                NavigationActions.navigate({ routeName: 'Training', 
+            params: {session_token: this.session_token, selectedTraining: this.trainingFrom(response)} })],
+          });
+        this.props.navigation.dispatch(action);
     }
 }
+
 const styles = StyleSheet.create({
     container:{
         flex:1,

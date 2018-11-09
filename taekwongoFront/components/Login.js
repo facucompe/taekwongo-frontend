@@ -4,7 +4,9 @@ import {
     StyleSheet,
     Dimensions,
     AsyncStorage,
-    Image
+    Image,
+    ActivityIndicator,
+    View
 } from 'react-native';
 
 import {
@@ -20,6 +22,7 @@ import {
     Text
 } from 'native-base';
 
+import {NavigationActions} from 'react-navigation'
 import SignUp from "./SignUp";
 import RecoverPassword from "./RecoverPassword";
 import {checkStatus, isValidEmail} from "./Commons";
@@ -42,6 +45,7 @@ export default class Login extends Component{
         this.state = {
             emailText: undefined,
             passwordText: undefined,
+            loading: true,
             submittedInvalidInput: false
         };
 
@@ -57,11 +61,19 @@ export default class Login extends Component{
         this.setPassword = this.setPassword.bind(this);
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.openTrainingsView();
     }
 
     render() {
+        if(this.state.loading){
+            return (
+                <View styles={{backgroundColor:'#FFFFFF'}}>
+                    <ActivityIndicator/>
+                </View>
+            )
+        }
+        else{
         return (
             <Container>
                 <Content padder>
@@ -121,7 +133,7 @@ export default class Login extends Component{
                     </Text>
                 </Footer>
             </Container>
-        );
+        )};
     }
 
     setEmail(emailText){
@@ -174,8 +186,17 @@ export default class Login extends Component{
     }
 
     navigateToTrainingsView(token){
+        var action = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'Trainings', params:{
+                session_token: token
+            }})]
+          });
+          
         if(token != undefined) {
-            this.props.navigation.navigate('Trainings', {session_token: token})
+            this.props.navigation.dispatch(action);
+        }else{
+            this.setState({loading:false});
         }
 
     }
@@ -186,6 +207,7 @@ export default class Login extends Component{
         getToken().then(function(token, i) {
             _this.navigateToTrainingsView(token);
         });
+        
     }
 
     buildInfo(){
