@@ -16,6 +16,7 @@ import {
     Text
 } from 'native-base';
 import {isValidEmail, checkStatus} from "./Commons";
+import {NavigationActions} from "react-navigation";
 
 export default class SignUp extends Component {
 
@@ -125,7 +126,11 @@ export default class SignUp extends Component {
     }
 
     moveToLoginScreen() {
-        this.props.navigation.navigate('Login', {})
+        var action = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'Login'})]
+        });
+        this.props.navigation.dispatch(action);
     }
 
     recoverPasswordInfo() {

@@ -35,7 +35,7 @@ export default class Trainings extends Component {
 
         this.openCreateTrainingView = this.openCreateTrainingView.bind(this);
         this.moveTo = this.moveTo.bind(this);
-        this.signOut = this.signOut.bind(this);
+        this.moveToProfileScreen = this.moveToProfileScreen.bind(this);
         this.goBackToLogin = this.goBackToLogin.bind(this);
 
     };
@@ -46,80 +46,92 @@ export default class Trainings extends Component {
 
     fetchData() {
         return fetch('http://taekwongo.herokuapp.com/trainings',
-        {
-            method: 'GET',
-            headers: {
-                authorization: this.session_token
-            }
-        })
-        .then(response => response.json())
-        .then(response => {
-            this.setState({trainings: response});
-        })
-        .catch(error => {
-            alert('Error de conexión, intente nuevamente');
-            console.log('Error en el el fetch: ' + error.message);
-        });
+            {
+                method: 'GET',
+                headers: {
+                    authorization: this.session_token
+                }
+            })
+            .then(response => response.json())
+            .then(response => {
+                this.setState({trainings: response});
+            })
+            .catch(error => {
+                alert('Error de conexión, intente nuevamente');
+                console.log('Error en el el fetch: ' + error.message);
+            });
     }
 
     onTrainingRefresh = () => {
         this.setState({refreshing: true});
         this.fetchData().then(() => {
-          this.setState({refreshing: false});
+            this.setState({refreshing: false});
         });
-      }
+    };
 
     render() {
         return (
             <Container style={styles.container}>
                 <ScrollView
-                        refreshControl={
-                          <RefreshControl
+                    refreshControl={
+                        <RefreshControl
                             refreshing={this.state.refreshing}
                             onRefresh={this.onTrainingRefresh}
-                            colors ={['#dfb200','#d90134', '#0057ef']} 
-                          />
-                        }>
-                <Content>
-                        <List
-                            dataArray={this.state.trainings}
-                            renderRow={training =>
-                                <ListItem button onPress={() => {this.moveTo(training)}}>
-                                    <Grid>
-                                        <Row>
-                                            <Col size={1}>
-                                                <Icon type={"MaterialCommunityIcons"} name={iconNameFor(training)}/>
-                                            </Col>
-                                            <Col size={8}>
-                                                <Text >
-                                                    {training.title}
-                                                </Text>
-                                            </Col>
-                                            <Col size={4}>
-                                                <Text>
-                                                    {moment(training.created_at).format("DD/MM/YYYY")}
-                                                </Text>
-                                            </Col>
-                                        </Row>
-                                    </Grid>
-                                </ListItem>}
+                            colors={['#dfb200', '#d90134', '#0057ef']}
                         />
-                </Content>
-                </ScrollView>                
+                    }>
+                    <Content padder>
+                        {this.renderTrainingsList()}
+                    </Content>
+                </ScrollView>
                 <Footer style={styles.footer}>
                     <Left>
-                        <Button onPress={this.signOut} style={styles.signOutButton}>
-                            <Text>Cerrar sesión</Text>
+                        <Button onPress={this.moveToProfileScreen} style={styles.signOutButton}>
+                            <Text>Ver Perfil</Text>
                         </Button>
                     </Left>
                     <Right>
                         <Button onPress={this.openCreateTrainingView} rounded style={styles.plusButton}>
-                            <Icon name='add' />
+                            <Icon name='add'/>
                         </Button>
                     </Right>
                 </Footer>
             </Container>
         );
+    }
+
+    renderTrainingsList() {
+        if(this.state.trainings !== undefined && this.state.trainings.length > 0)
+            return <List
+                dataArray={this.state.trainings}
+                renderRow={training =>
+                    <ListItem button onPress={() => {
+                        this.moveTo(training)
+                    }}>
+                        <Grid>
+                            <Row>
+                                <Col size={1}>
+                                    <Icon type={"MaterialCommunityIcons"} name={iconNameFor(training)}/>
+                                </Col>
+                                <Col size={8}>
+                                    <Text>
+                                        {training.title}
+                                    </Text>
+                                </Col>
+                                <Col size={4}>
+                                    <Text>
+                                        {moment(training.created_at).format("DD/MM/YYYY")}
+                                    </Text>
+                                </Col>
+                            </Row>
+                        </Grid>
+                    </ListItem>}
+            />;
+        else
+            return <Content>
+                <Text style={styles.title2}> No registraste ningún entrenamiento.</Text>
+                <Text style={styles.title2}>Creá uno con el botón +.</Text>
+            </Content>
     }
 
     moveTo(training) {
@@ -130,17 +142,16 @@ export default class Trainings extends Component {
         this.props.navigation.navigate('CreateTraining', {session_token: this.session_token})
     }
 
-    signOut(){
-        resetTokenAndRenewID();
-        this.goBackToLogin();
+    moveToProfileScreen() {
+        this.props.navigation.navigate('Profile', {})
     }
 
     goBackToLogin() {
         var action = NavigationActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({routeName: 'Login'})]
-          });
-          this.props.navigation.dispatch(action);
+        });
+        this.props.navigation.dispatch(action);
     }
 }
 
@@ -193,5 +204,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#2666ff',
         marginLeft: 10,
         marginBottom: 10
-    }
+    },
+    title2:{
+        color: 'black',
+        fontSize:18,
+        marginTop:20,
+        padding: 5
+    },
 });

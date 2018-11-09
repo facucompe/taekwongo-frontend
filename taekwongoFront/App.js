@@ -26,6 +26,8 @@ import CreateTraining from './components/CreateTraining';
 import MeasurementsRegistration from './components/MeasurementsRegistration';
 import MeasurementsConfirmation from './components/MeasurementsConfirmation';
 import ProgressGraph from "./components/ProgressGraph";
+import ChangeData from "./components/ChangeData";
+import Profile from "./components/Profile";
 
 import {
     StyleSheet,
@@ -82,6 +84,12 @@ export const StackTraining = StackNavigator({
         navigationOptions: ({ navigation }) => ({
             headerLeft: <MenuButton navigation={navigation} />,
         })
+    },
+    Profile: {
+        screen: Profile,
+    },
+    ChangeData: {
+        screen: ChangeData
     },
     Training:{
         screen: Training
@@ -204,7 +212,7 @@ const DrawerStack = DrawerNavigator({
     Pumse : {screen: StackPumse},
     Rules: { screen: StackRules},
     Refereeing: { screen: StackRefereeing},
-    Training: { screen: StackTraining },
+    Training: { screen: StackTraining }
 },
 {
     drawerPosition: 'left',
@@ -245,7 +253,7 @@ export const MenuButton = (props) => {
             </Button>
         </Left>
     );
-}
+};
 
 function getLastVersion() {
     return fetch('http://taekwongo.herokuapp.com/rulespdf', {

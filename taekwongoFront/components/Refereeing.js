@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import {
     StyleSheet,
-    Image
+    Image, RefreshControl, ScrollView
 } from 'react-native';
 
 import { Container, Content, List, ListItem, Thumbnail, Text, Left, Body, Right, Button,Spinner } from 'native-base';
@@ -25,23 +25,29 @@ export default class Refereeing extends Component {
 
         this.state = {
             changes : [],
-            isLoading: true
+            isLoading: true,
+            refreshing: false
         };
         //Logic method
         this.onPressButton = this.onPressButton.bind(this);
     }
 
     componentWillMount() {
-        fetch('http://taekwongo.herokuapp.com/feeds?category=refereeing', {
+        this.fetchRefereeingNews();
+    }
+
+    fetchRefereeingNews() {
+        return fetch('http://taekwongo.herokuapp.com/feeds?category=refereeing', {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json'
-            }})
+            }
+        })
             .then(response => response.json())
             .then(response => checkStatus(response))
             .then(response => {
-                this.setState({isLoading:false});
+                this.setState({isLoading: false});
                 this.setState({changes: response});
             })
             .catch(error => {
@@ -71,8 +77,15 @@ export default class Refereeing extends Component {
         )
     };
 
+    onRefereeingNewsRefresh = () => {
+        this.setState({refreshing: true});
+        this.fetchRefereeingNews().then(() => {
+            this.setState({refreshing: false});
+        });
+    };
+
     render() {
-        let show = this.state.changes.map(this.renderChanges)
+        let show = this.state.changes.map(this.renderChanges);
         return (
 
             <Container>
@@ -85,13 +98,21 @@ export default class Refereeing extends Component {
                     >
                         <Text style={styles.buttonText}>Ver Información</Text>
                     </Button>
-
-                    <List>
-                        {show}
-                        {this.state.isLoading && (
-                            <Spinner color='blue' />
-                        )}
-                    </List>
+                    <ScrollView
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={this.onRefereeingNewsRefresh}
+                                colors={['#dfb200', '#d90134', '#0057ef']}
+                            />
+                        }>
+                        <List>
+                            {show}
+                            {this.state.isLoading && (
+                                <Spinner color='blue' />
+                            )}
+                        </List>
+                    </ScrollView>
                 </Content>
             </Container>
 
