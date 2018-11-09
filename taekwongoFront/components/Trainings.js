@@ -8,6 +8,7 @@ import Login from "./Login";
 
 import moment from "moment";
 import {iconNameFor} from "./Commons";
+import {NavigationActions} from 'react-navigation'
 
 export default class Trainings extends Component {
 
@@ -143,7 +144,11 @@ export default class Trainings extends Component {
     }
 
     goBackToLogin() {
-        this.props.navigation.navigate('Login', {})
+        var action = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'Login'})]
+          });
+          this.props.navigation.dispatch(action);
     }
 }
 

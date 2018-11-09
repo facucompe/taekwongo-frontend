@@ -4,7 +4,9 @@ import {
     StyleSheet,
     Dimensions,
     AsyncStorage,
-    Image
+    Image,
+    ActivityIndicator,
+    View
 } from 'react-native';
 
 import {
@@ -43,7 +45,8 @@ export default class Login extends Component{
         this.state = {
             emailText: undefined,
             passwordText: undefined,
-            validatingEmail: false
+            validatingEmail: false,
+            loading: true
         };
 
         //Logic methods
@@ -58,11 +61,19 @@ export default class Login extends Component{
         this.setPassword = this.setPassword.bind(this);
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.openTrainingsView();
     }
 
     render() {
+        if(this.state.loading){
+            return (
+                <View styles={{backgroundColor:'#FFFFFF'}}>
+                    <ActivityIndicator/>
+                </View>
+            )
+        }
+        else{
         return (
             <Container>
                 <Content padder>
@@ -120,7 +131,7 @@ export default class Login extends Component{
                     </Text>
                 </Footer>
             </Container>
-        );
+        )};
     }
 
     setEmail(emailText){
@@ -180,6 +191,8 @@ export default class Login extends Component{
           
         if(token != undefined) {
             this.props.navigation.dispatch(action);
+        }else{
+            this.setState({loading:false});
         }
 
     }
@@ -190,6 +203,7 @@ export default class Login extends Component{
         getToken().then(function(token, i) {
             _this.navigateToTrainingsView(token);
         });
+        
     }
 
     buildInfo(){
