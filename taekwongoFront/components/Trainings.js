@@ -35,7 +35,6 @@ export default class Trainings extends Component {
 
         this.openCreateTrainingView = this.openCreateTrainingView.bind(this);
         this.moveTo = this.moveTo.bind(this);
-        this.signOut = this.signOut.bind(this);
         this.moveToProfileScreen = this.moveToProfileScreen.bind(this);
         this.goBackToLogin = this.goBackToLogin.bind(this);
 
@@ -133,11 +132,6 @@ export default class Trainings extends Component {
 
     moveToProfileScreen() {
         this.props.navigation.navigate('Profile', {})
-    }
-
-    signOut(){
-        resetTokenAndRenewID();
-        this.goBackToLogin();
     }
 
     goBackToLogin() {

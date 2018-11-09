@@ -43,6 +43,7 @@ export default class Profile extends Component {
         this.setBirthDate = this.setBirthDate.bind(this);
         this.setEmail = this.setEmail.bind(this);
         this.moveToChangeData = this.moveToChangeData.bind(this);
+        this.signOut = this.signOut.bind(this);        
     }
 
     componentWillMount(){
@@ -167,6 +168,14 @@ export default class Profile extends Component {
                         >
                             <Text style={styles.buttonText}>Editar Perfil</Text>
                         </Button>
+                        <Button
+                            danger
+                            block
+                            style={styles.mbt30}
+                            onPress={(this.signOut)}
+                        >
+                            <Text style={styles.buttonText}>Cerrar sesión</Text>
+                        </Button>
                     </Form>
                 </Content>
             </Container>
@@ -196,6 +205,26 @@ export default class Profile extends Component {
     moveToChangeData() {
         this.props.navigation.navigate('ChangeData', {session_token: this.session_token})
     }
+
+    signOut(){
+        resetTokenAndRenewID();
+        this.goBackToLogin();
+    }
+
+    goBackToLogin() {
+        var action = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'Login'})]
+          });
+          this.props.navigation.dispatch(action);
+    }
+}
+
+function resetTokenAndRenewID(){
+
+    AsyncStorage.setItem("access_token", "");
+    AsyncStorage.setItem("renew_id", "");
+
 }
 
 const styles = StyleSheet.create({
