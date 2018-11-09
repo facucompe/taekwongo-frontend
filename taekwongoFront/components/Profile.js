@@ -201,7 +201,7 @@ export default class Profile extends Component {
     }
 
     moveToLoginScreen() {
-        this.props.navigation.navigate('Login', {})
+        this.props.navigation.navigate('Login', {goToProfileScreen: true})
     }
 
     moveToChangeData() {

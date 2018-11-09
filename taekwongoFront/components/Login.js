@@ -30,7 +30,7 @@ import {checkStatus, isValidEmail} from "./Commons";
 export default class Login extends Component{
 
     static navigationOptions = {
-        title: 'Entrenamiento',
+        title: 'Iniciar Sesión',
         drawerLabel: 'Entrenamiento',
         drawerIcon: ({ tintColor }) => (
             <Image
@@ -57,7 +57,7 @@ export default class Login extends Component{
         this.emailValidation = this.emailValidation.bind(this);
         this.setEmail = this.setEmail.bind(this);
         this.renderEmailError = this.renderEmailError.bind(this);
-
+        this.moveToProfileScreen = this.props.navigation.getParam('goToProfileScreen',false);
         this.setPassword = this.setPassword.bind(this);
     }
 
@@ -186,9 +186,10 @@ export default class Login extends Component{
     }
 
     navigateToTrainingsView(token){
+        var _this = this;
         var action = NavigationActions.reset({
             index: 0,
-            actions: [NavigationActions.navigate({routeName: 'Trainings', params:{
+            actions: [NavigationActions.navigate({routeName: _this.moveToProfileScreen ? 'Profile' : 'Trainings', params:{
                 session_token: token
             }})]
           });
