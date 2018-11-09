@@ -26,7 +26,6 @@ import CreateTraining from './components/CreateTraining';
 import MeasurementsRegistration from './components/MeasurementsRegistration';
 import MeasurementsConfirmation from './components/MeasurementsConfirmation';
 import ProgressGraph from "./components/ProgressGraph";
-import ChangeData from "./components/ChangeData";
 
 import {
     StyleSheet,
@@ -98,9 +97,6 @@ export const StackTraining = StackNavigator({
     },
     ProgressGraph: {
         screen: ProgressGraph
-    },
-    ChangeData: {
-        screen: ChangeData
     }
 });
 

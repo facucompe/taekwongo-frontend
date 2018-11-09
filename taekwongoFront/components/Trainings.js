@@ -36,7 +36,6 @@ export default class Trainings extends Component {
         this.openCreateTrainingView = this.openCreateTrainingView.bind(this);
         this.moveTo = this.moveTo.bind(this);
         this.signOut = this.signOut.bind(this);
-        this.changeData = this.changeData.bind(this);
         this.goBackToLogin = this.goBackToLogin.bind(this);
 
     };
@@ -112,9 +111,6 @@ export default class Trainings extends Component {
                         <Button onPress={this.signOut} rounded style={styles.plusButton}>
                             <Text>Cerrar sesión</Text>
                         </Button>
-                        <Button onPress={this.changeData} rounded style={styles.plusButton}>
-                            <Text>Cambiar datos</Text>
-                        </Button>
                     </Left>
                     <Right>
                         <Button onPress={this.openCreateTrainingView} rounded style={styles.plusButton}>
@@ -137,10 +133,6 @@ export default class Trainings extends Component {
     signOut(){
         resetTokenAndRenewID();
         this.goBackToLogin();
-    }
-
-    changeData(){
-        this.props.navigation.navigate('ChangeData', {session_token: this.session_token})
     }
 
     goBackToLogin() {
