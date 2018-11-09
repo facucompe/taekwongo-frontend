@@ -7,12 +7,15 @@ import {
     Container,
     Content,
     DatePicker,
+    Footer,
     Form,
     Icon,
     Input,
     Item,
     Label,
+    Left,
     Picker,
+    Right,
     Text
 } from 'native-base';
 
@@ -39,6 +42,7 @@ export default class ChangeData extends Component {
         this.session_token = this.props.navigation.getParam('session_token','NO-TOKEN');
 
         this.onRegister = this.onRegister.bind(this);
+        this.onCancel = this.onCancel.bind(this);
 
         this.renderFirstNameError = this.renderFirstNameError.bind(this);
         this.renderLastNameError = this.renderLastNameError.bind(this);
@@ -101,7 +105,7 @@ export default class ChangeData extends Component {
 
     render() {
         return (
-            <Container>
+            <Container style={styles.container}>
                 <Content padder>
                     <Form>
                         <Item floatingLabel error={!this.firstNameValidation()}>
@@ -147,7 +151,6 @@ export default class ChangeData extends Component {
                             <Picker.Item label="  Género" value={undefined} />
                             <Picker.Item label="  Masculino" value="male" />
                             <Picker.Item label="  Femenino" value="female" />
-                            <Picker.Item label="  Otro" value="other" />
                         </Picker>
                         <DatePicker
                             defaultDate={new Date()}
@@ -162,17 +165,30 @@ export default class ChangeData extends Component {
                             placeHolderText={moment.utc(this.state.birthDate).format('DD/MM/YYYY')}
                             placeHolderTextStyle={{ color: "black" }}
                             onDateChange={this.setBirthDate}
-                        />
+                        /></Form>
+                </Content>
+                        <Footer style={styles.footer}>
+                        <Left>
+                            <Button
+                                danger
+                                block
+                                style={styles.footerButton}
+                                onPress={(this.onCancel)}
+                            >
+                                <Text style={styles.buttonText}>Cancelar</Text>
+                            </Button>
+                        </Left>
+                            <Right>
                         <Button
                             primary
                             block
-                            style={styles.mbt30}
+                            style={styles.footerButton}
                             onPress={(this.onRegister)}
                         >
                             <Text style={styles.buttonText}>Cambiar Datos</Text>
                         </Button>
-                    </Form>
-                </Content>
+                            </Right>
+                        </Footer>
             </Container>
         );
     }
@@ -195,6 +211,10 @@ export default class ChangeData extends Component {
 
     birthDateValidation() {
         return isValidBirthDate(this.state.birthDate);
+    }
+
+    onCancel(){
+        this.props.navigation.dispatch(NavigationActions.back());
     }
 
     onRegister() {
@@ -267,27 +287,13 @@ const styles = StyleSheet.create({
     buttonText:{
         color:'white'
     },
-    registerView:{
-        borderTopWidth:1,
-        borderColor:'#a1a4a3',
-        padding:15,
-        backgroundColor: '#FFFFFF'
-    },
-    registerText:{
-        textAlign:'center'
-    },
-    registerPress:{
-        fontWeight:'bold'
-    },
-    errorText:{
-        color: 'red'
-    },
-    mbt30: {
+    footerButton: {
         marginBottom: 30,
-        marginTop: 30
+        marginTop: 30,
+        marginLeft: 30,
+        marginRight: 30
     },
-    icon: {
-        width: 24,
-        height: 24,
+    footer:{
+        backgroundColor: '#FFFFFF'
     }
 });

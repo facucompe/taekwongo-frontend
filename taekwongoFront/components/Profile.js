@@ -1,25 +1,23 @@
 import React, {Component} from 'react';
 
-import {StyleSheet, AsyncStorage, Image} from 'react-native';
+import {StyleSheet, AsyncStorage} from 'react-native';
 import moment from "moment";
 
 import {
     Button,
     Container,
     Content,
-    DatePicker,
     Footer,
     Form,
-    Icon,
     Input,
     Item,
     Label,
-    Picker,
+    Left,
+    Right,
     Text
 } from 'native-base';
 
 import {NavigationActions} from 'react-navigation'
-import {checkStatus, isValidBirthDate, isValidEmail, isValidName, matchBetween} from "./Commons";
 
 export default class Profile extends Component {
 
@@ -59,7 +57,6 @@ export default class Profile extends Component {
                     })
                     .then(response => response.json())
                     .then(response => {
-                        console.log(response);
                         _this.setFirstName(response.first_name);
                         _this.setLastName(response.last_name);
                         _this.setBirthDate(new Date(response.birth_date));
@@ -90,7 +87,6 @@ export default class Profile extends Component {
     }
 
     setBirthDate(birthDate) {
-        console.log(birthDate);
         this.setState({birthDate});
     }
 
@@ -108,7 +104,7 @@ export default class Profile extends Component {
 
     render() {
         return (
-            <Container>
+            <Container style={styles.container}>
                 <Content padder>
                     <Form>
                         <Item stackedLabel>
@@ -130,13 +126,13 @@ export default class Profile extends Component {
                         <Item stackedLabel>
                             <Label style={{color: 'black'}}>Nacionalidad</Label>
                             <Input
-                                value={this.capitalize(this.state.nationality)}
+                                value={this.formatNationality(this.capitalize(this.state.nationality))}
                                 maxLength={30}
                                 editable={false}
                             />
                         </Item>
                         <Item stackedLabel>
-                            <Label style={{color: 'black'}}>Genero</Label>
+                            <Label style={{color: 'black'}}>Género</Label>
                             <Input
                                 value={this.formatGender(this.state.gender)}
                                 maxLength={30}
@@ -160,24 +156,30 @@ export default class Profile extends Component {
                                 editable={false}
                             />
                         </Item>
-                        <Button
-                            primary
-                            block
-                            style={styles.mbt30}
-                            onPress={(this.moveToChangeData)}
-                        >
-                            <Text style={styles.buttonText}>Editar Perfil</Text>
-                        </Button>
+                    </Form>
+            </Content>
+                <Footer style={styles.footer}>
+                    <Left>
                         <Button
                             danger
                             block
-                            style={styles.mbt30}
+                            style={styles.footerButton}
                             onPress={(this.signOut)}
                         >
                             <Text style={styles.buttonText}>Cerrar sesión</Text>
                         </Button>
-                    </Form>
-                </Content>
+                    </Left>
+                    <Right>
+                        <Button
+                            primary
+                            block
+                            style={styles.footerButton}
+                            onPress={(this.moveToChangeData)}
+                        >
+                            <Text style={styles.buttonText}>Editar Perfil</Text>
+                        </Button>
+                    </Right>
+                </Footer>
             </Container>
         );
     }
@@ -218,13 +220,15 @@ export default class Profile extends Component {
           });
           this.props.navigation.dispatch(action);
     }
+
+    formatNationality(nationality) {
+        return nationality === "Other" ? "Otro" : nationality;
+    }
 }
 
 function resetTokenAndRenewID(){
-
     AsyncStorage.setItem("access_token", "");
     AsyncStorage.setItem("renew_id", "");
-
 }
 
 const styles = StyleSheet.create({
@@ -237,27 +241,13 @@ const styles = StyleSheet.create({
     buttonText:{
         color:'white'
     },
-    registerView:{
-        borderTopWidth:1,
-        borderColor:'#a1a4a3',
-        padding:15,
-        backgroundColor: '#FFFFFF'
-    },
-    registerText:{
-        textAlign:'center'
-    },
-    registerPress:{
-        fontWeight:'bold'
-    },
-    errorText:{
-        color: 'red'
-    },
-    mbt30: {
+    footerButton: {
         marginBottom: 30,
-        marginTop: 30
+        marginTop: 30,
+        marginLeft: 30,
+        marginRight: 30
     },
-    icon: {
-        width: 24,
-        height: 24,
+    footer:{
+        backgroundColor: '#FFFFFF'
     }
 });

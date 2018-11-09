@@ -145,11 +145,10 @@ export default class SignUp extends Component {
                             <Picker.Item label="  Género" value={undefined} />
                             <Picker.Item label="  Masculino" value="male" />
                             <Picker.Item label="  Femenino" value="female" />
-                            <Picker.Item label="  Otro" value="other" />
                         </Picker>
                         <DatePicker
 
-                            defaultDate={new Date(1995, 10, 30)}
+                            defaultDate={new Date()}
                             minimumDate={new Date(1900, 1, 1)}
                             maximumDate={new Date()}
                             locale={"en"}
