@@ -24,14 +24,7 @@ import {checkStatus, isValidBirthDate, isValidEmail, isValidName, matchBetween} 
 export default class Profile extends Component {
 
     static navigationOptions = {
-        title: 'Perfil',
-        drawerLabel: 'Perfil',
-        drawerIcon: ({ tintColor }) => (
-            <Image
-                source={require('./img/profile.png')}
-                style={styles.icon}
-            />
-        ),
+        title: 'Perfil'
     };
 
     constructor(props) {
@@ -80,7 +73,7 @@ export default class Profile extends Component {
                 _this.session_token = token;
             }
             else {
-                _this.moveToLoginScreen();
+                alert("No se pudo obtener los datos. Intente nuevamente más tarde")
             }
 
         })
@@ -198,10 +191,6 @@ export default class Profile extends Component {
         }
 
         return gender;
-    }
-
-    moveToLoginScreen() {
-        this.props.navigation.navigate('Login', {goToProfileScreen: true})
     }
 
     moveToChangeData() {

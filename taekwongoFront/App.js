@@ -85,6 +85,12 @@ export const StackTraining = StackNavigator({
             headerLeft: <MenuButton navigation={navigation} />,
         })
     },
+    Profile: {
+        screen: Profile,
+    },
+    ChangeData: {
+        screen: ChangeData
+    },
     Training:{
         screen: Training
     },
@@ -175,28 +181,6 @@ export const StackRefereeing = StackNavigator({
     }
 });
 
-export const StackProfile = StackNavigator({
-    Profile: {
-        screen: Profile,
-        navigationOptions: ({ navigation }) => ({
-            headerLeft: <MenuButton navigation={navigation} />,
-          })
-    },
-    ChangeData: {
-        screen: ChangeData
-    },
-    Login: {
-        screen: Login
-    },
-    RecoverPassword: {
-        screen: RecoverPassword
-    },
-    SignUp: {
-        screen: SignUp
-    },
-    
-});
-
 const CustomDrawerContentComponent = (props) => (
 
     <Container>
@@ -229,7 +213,7 @@ const DrawerStack = DrawerNavigator({
     Rules: { screen: StackRules},
     Refereeing: { screen: StackRefereeing},
     Training: { screen: StackTraining },
-    Profile: { screen: StackProfile }
+    // Profile: { screen: StackProfile }
 },
 {
     drawerPosition: 'left',

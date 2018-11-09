@@ -36,6 +36,7 @@ export default class Trainings extends Component {
         this.openCreateTrainingView = this.openCreateTrainingView.bind(this);
         this.moveTo = this.moveTo.bind(this);
         this.signOut = this.signOut.bind(this);
+        this.moveToProfileScreen = this.moveToProfileScreen.bind(this);
         this.goBackToLogin = this.goBackToLogin.bind(this);
 
     };
@@ -108,8 +109,8 @@ export default class Trainings extends Component {
                 </ScrollView>                
                 <Footer style={styles.footer}>
                     <Left>
-                        <Button onPress={this.signOut} style={styles.signOutButton}>
-                            <Text>Cerrar sesión</Text>
+                        <Button onPress={this.moveToProfileScreen} style={styles.signOutButton}>
+                            <Text>Ver Perfil</Text>
                         </Button>
                     </Left>
                     <Right>
@@ -128,6 +129,10 @@ export default class Trainings extends Component {
 
     openCreateTrainingView() {
         this.props.navigation.navigate('CreateTraining', {session_token: this.session_token})
+    }
+
+    moveToProfileScreen() {
+        this.props.navigation.navigate('Profile', {})
     }
 
     signOut(){

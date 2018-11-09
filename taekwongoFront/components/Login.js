@@ -57,7 +57,6 @@ export default class Login extends Component{
         this.emailValidation = this.emailValidation.bind(this);
         this.setEmail = this.setEmail.bind(this);
         this.renderEmailError = this.renderEmailError.bind(this);
-        this.moveToProfileScreen = this.props.navigation.getParam('goToProfileScreen',false);
         this.setPassword = this.setPassword.bind(this);
     }
 
@@ -189,7 +188,7 @@ export default class Login extends Component{
         var _this = this;
         var action = NavigationActions.reset({
             index: 0,
-            actions: [NavigationActions.navigate({routeName: _this.moveToProfileScreen ? 'Profile' : 'Trainings', params:{
+            actions: [NavigationActions.navigate({routeName: 'Trainings', params:{
                 session_token: token
             }})]
           });

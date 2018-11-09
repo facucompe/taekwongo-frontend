@@ -50,8 +50,6 @@ export default class ChangeData extends Component {
         this.firstNameValidation = this.firstNameValidation.bind(this);
         this.lastNameValidation = this.lastNameValidation.bind(this);
         this.birthDateValidation = this.birthDateValidation.bind(this);
-
-        this.formatDateUsing = this.formatDateUsing.bind(this);
     }
 
 
@@ -152,7 +150,7 @@ export default class ChangeData extends Component {
                             <Picker.Item label="  Otro" value="other" />
                         </Picker>
                         <DatePicker
-                            defaultDate={this.state.birthDate}
+                            defaultDate={new Date()}
                             minimumDate={new Date(1900, 1, 1)}
                             maximumDate={new Date()}
                             locale={"en"}
@@ -248,32 +246,15 @@ export default class ChangeData extends Component {
     }
 
     moveToProfileScreen() {
-        this.props
-            .navigation
-            .dispatch(NavigationActions.reset(
-                {
-                    index: 0,
-                    actions: [
-                        NavigationActions.navigate({ routeName: 'Profile'})
-                    ]
-                }));
+        var action = NavigationActions.reset({
+            index: 1,
+            actions: [NavigationActions.navigate({routeName: 'Trainings', params:{
+                session_token: this.session_token
+            }}),
+                NavigationActions.navigate({ routeName: 'Profile' })],
+          });
+        this.props.navigation.dispatch(action);
     }
-
-    /*dateYear(aDate) {
-        return parseInt(this.formatDateUsing(aDate,'YYYY'));
-    }
-
-    formatDateUsing(aDate,aDateMask) {
-        return moment.utc(aDate).format(aDateMask);
-    }
-
-    dateMonth(aDate) {
-        return parseInt(this.formatDateUsing(aDate,'MM'));
-    }
-
-    dateDay(aDate) {
-        return parseInt(this.formatDateUsing(aDate,'DD'));
-    }*/
 }
 
 const styles = StyleSheet.create({
