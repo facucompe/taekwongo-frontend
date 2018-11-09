@@ -171,7 +171,6 @@ export default class ChangeData extends Component {
                         <Left>
                             <Button
                                 danger
-                                block
                                 style={styles.footerButton}
                                 onPress={(this.onCancel)}
                             >
@@ -181,7 +180,6 @@ export default class ChangeData extends Component {
                             <Right>
                         <Button
                             primary
-                            block
                             style={styles.footerButton}
                             onPress={(this.onRegister)}
                         >
@@ -285,7 +283,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
     },
     buttonText:{
-        color:'white'
+        color:'white',
+        textAlign: 'center'
     },
     footerButton: {
         marginBottom: 30,

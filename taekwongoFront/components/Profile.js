@@ -162,7 +162,6 @@ export default class Profile extends Component {
                     <Left>
                         <Button
                             danger
-                            block
                             style={styles.footerButton}
                             onPress={(this.signOut)}
                         >
@@ -172,7 +171,6 @@ export default class Profile extends Component {
                     <Right>
                         <Button
                             primary
-                            block
                             style={styles.footerButton}
                             onPress={(this.moveToChangeData)}
                         >
@@ -239,7 +237,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
     },
     buttonText:{
-        color:'white'
+        color:'white',
+        textAlign: 'center'
     },
     footerButton: {
         marginBottom: 30,
