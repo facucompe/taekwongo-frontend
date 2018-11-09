@@ -99,9 +99,6 @@ export const StackTraining = StackNavigator({
     },
     ProgressGraph: {
         screen: ProgressGraph
-    },
-    ChangeData: {
-        screen: ChangeData
     }
 });
 

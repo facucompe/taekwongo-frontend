@@ -1,18 +1,26 @@
 import React, {Component} from "react";
 import {Button, Col, Container, Content, Footer, Grid, Icon, List, ListItem, Left, Right, Row, Text} from "native-base";
 
-import {AsyncStorage, StyleSheet, ScrollView, RefreshControl } from "react-native";
+import {AsyncStorage, StyleSheet, ScrollView, RefreshControl,Image } from "react-native";
 
 import Training from "./Training";
 import Login from "./Login";
 
 import moment from "moment";
 import {iconNameFor} from "./Commons";
+import {NavigationActions} from 'react-navigation'
 
 export default class Trainings extends Component {
 
     static navigationOptions = {
-        title: 'Entrenamientos'
+        title: 'Entrenamientos',
+        drawerLabel: 'Entrenamiento',
+        drawerIcon: ({ tintColor }) => (
+            <Image
+                source={require('./img/entrenamiento.png')}
+                style={styles.icon}
+            />
+        ),
     };
 
     constructor(props){
@@ -28,7 +36,6 @@ export default class Trainings extends Component {
         this.openCreateTrainingView = this.openCreateTrainingView.bind(this);
         this.moveTo = this.moveTo.bind(this);
         this.signOut = this.signOut.bind(this);
-        this.changeData = this.changeData.bind(this);
         this.goBackToLogin = this.goBackToLogin.bind(this);
 
     };
@@ -104,9 +111,6 @@ export default class Trainings extends Component {
                         <Button onPress={this.signOut} style={styles.signOutButton}>
                             <Text>Cerrar sesión</Text>
                         </Button>
-                        <Button onPress={this.changeData} rounded style={styles.plusButton}>
-                            <Text>Cambiar datos</Text>
-                        </Button>
                     </Left>
                     <Right>
                         <Button onPress={this.openCreateTrainingView} rounded style={styles.plusButton}>
@@ -131,12 +135,12 @@ export default class Trainings extends Component {
         this.goBackToLogin();
     }
 
-    changeData(){
-        this.props.navigation.navigate('ChangeData', {session_token: this.session_token})
-    }
-
     goBackToLogin() {
-        this.props.navigation.navigate('Login', {})
+        var action = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'Login'})]
+          });
+          this.props.navigation.dispatch(action);
     }
 }
 
@@ -180,6 +184,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#2666ff',
         marginRight: 10,
         marginBottom: 10
+    },
+    icon: {
+        width: 24,
+        height: 24,
     },
     signOutButton:{
         backgroundColor: '#2666ff',
