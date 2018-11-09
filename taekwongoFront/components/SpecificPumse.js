@@ -9,6 +9,7 @@ import {
     Image
 } from 'react-native';
 
+import Orientation from 'react-native-orientation'
 import ImageZoom from 'react-native-image-pan-zoom';
 import Video from 'react-native-af-video-player'
 
@@ -16,16 +17,36 @@ import Carousel from 'react-native-carousel-view';
 
 export default class SpecificPumse extends Component {
 
-    static navigationOptions = ({ navigation }) => ({
+    static navigationOptions = ({ navigation }) => {
+        const { state } = navigation
+        // Setup the header and tabBarVisible status
+        const headerStatus = state.params && (state.params.fullscreen ? undefined : null)
+        return {
         title: `${navigation.state.params.poomse.title}`,
         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
         headerStyle:{
             backgroundColor:'white',
         },
-    });
+          // For stack navigators, you can hide the header bar like so
+          header:headerStatus,
+        }
+      }
+
+      onFullScreen(status) {
+        // Set the params to pass in fullscreen status to navigationOptions
+        this.props.navigation.setParams({
+          fullscreen: !status
+        })
+        if(!status){//Vertical, saca la pantalla grande
+            Orientation.lockToPortrait();
+        }else{//Horizontal
+            Orientation.lockToLandscape();
+        }
+      }
 
     constructor(props) {
         super(props);
+        this.onFullScreen(false)
     }
 
     renderVideos = (video,i) => {
@@ -33,7 +54,8 @@ export default class SpecificPumse extends Component {
             <View style={styles.myViewContainer}>
                 <Video
                     style={styles.videoStyle}
-                    url={video.link.url}/>
+                    url={video.link.url}
+                    onFullScreen={status => this.onFullScreen(status)}/>
             </View>
         )
     };
@@ -55,7 +77,7 @@ export default class SpecificPumse extends Component {
             <View style={styles.container}>
                 <Carousel
                     animate={false}
-                    height={Dimensions.get('window').height/1.5}
+                    height={Dimensions.get('screen').height/1.5 }
                     indicatorSize={20}
                     indicatorColor="red"
                 >
@@ -67,6 +89,10 @@ export default class SpecificPumse extends Component {
     }
 }
 
+const isLandscape = () => {
+    const dim = Dimensions.get('screen');
+    return dim.width >= dim.height;
+};
 let styles = StyleSheet.create({
     container:{
         flex: 1,

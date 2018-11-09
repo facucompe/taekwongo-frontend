@@ -5,11 +5,10 @@ import {
     View,
     StyleSheet,
     Dimensions,
-    ScrollView
 } from 'react-native';
 
-
-import Video from 'react-native-af-video-player'
+import Orientation from 'react-native-orientation'
+import Video, {ScrollView,Container} from 'react-native-af-video-player'
 import {checkStatus} from "./Commons";
 
 const movimientosEnum={
@@ -22,17 +21,36 @@ const movimientosEnum={
     "body_to_body":"Cuerpo a Cuerpo"};
 
 export default class VideoTecnica extends Component {
-
-    static navigationOptions = ({ navigation }) => ({
-        title: `${movimientosEnum[navigation.state.params.movementName]}`,
+    static navigationOptions = ({ navigation }) => {
+        const { state } = navigation
+        // Setup the header and tabBarVisible status
+        const headerStatus = state.params && (state.params.fullscreen ? undefined : null)
+        return {
+            title: `${movimientosEnum[navigation.state.params.movementName]}`,
         headerTitleStyle : {textAlign: 'center',alignSelf:'center'},
         headerStyle:{
             backgroundColor:'white',
         },
-    });
+          // For stack navigators, you can hide the header bar like so
+          header:headerStatus,
+        }
+      }
+
+      onFullScreen(status) {
+        // Set the params to pass in fullscreen status to navigationOptions
+        this.props.navigation.setParams({
+          fullscreen: !status
+        })
+        if(!status){//Vertical, saca la pantalla grande
+            Orientation.lockToPortrait();
+        }else{//Horizontal
+            Orientation.lockToLandscape();
+        }
+      }
 
     constructor(props) {
         super(props);
+        this.onFullScreen(false)
         this.state = {
             movements : []
         };
@@ -58,28 +76,23 @@ export default class VideoTecnica extends Component {
 
     renderVideos = (video,i) => {
         return (
-            <View style={[styles.videoContainer,(i < this.state.movements.length -1) ? styles.borderVideo : styles.none]}>
-                <View style={styles.video}>
+            <Container style={[styles.videoContainer,(i < this.state.movements.length -1) ? styles.borderVideo : styles.none]}>
                     <View style={styles.viewTextVideo}>
                         <Text style={styles.textVideo}>{video.title}</Text>
                     </View>
-                    <View>
-                        <Video
-                            url={video.link.url}/>
-                    </View>
-                </View>
-            </View>
+            <Video style={{marginBottom:30}}
+            url={video.link.url}
+            onFullScreen={status => this.onFullScreen(status)}/>
+            </Container>
             )
     };
 
     render() {
         const movementName = this.props.navigation.getParam('movementName', 'No-POSSIBLE');
         return (
-            <View style={styles.container}>
-                <ScrollView>
+                <ScrollView style={styles.container}>
                 {this.state.movements.map(this.renderVideos)}
                 </ScrollView>
-            </View>
         );
     }
 }
@@ -88,15 +101,7 @@ export default class VideoTecnica extends Component {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        justifyContent: 'center',
         backgroundColor:'#FFF'
-    },
-    backgroundVideo: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
     },
     borderVideo:{
         borderBottomWidth: 1,
@@ -104,14 +109,11 @@ const styles = StyleSheet.create({
     },
     videoContainer:{
         marginLeft:10,
-        marginRight:10
+        marginRight:10,
+        marginTop:10
     },
     none:{
 
-    },
-    video:{
-        marginTop:20,
-        marginBottom:30,
     },
     viewTextVideo:{
         marginBottom:10
