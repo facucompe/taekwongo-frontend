@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 
-import {StyleSheet, AsyncStorage, Image} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import {
     Button,
     Container,
     Content,
     DatePicker,
-    Footer,
     Form,
     Icon,
     Input,
@@ -18,12 +17,13 @@ import {
 } from 'native-base';
 
 import {NavigationActions, Hidden} from 'react-navigation'
-import {checkStatus, isValidBirthDate, isValidEmail, isValidName, matchBetween} from "./Commons";
+import {checkStatus, isValidBirthDate, isValidName} from "./Commons";
+import moment from "moment";
 
 export default class ChangeData extends Component {
 
     static navigationOptions = {
-        title: 'Cambiar datos'
+        title: 'Editar Perfil'
     };
 
     constructor(props) {
@@ -33,27 +33,25 @@ export default class ChangeData extends Component {
             lastName: undefined,
             birthDate: undefined,
             gender: undefined,
-            nationality: undefined,
-            email: undefined,
+            nationality: undefined
         };
+
         this.session_token = this.props.navigation.getParam('session_token','NO-TOKEN');
 
         this.onRegister = this.onRegister.bind(this);
-        this.logIn = this.logIn.bind(this);
 
         this.renderFirstNameError = this.renderFirstNameError.bind(this);
         this.renderLastNameError = this.renderLastNameError.bind(this);
-        this.renderEmailError = this.renderEmailError.bind(this);
 
         this.setFirstName = this.setFirstName.bind(this);
         this.setLastName = this.setLastName.bind(this);
         this.setBirthDate = this.setBirthDate.bind(this);
-        this.setEmail = this.setEmail.bind(this);
 
         this.firstNameValidation = this.firstNameValidation.bind(this);
         this.lastNameValidation = this.lastNameValidation.bind(this);
         this.birthDateValidation = this.birthDateValidation.bind(this);
-        this.emailValidation = this.emailValidation.bind(this);
+
+        this.formatDateUsing = this.formatDateUsing.bind(this);
     }
 
 
@@ -74,7 +72,6 @@ export default class ChangeData extends Component {
                 this.setBirthDate(new Date(response.birth_date));
                 this.onValueChangeGender(response.gender);
                 this.onValueChangeNationality(response.country.toLowerCase());
-                this.setEmail(response.email);
             })
             .catch(error => {
                 alert('Error de conexión, intente nuevamente');
@@ -93,10 +90,6 @@ export default class ChangeData extends Component {
     setBirthDate(birthDate) {
         console.log(birthDate);
         this.setState({birthDate});
-    }
-
-    setEmail(email){
-        this.setState({email})
     }
 
     onValueChangeGender(gender){
@@ -159,7 +152,7 @@ export default class ChangeData extends Component {
                             <Picker.Item label="  Otro" value="other" />
                         </Picker>
                         <DatePicker
-                            defaultDate={new Date(1995, 10, 30)}
+                            defaultDate={this.state.birthDate}
                             minimumDate={new Date(1900, 1, 1)}
                             maximumDate={new Date()}
                             locale={"en"}
@@ -167,21 +160,11 @@ export default class ChangeData extends Component {
                             modalTransparent={false}
                             animationType={"fade"}
                             androidMode={"default"}
-                            placeHolderText="  Fecha de Nacimiento"
                             textStyle={{ color: "black" }}
+                            placeHolderText={moment.utc(this.state.birthDate).format('DD/MM/YYYY')}
                             placeHolderTextStyle={{ color: "black" }}
                             onDateChange={this.setBirthDate}
                         />
-                        <Item floatingLabel error={!this.emailValidation()}>
-                            <Label style={{color: 'black'}}>Correo electrónico</Label>
-                            <Input
-                                onChangeText={this.setEmail}
-                                value={this.state.email}
-                                maxLength={40}
-                                disabled={true}
-                            />
-                            {this.renderEmailError()}
-                        </Item>
                         <Button
                             primary
                             block
@@ -210,14 +193,6 @@ export default class ChangeData extends Component {
 
     lastNameValidation() {
         return isValidName(this.state.lastName);
-    }
-
-    renderEmailError(){
-        return this.emailValidation() ? null : <Icon name='close-circle'/>;
-    }
-
-    emailValidation() {
-        return isValidEmail(this.state.email);
     }
 
     birthDateValidation() {
@@ -252,16 +227,12 @@ export default class ChangeData extends Component {
     }
 
     allFieldsCompleted(){
-        return this.state.firstName !== undefined &&  this.state.lastName !== undefined && this.state.birthDate !== undefined && this.state.gender !== undefined && this.state.nationality !== undefined && this.state.email !== undefined
-            && this.state.firstName !== "" &&  this.state.lastName !== "" && this.state.birthDate !== "" && this.state.gender !== "" && this.state.nationality !== "" && this.state.email !== "";
+        return this.state.firstName !== undefined &&  this.state.lastName !== undefined && this.state.birthDate !== undefined && this.state.gender !== undefined && this.state.nationality !== undefined
+            && this.state.firstName !== "" &&  this.state.lastName !== "" && this.state.birthDate !== "" && this.state.gender !== "" && this.state.nationality !== "";
     }
 
     postOkFieldValidations(){
-        return this.firstNameValidation() && this.lastNameValidation() && this.birthDateValidation() &&  this.emailValidation();
-    }
-
-    logIn() {
-        this.props.navigation.navigate('Login', {});
+        return this.firstNameValidation() && this.lastNameValidation() && this.birthDateValidation()
     }
 
     creationInfo() {
@@ -287,6 +258,22 @@ export default class ChangeData extends Component {
                     ]
                 }));
     }
+
+    /*dateYear(aDate) {
+        return parseInt(this.formatDateUsing(aDate,'YYYY'));
+    }
+
+    formatDateUsing(aDate,aDateMask) {
+        return moment.utc(aDate).format(aDateMask);
+    }
+
+    dateMonth(aDate) {
+        return parseInt(this.formatDateUsing(aDate,'MM'));
+    }
+
+    dateDay(aDate) {
+        return parseInt(this.formatDateUsing(aDate,'DD'));
+    }*/
 }
 
 const styles = StyleSheet.create({
