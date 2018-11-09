@@ -185,7 +185,6 @@ export default class Login extends Component{
     }
 
     navigateToTrainingsView(token){
-        var _this = this;
         var action = NavigationActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({routeName: 'Trainings', params:{
