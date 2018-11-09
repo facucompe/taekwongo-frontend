@@ -132,7 +132,7 @@ export default class Login extends Component{
                     </Text>
                 </Footer>
             </Container>
-        )};
+        )}
     }
 
     setEmail(emailText){
