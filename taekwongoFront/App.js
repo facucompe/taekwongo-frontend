@@ -37,7 +37,7 @@ import {
 } from 'react-native';
 
 import { Container, Content, Icon, Header, Body, Left, Button, Footer, Text } from 'native-base'
-import { DrawerNavigator, StackNavigator, DrawerItems, LogOut } from 'react-navigation'
+import { DrawerNavigator, StackNavigator, DrawerItems } from 'react-navigation'
 import RNFetchBlob from 'rn-fetch-blob';
 import RNFSPackage from 'react-native-fs';
 
@@ -212,8 +212,7 @@ const DrawerStack = DrawerNavigator({
     Pumse : {screen: StackPumse},
     Rules: { screen: StackRules},
     Refereeing: { screen: StackRefereeing},
-    Training: { screen: StackTraining },
-    // Profile: { screen: StackProfile }
+    Training: { screen: StackTraining }
 },
 {
     drawerPosition: 'left',
