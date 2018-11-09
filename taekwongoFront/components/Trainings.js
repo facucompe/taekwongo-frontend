@@ -108,7 +108,7 @@ export default class Trainings extends Component {
                 </ScrollView>                
                 <Footer style={styles.footer}>
                     <Left>
-                        <Button onPress={this.signOut} rounded style={styles.plusButton}>
+                        <Button onPress={this.signOut} style={styles.signOutButton}>
                             <Text>Cerrar sesión</Text>
                         </Button>
                     </Left>
@@ -188,5 +188,10 @@ const styles = StyleSheet.create({
     icon: {
         width: 24,
         height: 24,
+    },
+    signOutButton:{
+        backgroundColor: '#2666ff',
+        marginLeft: 10,
+        marginBottom: 10
     }
 });

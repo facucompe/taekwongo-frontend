@@ -145,7 +145,8 @@ export default class Training extends Component {
         this.props.navigation.navigate('ProgressGraph',
             {
                 session_token: this.session_token,
-                magnitudes: this.state.measurements.map((measurement, i) => measurement.magnitude)
+                magnitudes: this.state.measurements.map((measurement, i) => measurement.magnitude),
+                training: this.training
             }
         )
     }
@@ -181,6 +182,12 @@ const styles = StyleSheet.create({
     },
     actionButton:{
         backgroundColor: '#2666ff',
+        marginRight: 10,
+        marginBottom: 10,
+        marginLeft: 10
+    },
+    disabledStyle:{
+        backgroundColor: '#b5b5b5',
         marginRight: 10,
         marginBottom: 10,
         marginLeft: 10

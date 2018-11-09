@@ -143,7 +143,7 @@ export default class Calendar extends Component {
     }
 
     formatDate (start_date) {
-        return moment(start_date).format("DD/MM/YYYY");
+        return moment.utc(start_date).format("DD/MM/YYYY");
     }
 
     shouldRender(competition){
